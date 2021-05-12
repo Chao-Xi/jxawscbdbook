@@ -9,6 +9,8 @@ plugins:
 
 nav:
   - 'Welcome': "index.md"
+  - 'Section1:Intro':
+    - 'AWS Certified Big Data Specialty 2020 - In Depth & Hands On!': 'chap1/1intro.md'
 
 repo_url: https://github.com/Chao-Xi/jxawscbdbook.git
 repo_name: "jxawscbdbook"
