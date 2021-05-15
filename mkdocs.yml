@@ -14,6 +14,9 @@ nav:
   - 'Section3:Storage':
     - 'L1 Storage S3': 'chap3/8Storage_S3.md'
     - 'L2 DynamoDB Overview': 'chap3/9Storage_dynamoDB.md'
+  - 'Section7:Security':
+    - 'L1 Security - Encryption': 'chap7/32Secu_Encryption.md'
+    - 'L2 AWS Services Security Deep Dive': 'chap3/33Secu_bg_svc.md'
 
 repo_url: https://github.com/Chao-Xi/jxawscbdbook.git
 repo_name: "jxawscbdbook"
