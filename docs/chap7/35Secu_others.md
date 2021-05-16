@@ -32,7 +32,7 @@ For S3 - let's analyze the policies at
 
 For DynamoDB — let's analyze the policies at: 
 
-[https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/specifying-conditions.html ]() 
+[https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/specifying-conditions.html ](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/specifying-conditions.html) 
 
 
 **Note for RDS — IAM policies don't help with in-database security, as it's a proprietary technology and we are responsible for users & authorization** 
