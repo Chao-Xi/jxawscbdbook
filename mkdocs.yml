@@ -17,8 +17,7 @@ nav:
   - 'Section7:Security':
     - 'L1 Security - Encryption': 'chap7/32Secu_Encryption.md'
     - 'L2 AWS Services Security Deep Dive': 'chap7/33Secu_bg_svc.md'
-    # - 'L3 Account and Identity Federation': 'chap7/34Secu_account_fedration.md'
-    - 'L4 Polices, CloudTrail & VPCe': 'chap7/35Secu_others.md'
+    - 'L3 Account and Identity Federation': 'chap7/34Secu_account_fedration.md'
 
 repo_url: https://github.com/Chao-Xi/jxawscbdbook.git
 repo_name: "jxawscbdbook"
