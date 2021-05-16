@@ -60,7 +60,7 @@
 
 ### **2-2 SAML Federation For Enterprises** 
 
-* **To integrate Active Directory / ADFS with AWS (or any SAML 2.0) **
+* **To integrate Active Directory / ADFS with AWS (or any SAML 2.0)**
 * **Provides access to AWS Console or CLI (through temporary creds)**
 * No need to create an IAM user for each of your employees 
 
