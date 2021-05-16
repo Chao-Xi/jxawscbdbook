@@ -13,7 +13,7 @@
 * `${aws:principattype}` : account user, federated, or assumed role 
 * `${aws:PrincipalTag/department}` :to restrict using Tags 
 
-[https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keysihtml#condition-keys-wif ]()
+[https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#condition-keys-wif](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#condition-keys-wif)
 
 
 * `${aws:FederatedProvider}` : which IdP was used for the user (Cognito, Amazon.) 
