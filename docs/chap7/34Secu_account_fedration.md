@@ -4,7 +4,7 @@
 
 ### **1-1 AWS STS(Security Token Service)** 
 
-![Alt Image Text](../images//34_1.png "body image")
+![Alt Image Text](../images/34_1.png "body image")
 
 * **Allows to grant limited and temporary access to AWS resources**. 
 * **Token is valid for up to one hour** (must be refreshed) 
@@ -29,7 +29,7 @@
 
 **As a user access a role either in the same account or in another account.**
 
-![Alt Image Text](../images//34_2.png "body image")
+![Alt Image Text](../images/34_2.png "body image")
 
 1. Assume role API on STS.
 2. Check the IAM permissions 
@@ -50,7 +50,7 @@
 	* Cognito 
 * **Using federation, you don't need to create IAM users (user management is outside of AWS)** 
 
-![Alt Image Text](../images//34_3.png "body image")
+![Alt Image Text](../images/34_3.png "body image")
 
 1. Company User or mobile app user without account in AWS
 2. Access to third party servers for login.
@@ -64,7 +64,7 @@
 * **Provides access to AWS Console or CLI (through temporary creds)**
 * No need to create an IAM user for each of your employees 
 
-![Alt Image Text](../images//34_4.png "body image")
+![Alt Image Text](../images/34_4.png "body image")
 
 1. Client app within our organization make request to identity provider IDP which is SAML compliant(Microsoft active directory or user database)
 2.  Authenticated to this IDP the IDP will send back a SAML assertion(SAML assertion is a token)
@@ -75,7 +75,7 @@
 
 ### **2-3 Console based access**
 
-![Alt Image Text](../images//34_5.png "body image")
+![Alt Image Text](../images/34_5.png "body image")
 
 1. Access the portal of identity provider and get it authenticated.
 2. IDP will return a SAML assertion.
@@ -91,7 +91,7 @@
 * **The identity broker must determine the appropriate IAM policy** 
 * **Exact same principles as SAML but it's not SAML with more manual work** 
 
-![Alt Image Text](../images//34_6.png "body image")
+![Alt Image Text](../images/34_6.png "body image")
 
 1. **Users browser or application will access our identity broker**
 2. Identity broker is something that we have to program
@@ -122,7 +122,7 @@
 
 **Provide temporary access to write to S3 Buckets maybe using of a Facebook plugin**
 
-![Alt Image Text](../images//34_7.png "body image")
+![Alt Image Text](../images/34_7.png "body image")
 
 1. **App is directly connected to our identity provider(User pool, Google, Facebook, Twitter, SAML, OpenID)**
 2. App logs in to our identity provider and gets a token back
