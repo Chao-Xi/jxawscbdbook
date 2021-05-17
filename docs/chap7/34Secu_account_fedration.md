@@ -6,7 +6,7 @@
 
 ![Alt Image Text](../images/34_1.png "body image")
 
-* **Allows to grant limited and temporary access to AWS resources**. 
+* **Allows to grant limited and temporary access to AWS resources** 
 * **Token is valid for up to one hour** (must be refreshed) 
 * **Cross Account Access** 
 	* **Allows users from one AWS account access resources in another** 
