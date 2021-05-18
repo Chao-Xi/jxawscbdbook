@@ -19,6 +19,9 @@ nav:
     - 'L2 AWS Services Security Deep Dive': 'chap7/33Secu_bg_svc.md'
     - 'L3 Account and Identity Federation': 'chap7/34Secu_account_fedration.md'
     - 'L4 Polices, CloudTrail & VPCe': 'chap7/35Secu_others.md'
+  - 'Section8:WrapUp':
+    - 'L1 AWS Bigdata Integration': 'chap8/36bg_integration.md'
+    - 'L2 AWS Big Data Instances': 'chap8/37bg_instances.md'
 
 repo_url: https://github.com/Chao-Xi/jxawscbdbook.git
 repo_name: "jxawscbdbook"
