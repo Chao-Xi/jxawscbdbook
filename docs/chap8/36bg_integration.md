@@ -2,13 +2,13 @@
 
 ## **1、IoT**
 
-![Alt Image Text](images/36_1.png "body image")
+![Alt Image Text](../images/36_1.png "body image")
 
 IoT rules actions have amount variety of destinations **Kinesis, DynamoDB, SQS, SNS, S3, Lambda and so many others.**
 
 ## **2、Kinesis Data Stream**
 
-![Alt Image Text](images/36_2.png "body image")
+![Alt Image Text](../images/36_2.png "body image")
 
 ### **2-1 Producer side**
 
@@ -29,7 +29,7 @@ IoT rules actions have amount variety of destinations **Kinesis, DynamoDB, SQS, 
 
 ## **3、Kinesis Data Firehose**
 
-![Alt Image Text](images/36_3.png "body image")
+![Alt Image Text](../images/36_3.png "body image")
 
 ### **3-1 Source**
 
@@ -52,7 +52,7 @@ AWS lambda functions do **transformation on top of the data.**
 
 ## **4、Kinesis Data Analytics**
 
-![Alt Image Text](images/36_4.png "body image")
+![Alt Image Text](../images/36_4.png "body image")
 
 ### **4-1 Data sources**
 
@@ -72,7 +72,7 @@ AWS lambda functions do **transformation on top of the data.**
 
 ## **5、SQS**
 
-![Alt Image Text](images/36_5.png "body image")
+![Alt Image Text](../images/36_5.png "body image")
 
 ### **5-1 sources**
 
@@ -88,7 +88,7 @@ AWS lambda functions do **transformation on top of the data.**
 
 ## **6、S3**
 
-![Alt Image Text](images/36_15.png "body image")
+![Alt Image Text](../images/36_15.png "body image")
 
 ### **6-1 Go to places for data**
 
@@ -110,7 +110,7 @@ AWS lambda functions do **transformation on top of the data.**
 
 ## **7、DynamoDB**
 
-![Alt Image Text](images/36_6.png "body image")
+![Alt Image Text](../images/36_6.png "body image")
 
 * Client SDK to write data 
 * Database migration service(DMS) transfer data from MySQL into DynamoDB
@@ -128,7 +128,7 @@ AWS lambda functions do **transformation on top of the data.**
 
 <mark>**A metadata service collection as ETL**</mark>
 
-![Alt Image Text](images/36_7.png "body image")
+![Alt Image Text](../images/36_7.png "body image")
 
 ### **8-1 Sources**
 
@@ -151,7 +151,7 @@ AWS lambda functions do **transformation on top of the data.**
 
 **EMR is a lot of things, it's Hadoop, spark, hive, pig, presto, Apache HBase, Jupiter, Zeppelin, Flink.**
 
-![Alt Image Text](images/36_8.png "body image")
+![Alt Image Text](../images/36_8.png "body image")
 
 * Glue data catalog to know what to query
 * Amazon S3 using EMRFS and maybe using the consistent view on S3.
@@ -160,7 +160,7 @@ AWS lambda functions do **transformation on top of the data.**
 
 ## **10、Amazon Machine Learning (ML) (Deprecated)**
 
-![Alt Image Text](images/36_9.png "body image")
+![Alt Image Text](../images/36_9.png "body image")
 
 ### **10-1 Sources data** 
 
@@ -173,7 +173,7 @@ AWS lambda functions do **transformation on top of the data.**
 
 **Newer shiny Amazon machine learning service** 
 
-![Alt Image Text](images/36_10.png "body image")
+![Alt Image Text](../images/36_10.png "body image")
 
 * **Source only from S3**
 * Tensorflow, pytorch, and mxnet or many other data machine learning framework for perform our data analysis or machine learning modelling.
@@ -182,7 +182,7 @@ AWS lambda functions do **transformation on top of the data.**
 
 **Moving data**
 
-![Alt Image Text](images/36_11.png "body image")
+![Alt Image Text](../images/36_11.png "body image")
 
 * Amazon S3
 * JDBC for example RDS,
@@ -192,7 +192,7 @@ AWS lambda functions do **transformation on top of the data.**
 
 ## **13、ElasticSearch Service**
 
-![Alt Image Text](images/36_12.png "body image")
+![Alt Image Text](../images/36_12.png "body image")
 
 * Kinesis data firehose
 * **IoT core** has a rule to send data
@@ -206,7 +206,7 @@ AWS lambda functions do **transformation on top of the data.**
 
 ## **14、Anthena**
 
-![Alt Image Text](images/36_13.png "body image")
+![Alt Image Text](../images/36_13.png "body image")
 
 * Query data only in S3
 * Get a metadata information from the glue data catalogue
@@ -214,7 +214,7 @@ AWS lambda functions do **transformation on top of the data.**
 
 ## **15、Redshift**
 
-![Alt Image Text](images/36_15.png "body image")
+![Alt Image Text](../images/36_15.png "body image")
 
 * Copy load or unload data from and to through S3
 * Redshift spectrum to basically query the data in S3(Dont touch data from S3)
@@ -224,7 +224,7 @@ AWS lambda functions do **transformation on top of the data.**
 
 ## **16、QuickSight**
 
-![Alt Image Text](images/36_14.png "body image")
+![Alt Image Text](../images/36_14.png "body image")
 
 * RDS or JDBC to connect to any database
 * Redshift
