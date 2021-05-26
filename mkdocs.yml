@@ -11,6 +11,8 @@ nav:
   - 'Welcome': "index.md"
   - 'Section1:Intro':
     - 'AWS Certified Big Data Specialty 2020 - In Depth & Hands On!': 'chap1/1intro.md'
+  - 'Section2:Collection':
+    - 'L1 Collections - Kinesis DataStream Overview': 'chap2/2Kinesis_data_collection.md'
   - 'Section3:Storage':
     - 'L1 Storage S3': 'chap3/8Storage_S3.md'
     - 'L2 DynamoDB Overview': 'chap3/9Storage_dynamoDB.md'
