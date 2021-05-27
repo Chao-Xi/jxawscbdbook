@@ -13,6 +13,9 @@ nav:
     - 'AWS Certified Big Data Specialty 2020 - In Depth & Hands On!': 'chap1/1intro.md'
   - 'Section2:Collection':
     - 'L1 Collections - Kinesis DataStream Overview': 'chap2/2Kinesis_data_collection.md'
+    - 'L2 [Exercise] Kinesis Firehose (PurchaseLogs/OrderLogs)': 'chap2/3Coll_Kinesis_Firehose_Exer.md'
+    - 'L3 [Exercise] Kinesis Data Streams': 'chap2/4Coll_Kinesis_DS_Exer.md'
+    - 'L4 SQS vs. Kinesis Data Stream': 'chap2/5Coll_SQS_Kinesis.md'
   - 'Section3:Storage':
     - 'L1 Storage S3': 'chap3/8Storage_S3.md'
     - 'L2 DynamoDB Overview': 'chap3/9Storage_dynamoDB.md'
