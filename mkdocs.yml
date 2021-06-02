@@ -18,7 +18,7 @@ nav:
     - 'L4 SQS vs. Kinesis Data Stream': 'chap2/5Coll_SQS_Kinesis.md'
     - 'L5 IoT Overview and DeepDive': 'chap2/6Coll_IOT.md'
     - 'L6 Data Collection Others': 'chap2/7Coll_Others.md'
-    - 'L7  MSK Managed Streaming for Apache Kafka (Amazon MSK)': 'chap2/7Coll_MSK.md'
+    - 'L7 MSK Managed Streaming for Apache Kafka (Amazon MSK)': 'chap2/7Coll_MSK.md'
   - 'Section3:Storage':
     - 'L1 Storage S3': 'chap3/8Storage_S3.md'
     - 'L2 DynamoDB Overview': 'chap3/9Storage_dynamoDB.md'

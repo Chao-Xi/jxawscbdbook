@@ -112,6 +112,53 @@ What is the architecture surrounding Kinesis?
 * **24 hours data retention by default** 
 * **Can be extended to 7 days** 
 
+### **1-8 Kinesis Data Streams — Handling Duplicates For Producers**
+
+
+* Producer retries can create duplicates due to **network timeouts** 
+* Although the two records have identical data, they also have unique sequence numbers 
+* Fix: **embed unique record ID** in the data to de-duplicate on the consumer side 
+
+![Alt Image Text](../images/2_19.png "body image") 
+
+### **1-9 Kinesis Data Streams — Kinesis Data Streams — Handling Duplicates For Consumers** 
+
+* Consumer retries can **make your application read the same data twice** 
+* Consumer retries happen when **record processors restart**: 
+	1. A worker terminates unexpectedly 
+	2. Worker instances are added or removed 
+	3. Shards are merged or split 
+	4. The application is deployed 
+
+* Fixes: 
+	* **Make your consumer application idempotent** 
+	* **If the final destination can handle duplicates, it's recommended to do it there** 
+
+**More info**: 
+
+[https://docs.aws.amazon.com/streams/latest/dev/kinesis-record-processor-duplicates.html](https://docs.aws.amazon.com/streams/latest/dev/kinesis-record-processor-duplicates.html)
+
+### **1-10 CloudWatch Logs Subscriptions Filters with Kinesis**
+
+
+* You can stream CloudWatch Logs into 
+	* **Kinesis Data Streams** 
+	* Kinesis Data Firehose 
+	* **AWS Lambda** 
+
+* **Using CloudWatch Logs Subscriptions Filters** 
+* **You can enable them using the AWS CLI** 
+
+### **1-11 CloudWatch Logs Subscription Filter Patterns Near Real Time into Amazon ES**
+
+![Alt Image Text](../images/2_20.png "body image") 
+ 
+![Alt Image Text](../images/2_21.png "body image") 
+
+**CloudWatch Logs Subscriptions Filters Patterns Real Time Analytics**
+
+![Alt Image Text](../images/2_22.png "body image") 
+
 ## **2、Kinesis Producers** 
 
 * **Kinesis SDK**
@@ -443,7 +490,7 @@ This is not the case. **Spark streaming and Kinesis client library** from fire h
 * **Low throughput => BufferTime will be hit** 
 
 
-**8、Kinesis Data Streams vs Firehose** 
+## **8、Kinesis Data Streams vs Firehose** 
 
 ### **8-1 Streams** 
 
@@ -463,3 +510,5 @@ This is not the case. **Spark streaming and Kinesis client library** from fire h
 * No data storage 
 
 
+
+## **9、Kinesis Data Streams vs Firehose** 
