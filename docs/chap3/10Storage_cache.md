@@ -30,7 +30,7 @@
 * **Support for Read Replicas** 
 
 
-## **3、Memcached Overview **
+## **3、Memcached Overview**
 
 
 * Memcached is an in-memory object store 
