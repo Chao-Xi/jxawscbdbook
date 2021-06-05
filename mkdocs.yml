@@ -24,6 +24,8 @@ nav:
     - 'L2 DynamoDB Overview': 'chap3/9Storage_dynamoDB.md'
     - 'L3 Hands on S3': 'chap3/8Hands_onS3.md'
     - 'L4 ElastiCache Overview': 'chap3/10Storage_cache.md'
+  - 'Section4:Processing':
+    - 'L1 AWS Lambda': 'chap4/11Process_Lambda.md'
   - 'Section7:Security':
     - 'L1 Security - Encryption': 'chap7/32Secu_Encryption.md'
     - 'L2 AWS Services Security Deep Dive': 'chap7/33Secu_bg_svc.md'
