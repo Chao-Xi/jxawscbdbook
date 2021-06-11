@@ -28,6 +28,7 @@ nav:
     - 'L1 AWS Lambda': 'chap4/11Process_Lambda.md'
     - 'L2 [Exercise] AWS Lambda': 'chap4/12Process_Lambda_Exer.md'
     - 'L3 AWS Glue and Lake Formation': 'chap4/13Process_ETL_intro.md'
+    - 'L4 EMR Elastic MapReduce': 'chap4/15process_EMR.md'
   - 'Section7:Security':
     - 'L1 Security - Encryption': 'chap7/32Secu_Encryption.md'
     - 'L2 AWS Services Security Deep Dive': 'chap7/33Secu_bg_svc.md'
