@@ -1,6 +1,6 @@
 # **L4 ElastiCache Overview**
 
-![Alt Image Text](../images//10_1.png "Body image")
+![Alt Image Text](../images/10_1.png "Body image")
 
 ## **1、AWS ElastiCache Overview**
 
