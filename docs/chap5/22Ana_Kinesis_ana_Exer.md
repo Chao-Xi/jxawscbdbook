@@ -108,8 +108,6 @@ WHERE trigger_count >= 1;
 * IAM role: **LambdaKinesisSNS**
 
 
-![Alt Image Text](../images/22_9.png "body image") 
-
 ### **6-3 Create lambda function tigger**
 
 **Kinesis**: **CadabraAlarms**
