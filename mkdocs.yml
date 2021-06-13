@@ -34,7 +34,8 @@ nav:
     - 'L6 AWS Data Pipeline': 'chap4/15process_DataPipeline.md'
     - 'L7 Deep Learning': 'chap4/20Process_DL.md'
   - 'Section5:Analysis':
-    - 'L1、Amazon Kinesis Data Analytics': 'chap5/21Ana_KA.md'
+    - 'L1 Amazon Kinesis Data Analytics': 'chap5/21Ana_KA.md'
+    - 'L2 Kinesis Analytics Exercise': 'chap5/22Ana_Kinesis_ana_Exer.md'
   - 'Section7:Security':
     - 'L1 Security - Encryption': 'chap7/32Secu_Encryption.md'
     - 'L2 AWS Services Security Deep Dive': 'chap7/33Secu_bg_svc.md'

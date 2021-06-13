@@ -1,7 +1,7 @@
 # **L1 Kinesis Analytics** 
 
 
-## **L1、Amazon Kinesis Data Analytics**
+## **1、Amazon Kinesis Data Analytics**
 
 
 ![Alt Image Text](../images/21_3.png "body image") 
