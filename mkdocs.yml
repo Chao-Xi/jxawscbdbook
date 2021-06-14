@@ -36,6 +36,8 @@ nav:
   - 'Section5:Analysis':
     - 'L1 Amazon Kinesis Data Analytics': 'chap5/21Ana_KA.md'
     - 'L2 Kinesis Analytics Exercise': 'chap5/22Ana_Kinesis_ana_Exer.md'
+    - 'L3 Amazon Elasticsearch Service': 'chap5/23Ana_ES.md'
+    - 'L4 Amazon Elasticsearch Service Exercise': 'chap5/24Ana_ES_Exer.md'
   - 'Section7:Security':
     - 'L1 Security - Encryption': 'chap7/32Secu_Encryption.md'
     - 'L2 AWS Services Security Deep Dive': 'chap7/33Secu_bg_svc.md'
