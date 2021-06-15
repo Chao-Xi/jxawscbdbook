@@ -39,6 +39,7 @@ nav:
     - 'L3 Amazon Elasticsearch Service': 'chap5/23Ana_ES.md'
     - 'L4 Amazon Elasticsearch Service Exercise': 'chap5/24Ana_ES_Exer.md'
     - 'L5 Amazon Athena': 'chap5/25Ana_Athena.md'
+    - 'L6 [Exercise] AWS Glue and Athena': 'chap5/26Glue_Athena_Exer.md'
   - 'Section7:Security':
     - 'L1 Security - Encryption': 'chap7/32Secu_Encryption.md'
     - 'L2 AWS Services Security Deep Dive': 'chap7/33Secu_bg_svc.md'
