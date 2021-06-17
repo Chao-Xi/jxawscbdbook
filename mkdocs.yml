@@ -41,6 +41,7 @@ nav:
     - 'L5 Amazon Athena': 'chap5/25Ana_Athena.md'
     - 'L6 [Exercise] AWS Glue and Athena': 'chap5/26Glue_Athena_Exer.md'
     - 'L7 AWS Redshift': 'chap5/27Ana_Redshift.md'
+    - 'L8 [Exercise] Redshift Spectrum': 'chap5/28Redshift_Spectrum_exer.md'
   - 'Section7:Security':
     - 'L1 Security - Encryption': 'chap7/32Secu_Encryption.md'
     - 'L2 AWS Services Security Deep Dive': 'chap7/33Secu_bg_svc.md'
