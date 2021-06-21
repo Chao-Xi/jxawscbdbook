@@ -196,7 +196,7 @@ Basically will generate a new data key and that that key will be used to encrypt
 * **No free tier available** 
 * Must use the **CloudHSM Client Software** 
 	* Not as easy as the KMS API call with the CLI.	
-### CloudHSM Diagram
+### **3-7 CloudHSM Diagram**
 
 ![Alt Image Text](../images/32_13.png "body image")
 
@@ -206,8 +206,41 @@ Basically will generate a new data key and that that key will be used to encrypt
 * Control over the **user keys** but still be in **AWS's cloud**
 * Have **asymmetric type of encryption**
 
-### CloudHSM VS KMS
+### **3-8 CloudHSM VS KMS**
 
 ![Alt Image Text](../images/32_14.png "body image")
 
 ![Alt Image Text](../images/32_15.png "body image")
+
+
+## **4、KMS Key Rotation**
+
+
+### **4-1 KMS Automatic Key Rotation** 
+
+
+* **For Customer-managed CMK** (not AWS managed CMK) 
+* If enabled: automatic key rotation happens **every 1 year** 
+* **Previous key is kept active so you can decrypt old data** 
+* New Key has the same CMK ID(only the backing is changed) 
+
+![Alt Image Text](../images/32_16.png "body image")
+
+
+### **4-2 KMS Manual Key Rotation** 
+
+* **When you want to rotate key every 90 days, 180 days, etc...** 
+* New Key has a dilTerent, CMK ID 
+* Keep the previous key active so you can decrypt old data 
+* Better to use aliases in this case (to hide the change of key for the application) 
+* Good solution to rotate CMK that are not eligible for automatic rotation (like asymmetric CMK) 
+
+
+![Alt Image Text](../images/32_17.png "body image")
+
+### **4-3 KMS Alias Updating** 
+
+Better to use aliases in this case (to hide the change of key for application) 
+
+
+![Alt Image Text](../images/32_18.png "body image")
