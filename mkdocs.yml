@@ -53,6 +53,8 @@ nav:
   - 'Section8:WrapUp':
     - 'L1 AWS Bigdata Integration': 'chap8/36bg_integration.md'
     - 'L2 AWS Big Data Instances': 'chap8/37bg_instances.md'
+  - 'Section9:Machine Learning':
+    - 'AWS Machine Learning （Amazon ML Service/Amazon SageMaker)': 'chap9/18Process_ML.md'
 
 repo_url: https://github.com/Chao-Xi/jxawscbdbook.git
 repo_name: "jxawscbdbook"
