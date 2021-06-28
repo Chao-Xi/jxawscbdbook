@@ -167,7 +167,7 @@ Which at rest encryption is not supported by Redshift?
 Your users are federated using the web identity provider amazon.com. What does the following policy do? 
 
 
-![Alt Image Text](images/qz11_1.png "Body image")
+![Alt Image Text](../images/qz11_1.png "Body image")
 
 * Allow AWS IAM users to upload and download objects from a bucket that is named after their username 
 * **Allow users federated through amazon.com to upload and download objects from a bucket that is named after their username**
