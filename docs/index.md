@@ -1,13 +1,11 @@
 # **AWS Certified Data Analytics Tutorial**
 
 > Started at May. 2021 By Jacob Xi 
-
 ## **About this tutorial**
 
+This books is my 6th tech books published recently and my 1st English version tutorial book. And this book is my favorite and hard-working book so far. The weather is getting hotter and hotter☀️, thank you so much team colleagues' and friends' support and instruction. # Have to Keigo Higashino📚 is my favorite Japanese author， “The Miracles of the Namiya General Store” is one of my loving book
 
 ![Alt Image Text](images/1_1.png "body image") 
-
-This books is my 6th tech books published recently and my 1st English version tutorial book. And this book is my favorite and hard-working book so far. The weather is getting hotter and hotter☀️, thank you so much team colleagues' and friends' support and instruction. # Have to Keigo Higashino📚 is my favorite Japanese author， “The Miracles of the Namiya General Store” is one of my loving book
 
 ## **Description**
 
