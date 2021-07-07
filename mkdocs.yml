@@ -69,6 +69,8 @@ nav:
     - 'Quiz11 Security': 'chap10/qz11_security.md'
     - 'Quiz12 Amazon Machine Learning and Sagemaker': 'chap10/qz12_ML.md'
     - 'AWS Certified Data Analytics Specialty Practice Exam': 'chap10/qz_final.md'
+  - 'Section11: Learning Big Data':
+    - '第一节 大数据体系中明确路径': 'chap11/chap11_bigdata_intro.md'
 
     
 repo_url: https://github.com/Chao-Xi/jxawscbdbook.git
