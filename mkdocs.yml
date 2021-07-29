@@ -72,7 +72,7 @@ nav:
   - 'Section11: Learning Big Data':
     - '第一节 大数据体系中明确路径': 'chap11/chap11_1bigdata_intro.md'
     - '第二节 大数据架构 & Hadoop介绍': 'chap11/chap11_2bigdata_structure.md'
-    - '第三节 大数据中的数据来源': 'chap11/chap11_3bigdata_coll.md'
+    # - '第三节 大数据中的数据来源': 'chap11/chap11_3bigdata_coll.md'
     # - '第四节 HDFS解决大数据存储问题 & Hadoop on K8S': 'chap11/chap11_4bigdata_hdfs.md'
     # - '第五节 HBase 和 Hive': 'chap11/chap11_5bigdata_hive_hbase.md'
     # - '第六节 消息系统 Kafka 与 Flume': 'chap11/chap11_6bigdtat_kafka_flume.md'
@@ -80,7 +80,7 @@ nav:
     # - '第八节 Spark 与 Flink 的爱恨情仇 (Spark)': 'chap11/chap11_8bigdata_spark.md'
     # - '第九节 Spark 与 Flink 的爱恨情仇 (Flink)': 'chap11/chap11_9bigdata_flink.md'
 
-  - 'Section12: AWS Big Data Concept(CN)':
+  # - 'Section12: AWS Big Data Concept(CN)':
     
     
 repo_url: https://github.com/Chao-Xi/jxawscbdbook.git
