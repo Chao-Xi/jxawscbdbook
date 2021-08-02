@@ -79,8 +79,8 @@ nav:
     - '第七节 MapReduce 处理大数据': 'chap11/chap11_7bigdata_mapreduce.md'
     - '第八节 Spark 与 Flink 的爱恨情仇 (Spark)': 'chap11/chap11_8bigdata_spark.md'
     - '第九节 Spark 与 Flink 的爱恨情仇 (Flink)': 'chap11/chap11_9bigdata_flink.md'
-
-  # - 'Section12: AWS Big Data Concept(CN)':
+  - 'Section12: AWS Big Data Concept(CN)':
+    - '数据库、数据湖、数据仓库、湖仓一体、智能湖仓': 'chap12/1aws_data_storage.md'
     
     
 repo_url: https://github.com/Chao-Xi/jxawscbdbook.git
