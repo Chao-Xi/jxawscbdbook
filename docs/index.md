@@ -51,6 +51,8 @@ The world of data analytics on AWS includes a dizzying array of technologies and
 > [Azure 103&900 Tutorial (In progress)](https://chao-xi.github.io/jxazurebook/)
 > 
 > [手摸手 Linux Performance & 面试实战教程](https://chao-xi.github.io/jxperfbook/)
+>
+> [手摸手 Databases 全教程](https://chao-xi.github.io/jxdatabasebook/)
 
 ## **Salut! C'est Moi**
 
