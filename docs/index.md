@@ -73,8 +73,7 @@ Je travaillais en tant qu'ingénieur backend à New York et j'ai obtenu mon mast
 ## **Tutorial content**
 
 * **Section1:	Intro**
-	* [AWS Certified Big Data Specialty 2020 - In Depth & Hands On!
-](https://chao-xi.github.io/jxawscbdbook/chap1/1intro/)
+	* [AWS Certified Big Data Specialty 2020 - In Depth & Hands On!](https://chao-xi.github.io/jxawscbdbook/chap1/1intro/)
 * **Section2:	Collection**
 	* [L1 Collections - Kinesis DataStream Overview](https://chao-xi.github.io/jxawscbdbook/chap2/2Kinesis_data_collection/)
 	* [L2 [Exercise] Kinesis Firehose (PurchaseLogs/OrderLogs)](https://chao-xi.github.io/jxawscbdbook/chap2/3Coll_Kinesis_Firehose_Exer/)
