@@ -1,0 +1,2409 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's AWS Certified Big Data Specialty">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+        <link rel="canonical" href="https://chao-xi.github.io/jxawscbdbook/chap4/13Process_ETL_intro/">
+      
+      
+        <link rel="prev" href="../12Process_Lambda_Exer/">
+      
+      
+        <link rel="next" href="../15process_EMR/">
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
+    
+    
+      
+        <title>L3 AWS Glue and Lake Formation - Jacob AWS Certified Big Data Specialty Tutorial</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a6bdf11c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="amber" data-md-color-accent="amber">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#l3-aws-glue-lake-formation" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AWS Certified Big Data Specialty Tutorial" class="md-header__button md-logo" aria-label="Jacob AWS Certified Big Data Specialty Tutorial" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AWS Certified Big Data Specialty Tutorial
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              L3 AWS Glue and Lake Formation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxawscbdbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscbdbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AWS Certified Big Data Specialty Tutorial" class="md-nav__button md-logo" aria-label="Jacob AWS Certified Big Data Specialty Tutorial" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AWS Certified Big Data Specialty Tutorial
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxawscbdbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscbdbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Section1:Intro
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Section1:Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/1intro/" class="md-nav__link">
+        AWS Certified Big Data Specialty 2020 - In Depth & Hands On!
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Section2:Collection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Section2:Collection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/2Kinesis_data_collection/" class="md-nav__link">
+        L1 Collections - Kinesis DataStream Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/3Coll_Kinesis_Firehose_Exer/" class="md-nav__link">
+        L2 [Exercise] Kinesis Firehose (PurchaseLogs/OrderLogs)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/4Coll_Kinesis_DS_Exer/" class="md-nav__link">
+        L3 [Exercise] Kinesis Data Streams
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/5Coll_SQS_Kinesis/" class="md-nav__link">
+        L4 SQS vs. Kinesis Data Stream
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/6Coll_IOT/" class="md-nav__link">
+        L5 IoT Overview and DeepDive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/7Coll_Others/" class="md-nav__link">
+        L6 Data Collection Others
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/7Coll_MSK/" class="md-nav__link">
+        L7 MSK Managed Streaming for Apache Kafka (Amazon MSK)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Section3:Storage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Section3:Storage
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8Storage_S3/" class="md-nav__link">
+        L1 Storage S3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/9Storage_dynamoDB/" class="md-nav__link">
+        L2 DynamoDB Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8Hands_onS3/" class="md-nav__link">
+        L3 Hands on S3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/10Storage_cache/" class="md-nav__link">
+        L4 ElastiCache Overview
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Section4:Processing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Section4:Processing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11Process_Lambda/" class="md-nav__link">
+        L1 AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12Process_Lambda_Exer/" class="md-nav__link">
+        L2 [Exercise] AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          L3 AWS Glue and Lake Formation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        L3 AWS Glue and Lake Formation
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1what-is-glue-partitioning-your-data-lake" class="md-nav__link">
+    1、What is Glue? + Partitioning your Data Lake
+  </a>
+  
+    <nav class="md-nav" aria-label="1、What is Glue? + Partitioning your Data Lake">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-what-is-glueaws-glue-metadata-repo-for-ur-data" class="md-nav__link">
+    1-1 What is Glue?(AWS Glue: Metadata repo for ur data)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-glue-crawler-data-catalog" class="md-nav__link">
+    1-2 Glue Crawler / Data Catalog
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-aws-glue-crawler" class="md-nav__link">
+    1-3 AWS glue crawler
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-4-glue-data-catalogue" class="md-nav__link">
+    1-4 Glue data catalogue
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-5-glue-and-s3-partitions" class="md-nav__link">
+    1-5 Glue and S3 Partitions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2glue-hive" class="md-nav__link">
+    2、Glue + Hive
+  </a>
+  
+    <nav class="md-nav" aria-label="2、Glue + Hive">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-glue-etl" class="md-nav__link">
+    2-1 Glue ETL
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3glue-etl-developer-endpointsrunning-etl-jobs-with-bookmarks" class="md-nav__link">
+    3、Glue ETL: Developer Endpoints,Running ETL Jobs with Bookmarks
+  </a>
+  
+    <nav class="md-nav" aria-label="3、Glue ETL: Developer Endpoints,Running ETL Jobs with Bookmarks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-1-glue-etl" class="md-nav__link">
+    3-1 Glue ETL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2-glue-etl-transformations" class="md-nav__link">
+    3-2 Glue ETL - Transformations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-3-aws-glue-development-endpoints" class="md-nav__link">
+    3-3 AWS Glue Development Endpoints
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-4-running-glue-jobs" class="md-nav__link">
+    3-4 Running Glue jobs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4glue-costs-and-anti-patterns" class="md-nav__link">
+    4、Glue Costs and Anti-Patterns
+  </a>
+  
+    <nav class="md-nav" aria-label="4、Glue Costs and Anti-Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-glue-cost-model" class="md-nav__link">
+    4-1 Glue cost model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2-glue-anti-patterns" class="md-nav__link">
+    4-2 Glue Anti-patterns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5aws-glue-studio" class="md-nav__link">
+    5、AWS Glue Studio
+  </a>
+  
+    <nav class="md-nav" aria-label="5、AWS Glue Studio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-1-create-aws-glue-studio-job" class="md-nav__link">
+    5-1 Create AWS Glue Studio Job
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6aws-glue-databrew" class="md-nav__link">
+    6、AWS Glue Databrew
+  </a>
+  
+    <nav class="md-nav" aria-label="6、AWS Glue Databrew">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-1-create-databrew-project" class="md-nav__link">
+    6-1 Create Databrew Project
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7aws-glue-elastic-views" class="md-nav__link">
+    7、AWS Glue Elastic Views
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8aws-lake-formation" class="md-nav__link">
+    8、AWS Lake Formation
+  </a>
+  
+    <nav class="md-nav" aria-label="8、AWS Lake Formation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8-1-aws-lake-formation" class="md-nav__link">
+    8-1 AWS Lake Formation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-2-aws-lake-formation-pricing" class="md-nav__link">
+    8-2 AWS Lake Formation: Pricing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-3-aws-lake-formation-building-a-data-lake" class="md-nav__link">
+    8-3 AWS Lake Formation: Building a Data Lake
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-4-aws-lake-formation-the-finer-points" class="md-nav__link">
+    8-4 AWS Lake Formation: the Finer Points
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15process_EMR/" class="md-nav__link">
+        L4 EMR Elastic MapReduce
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../17Process_EMR_Exer/" class="md-nav__link">
+        L5 Elastic MapReduce Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15process_DataPipeline/" class="md-nav__link">
+        L6 AWS Data Pipeline
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../20Process_DL/" class="md-nav__link">
+        L7 Deep Learning
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Section5:Analysis
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Section5:Analysis
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/21Ana_KA/" class="md-nav__link">
+        L1 Amazon Kinesis Data Analytics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/22Ana_Kinesis_ana_Exer/" class="md-nav__link">
+        L2 Kinesis Analytics Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/23Ana_ES/" class="md-nav__link">
+        L3 Amazon Elasticsearch Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/24Ana_ES_Exer/" class="md-nav__link">
+        L4 Amazon Elasticsearch Service Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/25Ana_Athena/" class="md-nav__link">
+        L5 Amazon Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/26Glue_Athena_Exer/" class="md-nav__link">
+        L6 [Exercise] AWS Glue and Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/27Ana_Redshift/" class="md-nav__link">
+        L7 AWS Redshift
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/28Redshift_Spectrum_exer/" class="md-nav__link">
+        L8 [Exercise] Redshift Spectrum
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          Section6:Visualization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Section6:Visualization
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6/30Vis_Qs/" class="md-nav__link">
+        L1 Visualization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6/31Vis_Exer/" class="md-nav__link">
+        L2 Amazon Quicksight Exercise
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          Section7:Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Section7:Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/32Secu_Encryption/" class="md-nav__link">
+        L1 Security - Encryption
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/33Secu_bg_svc/" class="md-nav__link">
+        L2 AWS Services Security Deep Dive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/34Secu_account_fedration/" class="md-nav__link">
+        L3 Account and Identity Federation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/35Secu_others/" class="md-nav__link">
+        L4 Polices, CloudTrail & VPCe
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          Section8:WrapUp
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          Section8:WrapUp
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8/36bg_integration/" class="md-nav__link">
+        L1 AWS Bigdata Integration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8/37bg_instances/" class="md-nav__link">
+        L2 AWS Big Data Instances
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+          Section9:Machine Learning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          Section9:Machine Learning
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9/18Process_ML/" class="md-nav__link">
+        AWS Machine Learning （Amazon ML Service/Amazon SageMaker)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+          Section10:Quizs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Section10:Quizs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz1_coll/" class="md-nav__link">
+        Quiz1 Collection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz2_storage/" class="md-nav__link">
+        Quiz2 Storage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz3_lambda/" class="md-nav__link">
+        Quiz3 AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz4_glue/" class="md-nav__link">
+        Quiz4 AWS Glue
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz5_emr/" class="md-nav__link">
+        Quiz5 EMR and the Hadoop Ecosystem
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz6_ka/" class="md-nav__link">
+        Quiz6 Kinesis Analytics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz7_ES/" class="md-nav__link">
+        Quiz7 Amazon ES
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz8_athena/" class="md-nav__link">
+        Quiz8 Amazon Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz9_redshift/" class="md-nav__link">
+        Quiz9 Amazon Redshift
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz10_quicksight/" class="md-nav__link">
+        Quiz10 Amazon Quicksight
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz11_security/" class="md-nav__link">
+        Quiz11 Security
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz12_ML/" class="md-nav__link">
+        Quiz12 Amazon Machine Learning and Sagemaker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz_final/" class="md-nav__link">
+        AWS Certified Data Analytics Specialty Practice Exam
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+          Section11: Learning Big Data
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_12">
+          <span class="md-nav__icon md-icon"></span>
+          Section11: Learning Big Data
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_1bigdata_intro/" class="md-nav__link">
+        第一节 大数据体系中明确路径
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_2bigdata_structure/" class="md-nav__link">
+        第二节 大数据架构 & Hadoop介绍
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_3bigdata_coll/" class="md-nav__link">
+        第三节 大数据中的数据来源
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_4bigdata_hdfs/" class="md-nav__link">
+        第四节 HDFS解决大数据存储问题 & Hadoop on K8S
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_5bigdata_hive_hbase/" class="md-nav__link">
+        第五节 HBase 和 Hive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_6bigdtat_kafka_flume/" class="md-nav__link">
+        第六节 消息系统 Kafka 与 Flume
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_7bigdata_mapreduce/" class="md-nav__link">
+        第七节 MapReduce 处理大数据
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_8bigdata_spark/" class="md-nav__link">
+        第八节 Spark 与 Flink 的爱恨情仇 (Spark)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_9bigdata_flink/" class="md-nav__link">
+        第九节 Spark 与 Flink 的爱恨情仇 (Flink)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_10data_mining/" class="md-nav__link">
+        第十节 数据挖掘
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+          Section12: AWS Big Data Concept(CN)
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_13">
+          <span class="md-nav__icon md-icon"></span>
+          Section12: AWS Big Data Concept(CN)
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap12/1aws_data_storage/" class="md-nav__link">
+        数据库、数据湖、数据仓库、湖仓一体、智能湖仓
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap12/2aws_emr_20230421/" class="md-nav__link">
+        20230421-云原生大数据EMR研讨会
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1what-is-glue-partitioning-your-data-lake" class="md-nav__link">
+    1、What is Glue? + Partitioning your Data Lake
+  </a>
+  
+    <nav class="md-nav" aria-label="1、What is Glue? + Partitioning your Data Lake">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-what-is-glueaws-glue-metadata-repo-for-ur-data" class="md-nav__link">
+    1-1 What is Glue?(AWS Glue: Metadata repo for ur data)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-glue-crawler-data-catalog" class="md-nav__link">
+    1-2 Glue Crawler / Data Catalog
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-aws-glue-crawler" class="md-nav__link">
+    1-3 AWS glue crawler
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-4-glue-data-catalogue" class="md-nav__link">
+    1-4 Glue data catalogue
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-5-glue-and-s3-partitions" class="md-nav__link">
+    1-5 Glue and S3 Partitions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2glue-hive" class="md-nav__link">
+    2、Glue + Hive
+  </a>
+  
+    <nav class="md-nav" aria-label="2、Glue + Hive">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-glue-etl" class="md-nav__link">
+    2-1 Glue ETL
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3glue-etl-developer-endpointsrunning-etl-jobs-with-bookmarks" class="md-nav__link">
+    3、Glue ETL: Developer Endpoints,Running ETL Jobs with Bookmarks
+  </a>
+  
+    <nav class="md-nav" aria-label="3、Glue ETL: Developer Endpoints,Running ETL Jobs with Bookmarks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-1-glue-etl" class="md-nav__link">
+    3-1 Glue ETL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2-glue-etl-transformations" class="md-nav__link">
+    3-2 Glue ETL - Transformations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-3-aws-glue-development-endpoints" class="md-nav__link">
+    3-3 AWS Glue Development Endpoints
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-4-running-glue-jobs" class="md-nav__link">
+    3-4 Running Glue jobs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4glue-costs-and-anti-patterns" class="md-nav__link">
+    4、Glue Costs and Anti-Patterns
+  </a>
+  
+    <nav class="md-nav" aria-label="4、Glue Costs and Anti-Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-glue-cost-model" class="md-nav__link">
+    4-1 Glue cost model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2-glue-anti-patterns" class="md-nav__link">
+    4-2 Glue Anti-patterns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5aws-glue-studio" class="md-nav__link">
+    5、AWS Glue Studio
+  </a>
+  
+    <nav class="md-nav" aria-label="5、AWS Glue Studio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-1-create-aws-glue-studio-job" class="md-nav__link">
+    5-1 Create AWS Glue Studio Job
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6aws-glue-databrew" class="md-nav__link">
+    6、AWS Glue Databrew
+  </a>
+  
+    <nav class="md-nav" aria-label="6、AWS Glue Databrew">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-1-create-databrew-project" class="md-nav__link">
+    6-1 Create Databrew Project
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7aws-glue-elastic-views" class="md-nav__link">
+    7、AWS Glue Elastic Views
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8aws-lake-formation" class="md-nav__link">
+    8、AWS Lake Formation
+  </a>
+  
+    <nav class="md-nav" aria-label="8、AWS Lake Formation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8-1-aws-lake-formation" class="md-nav__link">
+    8-1 AWS Lake Formation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-2-aws-lake-formation-pricing" class="md-nav__link">
+    8-2 AWS Lake Formation: Pricing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-3-aws-lake-formation-building-a-data-lake" class="md-nav__link">
+    8-3 AWS Lake Formation: Building a Data Lake
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-4-aws-lake-formation-the-finer-points" class="md-nav__link">
+    8-4 AWS Lake Formation: the Finer Points
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="l3-aws-glue-lake-formation"><strong>L3 AWS Glue &amp; Lake Formation</strong></h1>
+<h2 id="1what-is-glue-partitioning-your-data-lake"><strong>1、What is Glue? + Partitioning your Data Lake</strong></h2>
+<blockquote>
+<p>Table definitions and ETL </p>
+</blockquote>
+<p>Basically ETL can <strong>define table definitions</strong> and <strong>perform ETL</strong> on your underlying data lake and <strong>provide structure to unstructured data</strong>.</p>
+<p><img alt="Alt Image Text" src="../../images/13_1.png" title="body image" /> </p>
+<h3 id="1-1-what-is-glueaws-glue-metadata-repo-for-ur-data"><strong>1-1 What is Glue?(<mark>AWS Glue: Metadata repo for ur data</mark>)</strong></h3>
+<ol>
+<li><strong>AWS Glue</strong>  main use is to <strong>serve as a central metadata repository for your data lake in S3</strong> so it's able to <strong>discover schemas or table definitions and publish those for use with analysis tools</strong> such as Athena or redshift or EMR down the road.</li>
+<li>AWS Glue <strong>do custom ETL jobs</strong> on your data so as it's finding new data in S3 it can actually trigger off jobs to actually <strong>transform that data into a more structured</strong> or purpose built format for later processing.</li>
+<li>
+<p><mark>AWS Glue ETL jobs use Apache Spark <strong>is completely serverless and fully managed.</strong><mark></p>
+</li>
+<li>
+<p><strong>Serverless</strong> discovery and definition of table definitions and schema</p>
+<ul>
+<li><strong>S3 "data lakes"</strong> </li>
+<li>RDS </li>
+<li>Redshift </li>
+<li>Most other SQL databases </li>
+</ul>
+</li>
+<li>
+<p><strong>Custom ETL jobs</strong> </p>
+<ul>
+<li>Trigger-driven, on a schedule, or on demand </li>
+<li>Fully managed </li>
+</ul>
+</li>
+</ol>
+<h3 id="1-2-glue-crawler-data-catalog"><strong>1-2 Glue Crawler / Data Catalog</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/13_2.png" title="body image" /> </p>
+<h3 id="1-3-aws-glue-crawler"><strong>1-3 AWS glue crawler</strong></h3>
+<p>AWS glue crawler is one component of glue.</p>
+<ul>
+<li>Basically it <strong>scans your data in S3</strong> and often the <strong>glue crawler will infer a schema automatically</strong> just based on the structure of the data that it finds there in your S3 buckets.</li>
+<li>You can schedule that crawler to run <strong>periodically if you need to</strong>.</li>
+<li><strong>Example</strong>: If you have new data or new types of data just popping into S3 at random times, <strong>Glue can discover those automatically and just run on a schedule and automatically pick up that data</strong></li>
+</ul>
+<h3 id="1-4-glue-data-catalogue"><strong>1-4 Glue data catalogue</strong></h3>
+<p><mark><strong>Glue data catalogue</strong> is a <strong>central metadata repository</strong> used by all the other tools that might analyze that data</mark>.</p>
+<ul>
+<li>The data itself remains where it was originally in S3.</li>
+<li>Only the table definition itself is stored by glue in the glue data catalog. Means things like the <strong>column names</strong> the <strong>types of data</strong> in those columns where that data is stored</li>
+<li>Glue data catalog just tells these other services like <strong>spectrum or Athena or EMR</strong> how to interpret that data and how it's structured.</li>
+</ul>
+<h3 id="1-5-glue-and-s3-partitions"><strong>1-5 Glue and S3 Partitions</strong></h3>
+<blockquote>
+<p>Glue cannot work magic and automatically structure your data in S3 </p>
+</blockquote>
+<ul>
+<li><strong>Glue crawler will extract partitions based on how your S3 data is organized</strong> </li>
+<li>Think up front about how you will be querying your data lake in S3 </li>
+<li>Example: devices send sensor data every hour </li>
+<li>Do you query <strong>primarily by time ranges</strong>? <ul>
+<li>If so, organize your buckets as <code>yyyy/mm/dd/device</code> </li>
+</ul>
+</li>
+<li>Do you query <strong>primarily by device?</strong> <ul>
+<li>If so, organize your buckets as <code>device/yyyy/mm/dd</code> </li>
+</ul>
+</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/13_3.png" title="body image" /> </p>
+<h2 id="2glue-hive"><strong>2、Glue + Hive</strong></h2>
+<p><img alt="Alt Image Text" src="../../images/13_4.png" title="body image" /> </p>
+<p><strong>Apache Hive</strong> runs on <strong>Elastic MapReduce</strong> that allows you to <strong>issue SQL like queries</strong> on data accessible to your <strong>EMR cluster</strong></p>
+<ul>
+<li><strong>AWS glue data catalog</strong> as <strong>metadata store</strong> for <strong>hive</strong>  </li>
+<li>And also can <strong>import a hive meta store into glue</strong>.</li>
+<li>The <strong>glue data catalog</strong> can provide <strong>metadata information to hive on EMR</strong>.</li>
+</ul>
+<h3 id="2-1-glue-etl"><strong>2-1 Glue ETL</strong></h3>
+<ul>
+<li>Can <strong>automatically generate code</strong> for you to <strong>perform that ETL after you define the transformations you want to make to your data in a graphical manner</strong>.</li>
+<li>Scala or Python </li>
+<li>Encryption  <ul>
+<li>Server-side (at rest) </li>
+<li>SSL (in transit) </li>
+</ul>
+</li>
+<li><strong>Can be event-driven</strong> </li>
+</ul>
+<blockquote>
+<p>It can be run in response to new data being discovered for example.</p>
+</blockquote>
+<ul>
+<li><strong>Can provision additional "DPU's" (data processing units)</strong> to increase performance of underlying Spark jobs </li>
+<li><strong>Errors reported to CloudWatch</strong> </li>
+</ul>
+<h2 id="3glue-etl-developer-endpointsrunning-etl-jobs-with-bookmarks"><strong>3、Glue ETL: Developer Endpoints,Running ETL Jobs with Bookmarks</strong></h2>
+<h3 id="3-1-glue-etl"><strong>3-1 Glue ETL</strong></h3>
+<ul>
+<li><strong>Transform data, Clean Data, Enrich Data (before doing analysis)</strong> <ul>
+<li>Generate ETL code in Python or Scala, you can modify the code </li>
+<li>Can provide your own Spark or PySpark scripts </li>
+<li>Target can be <strong>S3, JDBC (RDS, Redshift), or in Glue Data Catalog</strong> </li>
+</ul>
+</li>
+<li>Fully managed, cost effective, pay only for the resources consumed </li>
+<li><strong>Jobs are run on a serverless Spark platform</strong> </li>
+<li><strong>Glue Scheduler</strong> to schedule the jobs </li>
+<li>Glue Triggers to automate job runs based on "events" </li>
+</ul>
+<h3 id="3-2-glue-etl-transformations"><strong>3-2 Glue ETL - Transformations</strong></h3>
+<ul>
+<li>
+<p><strong><em>Bundled Transformations</em></strong>:  </p>
+<ul>
+<li><strong>DropFields, DropNullFields</strong> — remove (null) fields </li>
+<li><strong>Filter</strong> — specify a function to filter records </li>
+<li><strong>Join</strong> — to enrich data </li>
+<li><strong>Map</strong> - add fields, delete fields, perform external lookups • </li>
+</ul>
+</li>
+<li>
+<p><strong><em>Machine Learning Transformations</em></strong>:  </p>
+<ul>
+<li><strong>FindMatches ML</strong>: <strong>identify duplicate or matching records in your dataset, even when the records do not have a common unique identifier and no fields match exactly</strong>.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>You have multiple vendor is multiple third party merchants submitting their different products into the catalog. And often they're selling the same thing just under slightly different names or slightly different descriptions with fine matches that Mel. You can train that system on a known set of duplicate items and it will learn from that training set and use that information to identify future duplicates going forward that might not be exact matches but still represent the same thing.</p>
+</blockquote>
+<ul>
+<li>Format conversions: CSV, JSON, Avro, Parquet, ORC, XML </li>
+<li><strong>Apache Spark transformations</strong> (example: K-Means) </li>
+</ul>
+<h3 id="3-3-aws-glue-development-endpoints"><strong>3-3 AWS Glue Development Endpoints</strong></h3>
+<ul>
+<li>
+<p><em>Develop ETL scripts using a notebook</em> </p>
+<ul>
+<li>Then create an ETL job that runs your script (using Spark and Glue) </li>
+</ul>
+</li>
+<li>
+<p><em>Endpoint is in a VPC controlled by security groups</em>, connect via: </p>
+<ul>
+<li>Apache Zeppelin on your local machine </li>
+<li>Zeppelin notebook server on EC2 (via Glue console) </li>
+<li>SageMaker notebook </li>
+<li>Terminal window</li>
+<li>PyCharm professional edition </li>
+<li><strong>Use Elastic IP's to access a private endpoint address</strong> </li>
+</ul>
+</li>
+</ul>
+<h3 id="3-4-running-glue-jobs"><strong>3-4 Running Glue jobs</strong></h3>
+<ul>
+<li><strong>Time-based schedules (cron style)</strong> </li>
+</ul>
+<blockquote>
+<p>You can there's a glue scheduler that lets you run these on some sort of fixed frequency.</p>
+</blockquote>
+<ul>
+<li><strong>Job bookmarks</strong> <ul>
+<li>Persists state from the job run </li>
+<li><strong>Prevents reprocessing of old data</strong> </li>
+<li><strong>Allows you to process new data only</strong> when re-running on a schedule</li>
+<li>Works with S3 sources in a variety of formats </li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Mostly job bookmarks are used with S3 data links.</p>
+</blockquote>
+<ul>
+<li>Works with <strong>relational databases </strong>via JDBC (if PK'[<strong>primary key</strong>]s are in sequential order) </li>
+<li>
+<p>Only handles new rows, not updated rows</p>
+</li>
+<li>
+<p><strong>CloudWatch Events</strong> </p>
+<ul>
+<li>Fire off a Lambda function or SNS notification when ETL succeeds or fails </li>
+<li><strong>Invoke EC2 run, send event to Kinesis, activate a Step Functior</strong>, </li>
+</ul>
+</li>
+</ul>
+<h2 id="4glue-costs-and-anti-patterns"><strong>4、Glue Costs and Anti-Patterns</strong></h2>
+<h3 id="4-1-glue-cost-model"><strong>4-1 Glue cost model</strong></h3>
+<ul>
+<li>Billed by the minute for crawler and ETL jobs </li>
+<li>First million objects stored and accesses are free for the Glue Data Catalog</li>
+<li>Development endpoints for developing ETL code charged by the minute </li>
+</ul>
+<h3 id="4-2-glue-anti-patterns"><strong>4-2 Glue Anti-patterns</strong></h3>
+<ul>
+<li>Streaming data (<strong>Glue is batch oriented, minimum 5 minute intervals</strong>)</li>
+</ul>
+<blockquote>
+<p>Now if you must ETL your data while streaming it in it would be a better idea to perform your ETL using <strong>Kinesis</strong>, <strong>store the data in S3 or redshift</strong>, and then <strong>trigger glue ETL to continue transforming it</strong>.</p>
+<p>Or you use a trigger to <strong>actually kick off ETL on demand</strong> after your data has been coming in from some stream someplace now <strong>gclue ETL is implemented in spark</strong>.</p>
+</blockquote>
+<ul>
+<li>Multiple ETL engines </li>
+</ul>
+<blockquote>
+<p>You're going to be running jobs <strong>using other engines such as Hive or pig or something data pipeline or EMR might be a better choice</strong> for doing that ETL than glue ETL.</p>
+</blockquote>
+<ul>
+<li>NoSQL databases </li>
+</ul>
+<blockquote>
+<p><strong>Glue does not support NoSQL databases such as DynamoDB</strong> and that wouldn't make sense anyway because <strong>NoSQL databases don't require a rigid schema</strong>. Glue provides a <strong>schema</strong> for unstructured data for databases or analysis tools that <strong>require some sort of structure to the data</strong></p>
+</blockquote>
+<h2 id="5aws-glue-studio"><strong>5、AWS Glue Studio</strong></h2>
+<p><img alt="Alt Image Text" src="../../images/13_5.png" title="body image" /> </p>
+<ul>
+<li>Visual interface for ETL workflows </li>
+<li>
+<p>Visual job editor </p>
+<ul>
+<li>Create DAG's for complex workflows </li>
+<li><strong>Sources include S3, Kinesis, Kafka, JDBC</strong> </li>
+<li>Transform / sample / join data </li>
+<li><strong>Target to S3 or Glue Data Catalog</strong> </li>
+<li><strong>Support partitioning</strong> </li>
+</ul>
+</li>
+<li>
+<p>Visual job dashboard </p>
+<ul>
+<li>Overviews, status, run times </li>
+</ul>
+</li>
+</ul>
+<h3 id="5-1-create-aws-glue-studio-job"><strong>5-1 Create AWS Glue Studio Job</strong></h3>
+<ul>
+<li>Source: S3</li>
+<li>Target: S3</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/13_6.png" title="body image" /> </p>
+<p><img alt="Alt Image Text" src="../../images/13_7.png" title="body image" /> </p>
+<p><strong>Add filter and filter condition</strong></p>
+<p><img alt="Alt Image Text" src="../../images/13_8.png" title="body image" /> </p>
+<p><img alt="Alt Image Text" src="../../images/13_9.png" title="body image" /> </p>
+<h2 id="6aws-glue-databrew"><strong>6、AWS Glue Databrew</strong></h2>
+<p><img alt="Alt Image Text" src="../../images/13_10.png" title="body image" /> </p>
+<p><strong>A visual data preparation tool</strong></p>
+<ul>
+<li>UI for pre-processing large data sets </li>
+<li>Input from S3, data warehouse, or database </li>
+<li>Output to S3 </li>
+</ul>
+<p><strong>Over 250 ready-made transformations</strong> </p>
+<p><strong>You create "recipes" of transformations that can be saved as jobs within a larger project</strong> </p>
+<p><strong>Security</strong></p>
+<ul>
+<li>Can integrate with KMS (with customer master keys only) </li>
+<li>SSL in transit </li>
+<li>IAM can restrict who can do what </li>
+<li>CloudWatch &amp; CloudTrail </li>
+</ul>
+<h3 id="6-1-create-databrew-project"><strong>6-1 Create Databrew Project</strong></h3>
+<ul>
+<li>Add role</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/13_11.png" title="body image" /> </p>
+<ul>
+<li>Generate Sample Data</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/13_12.png" title="body image" /> </p>
+<ul>
+<li>Apply transformation and filter</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/13_13.png" title="body image" /> </p>
+<ul>
+<li>Add filter</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/13_14.png" title="body image" /> </p>
+<p><img alt="Alt Image Text" src="../../images/13_15.png" title="body image" /> </p>
+<p><strong>It's relatively a new feature and possibly an alternative to using Glue ETL</strong></p>
+<h2 id="7aws-glue-elastic-views"><strong>7、AWS Glue Elastic Views</strong></h2>
+<p><img alt="Alt Image Text" src="../../images/13_16.png" title="body image" /> </p>
+<ul>
+<li>Coming soon! </li>
+<li><strong>Builds materialized views from Aurora, RDS, DynamoDB</strong> </li>
+<li>Those views can be used by Redshift, Elasticsearch, S3, DynamoDB, Aurora, RDS </li>
+<li><strong>SQL interface</strong></li>
+<li>Handles any copying or combining / replicating data needed </li>
+<li>Monitors for changes and continuously updates</li>
+<li>Serverless </li>
+</ul>
+<h2 id="8aws-lake-formation"><strong>8、AWS Lake Formation</strong></h2>
+<p><img alt="Alt Image Text" src="../../images/13_17.png" title="body image" /> </p>
+<h3 id="8-1-aws-lake-formation"><strong>8-1 AWS Lake Formation</strong></h3>
+<ul>
+<li>"Makes it easy to set up a secure data lake in days" </li>
+<li>Loading data &amp; monitoring data flows </li>
+<li>Setting up partitions </li>
+<li>Encryption &amp; managing keys </li>
+<li>Defining transformation jobs &amp; monitorng them </li>
+<li>Access control </li>
+<li><strong>Auditing</strong> </li>
+<li><strong>Built on top of Glue</strong> </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/13_18.png" title="body image" /> </p>
+<h3 id="8-2-aws-lake-formation-pricing"><strong>8-2 AWS Lake Formation: Pricing</strong></h3>
+<ul>
+<li><strong>No cost for Lake Formation itself</strong> </li>
+<li>But underlying services incur charges <ul>
+<li>Glue </li>
+<li>S3 </li>
+<li>EMR </li>
+<li>Athena </li>
+<li>Redshift </li>
+</ul>
+</li>
+</ul>
+<h3 id="8-3-aws-lake-formation-building-a-data-lake"><strong>8-3 AWS Lake Formation: Building a Data Lake</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/13_19.png" title="body image" /></p>
+<h3 id="8-4-aws-lake-formation-the-finer-points"><strong>8-4 AWS Lake Formation: the Finer Points</strong></h3>
+<ul>
+<li>
+<p>Cross-account Lake Formation permission </p>
+<ul>
+<li><strong>Recipient must be set up as a data lake administrator</strong> </li>
+<li>Can use AWS Resource Access Manager for accounts external to your organization </li>
+<li>IAM permissions for cross-account access </li>
+</ul>
+</li>
+<li>
+<p><strong>Lake Formation does not support manifests in Athena or Redshift queries</strong> </p>
+</li>
+<li><strong>IAM permissions on the KMS encryption key are needed for encrypted data catalogs in Lake Formation</strong> </li>
+<li><strong>IAM permissions needed to create blueprints and workflows</strong> </li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.fac441b0.min.js"></script>
+      
+    
+  </body>
+</html>

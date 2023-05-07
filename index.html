@@ -1,0 +1,1858 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's AWS Certified Big Data Specialty">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+        <link rel="canonical" href="https://chao-xi.github.io/jxawscbdbook/">
+      
+      
+      
+        <link rel="next" href="chap1/1intro/">
+      
+      <link rel="icon" href="images/logo.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
+    
+    
+      
+        <title>Jacob AWS Certified Big Data Specialty Tutorial</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.85bb2934.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.a6bdf11c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="amber" data-md-color-accent="amber">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#aws-certified-data-analytics-tutorial" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="." title="Jacob AWS Certified Big Data Specialty Tutorial" class="md-header__button md-logo" aria-label="Jacob AWS Certified Big Data Specialty Tutorial" data-md-component="logo">
+      
+  <img src="images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AWS Certified Big Data Specialty Tutorial
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Welcome
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxawscbdbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscbdbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="Jacob AWS Certified Big Data Specialty Tutorial" class="md-nav__button md-logo" aria-label="Jacob AWS Certified Big Data Specialty Tutorial" data-md-component="logo">
+      
+  <img src="images/logo.png" alt="logo">
+
+    </a>
+    Jacob AWS Certified Big Data Specialty Tutorial
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxawscbdbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscbdbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Welcome
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        Welcome
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#about-this-tutorial" class="md-nav__link">
+    About this tutorial
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+    <nav class="md-nav" aria-label="Description">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#previous-on-my-technolog-book" class="md-nav__link">
+    Previous on my Technolog book
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#salut-cest-moi" class="md-nav__link">
+    Salut! C'est Moi
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tutorial-content" class="md-nav__link">
+    Tutorial content
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#to-be-continue" class="md-nav__link">
+    To be continue
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Section1:Intro
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Section1:Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap1/1intro/" class="md-nav__link">
+        AWS Certified Big Data Specialty 2020 - In Depth & Hands On!
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Section2:Collection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Section2:Collection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap2/2Kinesis_data_collection/" class="md-nav__link">
+        L1 Collections - Kinesis DataStream Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap2/3Coll_Kinesis_Firehose_Exer/" class="md-nav__link">
+        L2 [Exercise] Kinesis Firehose (PurchaseLogs/OrderLogs)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap2/4Coll_Kinesis_DS_Exer/" class="md-nav__link">
+        L3 [Exercise] Kinesis Data Streams
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap2/5Coll_SQS_Kinesis/" class="md-nav__link">
+        L4 SQS vs. Kinesis Data Stream
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap2/6Coll_IOT/" class="md-nav__link">
+        L5 IoT Overview and DeepDive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap2/7Coll_Others/" class="md-nav__link">
+        L6 Data Collection Others
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap2/7Coll_MSK/" class="md-nav__link">
+        L7 MSK Managed Streaming for Apache Kafka (Amazon MSK)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Section3:Storage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Section3:Storage
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap3/8Storage_S3/" class="md-nav__link">
+        L1 Storage S3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap3/9Storage_dynamoDB/" class="md-nav__link">
+        L2 DynamoDB Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap3/8Hands_onS3/" class="md-nav__link">
+        L3 Hands on S3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap3/10Storage_cache/" class="md-nav__link">
+        L4 ElastiCache Overview
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Section4:Processing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Section4:Processing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap4/11Process_Lambda/" class="md-nav__link">
+        L1 AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap4/12Process_Lambda_Exer/" class="md-nav__link">
+        L2 [Exercise] AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap4/13Process_ETL_intro/" class="md-nav__link">
+        L3 AWS Glue and Lake Formation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap4/15process_EMR/" class="md-nav__link">
+        L4 EMR Elastic MapReduce
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap4/17Process_EMR_Exer/" class="md-nav__link">
+        L5 Elastic MapReduce Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap4/15process_DataPipeline/" class="md-nav__link">
+        L6 AWS Data Pipeline
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap4/20Process_DL/" class="md-nav__link">
+        L7 Deep Learning
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Section5:Analysis
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Section5:Analysis
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap5/21Ana_KA/" class="md-nav__link">
+        L1 Amazon Kinesis Data Analytics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap5/22Ana_Kinesis_ana_Exer/" class="md-nav__link">
+        L2 Kinesis Analytics Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap5/23Ana_ES/" class="md-nav__link">
+        L3 Amazon Elasticsearch Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap5/24Ana_ES_Exer/" class="md-nav__link">
+        L4 Amazon Elasticsearch Service Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap5/25Ana_Athena/" class="md-nav__link">
+        L5 Amazon Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap5/26Glue_Athena_Exer/" class="md-nav__link">
+        L6 [Exercise] AWS Glue and Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap5/27Ana_Redshift/" class="md-nav__link">
+        L7 AWS Redshift
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap5/28Redshift_Spectrum_exer/" class="md-nav__link">
+        L8 [Exercise] Redshift Spectrum
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          Section6:Visualization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Section6:Visualization
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap6/30Vis_Qs/" class="md-nav__link">
+        L1 Visualization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap6/31Vis_Exer/" class="md-nav__link">
+        L2 Amazon Quicksight Exercise
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          Section7:Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Section7:Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap7/32Secu_Encryption/" class="md-nav__link">
+        L1 Security - Encryption
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap7/33Secu_bg_svc/" class="md-nav__link">
+        L2 AWS Services Security Deep Dive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap7/34Secu_account_fedration/" class="md-nav__link">
+        L3 Account and Identity Federation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap7/35Secu_others/" class="md-nav__link">
+        L4 Polices, CloudTrail & VPCe
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          Section8:WrapUp
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          Section8:WrapUp
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap8/36bg_integration/" class="md-nav__link">
+        L1 AWS Bigdata Integration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap8/37bg_instances/" class="md-nav__link">
+        L2 AWS Big Data Instances
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+          Section9:Machine Learning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          Section9:Machine Learning
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap9/18Process_ML/" class="md-nav__link">
+        AWS Machine Learning （Amazon ML Service/Amazon SageMaker)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+          Section10:Quizs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Section10:Quizs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap10/qz1_coll/" class="md-nav__link">
+        Quiz1 Collection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap10/qz2_storage/" class="md-nav__link">
+        Quiz2 Storage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap10/qz3_lambda/" class="md-nav__link">
+        Quiz3 AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap10/qz4_glue/" class="md-nav__link">
+        Quiz4 AWS Glue
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap10/qz5_emr/" class="md-nav__link">
+        Quiz5 EMR and the Hadoop Ecosystem
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap10/qz6_ka/" class="md-nav__link">
+        Quiz6 Kinesis Analytics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap10/qz7_ES/" class="md-nav__link">
+        Quiz7 Amazon ES
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap10/qz8_athena/" class="md-nav__link">
+        Quiz8 Amazon Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap10/qz9_redshift/" class="md-nav__link">
+        Quiz9 Amazon Redshift
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap10/qz10_quicksight/" class="md-nav__link">
+        Quiz10 Amazon Quicksight
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap10/qz11_security/" class="md-nav__link">
+        Quiz11 Security
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap10/qz12_ML/" class="md-nav__link">
+        Quiz12 Amazon Machine Learning and Sagemaker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap10/qz_final/" class="md-nav__link">
+        AWS Certified Data Analytics Specialty Practice Exam
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+          Section11: Learning Big Data
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_12">
+          <span class="md-nav__icon md-icon"></span>
+          Section11: Learning Big Data
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap11/chap11_1bigdata_intro/" class="md-nav__link">
+        第一节 大数据体系中明确路径
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap11/chap11_2bigdata_structure/" class="md-nav__link">
+        第二节 大数据架构 & Hadoop介绍
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap11/chap11_3bigdata_coll/" class="md-nav__link">
+        第三节 大数据中的数据来源
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap11/chap11_4bigdata_hdfs/" class="md-nav__link">
+        第四节 HDFS解决大数据存储问题 & Hadoop on K8S
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap11/chap11_5bigdata_hive_hbase/" class="md-nav__link">
+        第五节 HBase 和 Hive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap11/chap11_6bigdtat_kafka_flume/" class="md-nav__link">
+        第六节 消息系统 Kafka 与 Flume
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap11/chap11_7bigdata_mapreduce/" class="md-nav__link">
+        第七节 MapReduce 处理大数据
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap11/chap11_8bigdata_spark/" class="md-nav__link">
+        第八节 Spark 与 Flink 的爱恨情仇 (Spark)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap11/chap11_9bigdata_flink/" class="md-nav__link">
+        第九节 Spark 与 Flink 的爱恨情仇 (Flink)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap11/chap11_10data_mining/" class="md-nav__link">
+        第十节 数据挖掘
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+          Section12: AWS Big Data Concept(CN)
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_13">
+          <span class="md-nav__icon md-icon"></span>
+          Section12: AWS Big Data Concept(CN)
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap12/1aws_data_storage/" class="md-nav__link">
+        数据库、数据湖、数据仓库、湖仓一体、智能湖仓
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chap12/2aws_emr_20230421/" class="md-nav__link">
+        20230421-云原生大数据EMR研讨会
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#about-this-tutorial" class="md-nav__link">
+    About this tutorial
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+    <nav class="md-nav" aria-label="Description">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#previous-on-my-technolog-book" class="md-nav__link">
+    Previous on my Technolog book
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#salut-cest-moi" class="md-nav__link">
+    Salut! C'est Moi
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tutorial-content" class="md-nav__link">
+    Tutorial content
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#to-be-continue" class="md-nav__link">
+    To be continue
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="aws-certified-data-analytics-tutorial"><strong>AWS Certified Data Analytics Tutorial</strong></h1>
+<blockquote>
+<p>Started at May. 2021 By Jacob Xi </p>
+</blockquote>
+<h2 id="about-this-tutorial"><strong>About this tutorial</strong></h2>
+<p>This books is my 6th tech books published recently and my 1st English version tutorial book. And this book is my favorite and hard-working book so far. The weather is getting hotter and hotter☀️, thank you so much team colleagues' and friends' support and instruction. # Have to Keigo Higashino📚 is my favorite Japanese author， “The Miracles of the Namiya General Store” is one of my loving book</p>
+<p><img alt="Alt Image Text" src="images/1_1.png" title="body image" /> </p>
+<h2 id="description"><strong>Description</strong></h2>
+<p><strong>The AWS Certified Data Analytics Specialty Exam is one of the most challenging certification exams you can take from Amazon</strong>. Passing it tells employers in no uncertain terms that your knowledge of big data systems is wide and deep.</p>
+<p>The world of data analytics on AWS includes a dizzying array of technologies and services. Just a sampling of the topics I cover in-depth are:</p>
+<ul>
+<li>Streaming massive data with <strong>AWS Kinesis</strong></li>
+<li>Queuing messages with Simple Queue Service (<strong>SQS</strong>)</li>
+<li>Wrangling the explosion data from the <strong>Internet of Things (IOT)</strong></li>
+<li>Transitioning from small to big data with the <strong>AWS Database Migration Service (DMS)</strong></li>
+<li>Storing massive <strong>data lakes</strong> with the Simple Storage Service (<strong>S3</strong>)</li>
+<li>Optimizing transactional queries with <strong>DynamoDB</strong></li>
+<li>TRying your big data systems together with <strong>AWS Lambda</strong></li>
+<li>Making unstructured data query-able with <strong>AWS Glue, Glue ETL, Glue DataBrew, Glue Studio, and Lake Formation</strong></li>
+<li>Processing data at unlimited scale with <strong>Elastic MapReduce, including Apache Spark, Hive, HBase, Presto, Zeppelin, Splunk, and Flume</strong></li>
+<li>Applying neural networks at massive scale with <strong>Deep Learning, MXNet, and Tensorflow</strong></li>
+<li>Applying advanced machine learning algorithms at scale with <strong>Amazon SageMaker</strong></li>
+<li>Analyzing streaming data in real-time with <strong>Kinesis Analytics</strong></li>
+<li>Searching and analyzing petabyte-scale data with <strong>Amazon Elasticsearch Service</strong></li>
+<li>Querying S3 data lakes with Amazon <strong>Athena</strong></li>
+<li>Hosting massive-scale data warehouses with <strong>Redshift and Redshift Spectrum</strong></li>
+<li>Integrating smaller data with your big data, using the <strong>Relational Database Service (RDS) and Aurora</strong></li>
+<li>Visualizing your data interactively with <strong>Quicksight</strong></li>
+<li>Keeping your data secure with encryption, <strong>KMS, HSM, IAM, Cognito, STS, and more</strong></li>
+</ul>
+<p><img alt="Alt Image Text" src="images/0_1.jpeg" title="body image" /> </p>
+<h3 id="previous-on-my-technolog-book"><strong>Previous on my Technolog book</strong></h3>
+<blockquote>
+<p><a href="https://chao-xi.github.io/jxjenkinsbook/">手摸手 Jenkins 战术教程 (大师版）</a></p>
+<p><a href="https://chao-xi.github.io/jxes7book/">手摸手 Elasticsearch7 技术与实战教程</a></p>
+<p><a href="https://chao-xi.github.io/jxredisbook/">手摸手 Redis 技术与实战教程</a></p>
+<p><a href="https://chao-xi.github.io/jxchefbook/">手摸手 Chef &amp; Ansible 技术与实战教程</a></p>
+<p><a href="https://chao-xi.github.io/jxdmsbook/">手摸手 分布式与流式系统 (In progress)</a></p>
+<p><a href="https://chao-xi.github.io/jxazurebook/">Azure 103&amp;900 Tutorial (In progress)</a></p>
+<p><a href="https://chao-xi.github.io/jxperfbook/">手摸手 Linux Performance &amp; 面试实战教程</a></p>
+<p><a href="https://chao-xi.github.io/jxdatabasebook/">手摸手 Databases 全教程</a></p>
+</blockquote>
+<h2 id="salut-cest-moi"><strong>Salut! C'est Moi</strong></h2>
+<blockquote>
+<p>The man is not old as long as he is seeking something, A man is not old until regrets take the place of dreams.</p>
+</blockquote>
+<p>Hello, this is me, Jacob. Currently, I'm working as DevOps and Cloud Engineer in SAP, and I'm the certified AWS Solution Architect and Certified Azure Administrator, Kubernetes Specialist, Jenkins CI/CD and ElasticStack enthusiast. </p>
+<p>I was working as Backend Engineer in New York City and achieved my CS master degree in SIT, America. Believe it or not, I'll keep writing, more and more books will come out at such dramatic and unprecedented 2021. </p>
+<p>If you have anything want to talk to me directly, you can reach out for via email xichao2015@outlook.com。</p>
+<p>Salute, c'est moi, Jacob. Actuellement, je travaille en tant qu'ingénieur DevOps et Cloud dans SAP, et je suis architecte de solution AWS certifié et administrateur Azure certifié, spécialiste Kubernetes et passionné de CI/CD.</p>
+<p>Je travaillais en tant qu'ingénieur backend à New York et j'ai obtenu mon master CS à SIT, en Amérique. Croyez-le ou non, je continuerai à écrire, de plus en plus de livres sortiront cette année.</p>
+<h2 id="tutorial-content"><strong>Tutorial content</strong></h2>
+<ul>
+<li><strong>Section1:   Intro</strong><ul>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap1/1intro/">AWS Certified Big Data Specialty 2020 - In Depth &amp; Hands On!</a></li>
+</ul>
+</li>
+<li><strong>Section2:   Collection</strong><ul>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap2/2Kinesis_data_collection/">L1 Collections - Kinesis DataStream Overview</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap2/3Coll_Kinesis_Firehose_Exer/">L2 [Exercise] Kinesis Firehose (PurchaseLogs/OrderLogs)</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap2/4Coll_Kinesis_DS_Exer/">L3 [Exercise] Kinesis Data Streams</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap2/5Coll_SQS_Kinesis/">L4 SQS vs. Kinesis Data Stream</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap2/6Coll_IOT/">L5 IoT Overview and DeepDive</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap2/7Coll_Others/">L6 Data Collection Others</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap2/7Coll_MSK/">L7 MSK Managed Streaming for Apache Kafka (Amazon MSK)</a></li>
+</ul>
+</li>
+<li><strong>Section3:   Storage</strong><ul>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap3/8Storage_S3/">L1 Storage S3</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap3/9Storage_dynamoDB/">L2 DynamoDB</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap3/8Hands_onS3/">L3 Hands on S3</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap3/10Storage_cache/">L4 ElastiCache Overview</a></li>
+</ul>
+</li>
+<li><strong>Section4:   Processing</strong><ul>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap4/11Process_Lambda/">L1 AWS Lambda</a> </li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap4/12Process_Lambda_Exer/">L2 [Exercise] AWS Lambda</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap4/13Process_ETL_intro/">L3 AWS Glue &amp; Lake Formation</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap4/15process_EMR/">L4 EMR Elastic MapReduce</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap4/17Process_EMR_Exer/">L5 Elastic MapReduce Exercise</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap4/15process_DataPipeline/">L6 AWS Data Pipeline</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap4/20Process_DL/">L7 Deep Learning</a></li>
+</ul>
+</li>
+<li><strong>Section5:   Analysis</strong><ul>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap5/21Ana_KA/">L1 Kinesis Analytics</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap5/22Ana_Kinesis_ana_Exer/">L2 Kinesis Analytics Exercise</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap5/23Ana_ES/">L3 Amazon Elasticsearch Service</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap5/24Ana_ES_Exer/">L4 Amazon Elasticsearch Service Exercise</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap5/25Ana_Athena/">L5 Amazon Athena</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap5/26Glue_Athena_Exer/">L6 [Exercise] AWS Glue and Athena</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap5/27Ana_Redshift/">L7 AWS Redshift</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap5/28Redshift_Spectrum_exer/">L8 [Exercise] Redshift Spectrum</a></li>
+</ul>
+</li>
+<li><strong>Section6:   Visualization</strong><ul>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap6/30Vis_Qs/">L1 Visualization</a> </li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap6/31Vis_Exer/">L2 Amazon Quicksight Exercise</a></li>
+</ul>
+</li>
+<li><strong>Section7:   Security</strong><ul>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap7/32Secu_Encryption/">L1 Security - Encryption</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap7/33Secu_bg_svc/">L2 AWS Services Security Deep Dive</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap7/34Secu_account_fedration/">L3 Account and Identity Federation</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap7/35Secu_others/">L4 Polices, CloudTrail &amp; VPCe</a></li>
+</ul>
+</li>
+<li><strong>Section8:   WrapUp</strong><ul>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap8/36bg_integration/">L1 AWS Bigdata Integration</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap8/37bg_instances/">L2 AWS Big Data Instances</a></li>
+</ul>
+</li>
+<li><strong>Section9:   Machine Learning</strong><ul>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap9/18Process_ML/">AWS Machine Learning （Amazon ML Service/Amazon SageMaker)</a></li>
+</ul>
+</li>
+<li><strong>Section10:  Quizs</strong><ul>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap10/qz1_coll/">Quiz1 Collection</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap10/qz2_storage/">Quiz2 Storage</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap10/qz3_lambda/">Quiz3 AWS Lambda</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap10/qz4_glue/">Quiz4 AWS Glue</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap10/qz5_emr/">Quiz5 EMR and the Hadoop Ecosystem</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap10/qz6_ka/">Quiz6 Kinesis Analytics</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap10/qz7_ES/">Quiz7 Amazon ES</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap10/qz8_athena/">Quiz8 Amazon Athena</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap10/qz9_redshift/">Quiz9 Amazon Redshift</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap10/qz10_quicksight/">Quiz10 Amazon Quicksight</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap10/qz11_security/">Quiz11 Security</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap10/qz12_ML/">Quiz12 Amazon Machine Learning and Sagemaker</a></li>
+<li><a href="https://chao-xi.github.io/jxawscbdbook/chap10/qz_final/">AWS Certified Data Analytics Specialty Practice Exam</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="to-be-continue"><strong>To be continue</strong></h2>
+<p>I will put more effort do finish "Azure 103&amp;900 Tutorial book" and "Distributed Message System Book" this month hopefully. And starting working on "AWS Solution Arcitect" and "Istio", please waiting for it.🙂</p>
+<p><img alt="Alt Image Text" src="images/aws_network_architecture.png" title="body image" /> </p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.fac441b0.min.js"></script>
+      
+    
+  </body>
+</html>

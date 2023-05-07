@@ -1,0 +1,3166 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's AWS Certified Big Data Specialty">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+        <link rel="canonical" href="https://chao-xi.github.io/jxawscbdbook/chap4/15process_EMR/">
+      
+      
+        <link rel="prev" href="../13Process_ETL_intro/">
+      
+      
+        <link rel="next" href="../17Process_EMR_Exer/">
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
+    
+    
+      
+        <title>L4 EMR Elastic MapReduce - Jacob AWS Certified Big Data Specialty Tutorial</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a6bdf11c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="amber" data-md-color-accent="amber">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#l4-emr-elastic-mapreduce" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AWS Certified Big Data Specialty Tutorial" class="md-header__button md-logo" aria-label="Jacob AWS Certified Big Data Specialty Tutorial" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AWS Certified Big Data Specialty Tutorial
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              L4 EMR Elastic MapReduce
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxawscbdbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscbdbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AWS Certified Big Data Specialty Tutorial" class="md-nav__button md-logo" aria-label="Jacob AWS Certified Big Data Specialty Tutorial" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AWS Certified Big Data Specialty Tutorial
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxawscbdbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscbdbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Section1:Intro
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Section1:Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/1intro/" class="md-nav__link">
+        AWS Certified Big Data Specialty 2020 - In Depth & Hands On!
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Section2:Collection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Section2:Collection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/2Kinesis_data_collection/" class="md-nav__link">
+        L1 Collections - Kinesis DataStream Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/3Coll_Kinesis_Firehose_Exer/" class="md-nav__link">
+        L2 [Exercise] Kinesis Firehose (PurchaseLogs/OrderLogs)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/4Coll_Kinesis_DS_Exer/" class="md-nav__link">
+        L3 [Exercise] Kinesis Data Streams
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/5Coll_SQS_Kinesis/" class="md-nav__link">
+        L4 SQS vs. Kinesis Data Stream
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/6Coll_IOT/" class="md-nav__link">
+        L5 IoT Overview and DeepDive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/7Coll_Others/" class="md-nav__link">
+        L6 Data Collection Others
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/7Coll_MSK/" class="md-nav__link">
+        L7 MSK Managed Streaming for Apache Kafka (Amazon MSK)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Section3:Storage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Section3:Storage
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8Storage_S3/" class="md-nav__link">
+        L1 Storage S3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/9Storage_dynamoDB/" class="md-nav__link">
+        L2 DynamoDB Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8Hands_onS3/" class="md-nav__link">
+        L3 Hands on S3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/10Storage_cache/" class="md-nav__link">
+        L4 ElastiCache Overview
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Section4:Processing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Section4:Processing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11Process_Lambda/" class="md-nav__link">
+        L1 AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12Process_Lambda_Exer/" class="md-nav__link">
+        L2 [Exercise] AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13Process_ETL_intro/" class="md-nav__link">
+        L3 AWS Glue and Lake Formation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          L4 EMR Elastic MapReduce
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        L4 EMR Elastic MapReduce
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1elastic-mapreduce-emr-architecture-and-usage" class="md-nav__link">
+    1、Elastic MapReduce (EMR) Architecture and Usage
+  </a>
+  
+    <nav class="md-nav" aria-label="1、Elastic MapReduce (EMR) Architecture and Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-what-is-emr" class="md-nav__link">
+    1-1 What is EMR?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-an-emr-cluster" class="md-nav__link">
+    1-2 An EMR Cluster
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-emr-usage" class="md-nav__link">
+    1-3 EMR Usage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2emr-aws-integration-and-storage" class="md-nav__link">
+    2、EMR, AWS integration, and Storage
+  </a>
+  
+    <nav class="md-nav" aria-label="2、EMR, AWS integration, and Storage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-emr-aws-integration" class="md-nav__link">
+    2-1 EMR / AWS Integration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-emr-storage" class="md-nav__link">
+    2-2 EMR Storage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-3-hdfs-description-hadoop-distributed-file-system" class="md-nav__link">
+    2-3 HDFS Description (Hadoop distributed file system)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-4-hdfs-block" class="md-nav__link">
+    2-4 HDFS Block
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-5-emrfs" class="md-nav__link">
+    2-5 EMRFS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-6-local-file-system" class="md-nav__link">
+    2-6 Local file system
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-7-ebs-for-hdfs" class="md-nav__link">
+    2-7 EBS for HDFS
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3emr-promises-intro-to-hadoop" class="md-nav__link">
+    3、EMR Promises; Intro to Hadoop
+  </a>
+  
+    <nav class="md-nav" aria-label="3、EMR Promises; Intro to Hadoop">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-1-emr-promises" class="md-nav__link">
+    3-1 EMR promises
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2-whats-hadoop" class="md-nav__link">
+    3-2 What's hadoop
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4intro-to-apache-spark" class="md-nav__link">
+    4、Intro to Apache Spark
+  </a>
+  
+    <nav class="md-nav" aria-label="4、Intro to Apache Spark">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-apache-spark" class="md-nav__link">
+    4-1 Apache Spark
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2-what-is-spark" class="md-nav__link">
+    4-2 What is Spark
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-3-how-to-use-spark" class="md-nav__link">
+    4-3 How to use Spark
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-4-how-spark-works" class="md-nav__link">
+    4-4 How Spark Works
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-5-spark-components" class="md-nav__link">
+    4-5 Spark Components
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-1-spark-structured-streaming" class="md-nav__link">
+    5-1 Spark Structured Streaming
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-2-spark-streaming-kinesis" class="md-nav__link">
+    5-2 Spark Streaming + Kinesis
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-3-spark-redshift" class="md-nav__link">
+    5-3 Spark + Redshift
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6hive-on-emr" class="md-nav__link">
+    6、Hive on EMR
+  </a>
+  
+    <nav class="md-nav" aria-label="6、Hive on EMR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-1-apache-hive" class="md-nav__link">
+    6-1 Apache Hive
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-2-why-hive" class="md-nav__link">
+    6-2 Why Hive?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-3-the-hive-metastore" class="md-nav__link">
+    6-3 The Hive Metastore
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-4-external-hive-metastores" class="md-nav__link">
+    6-4 External Hive Metastores
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-5-aws-integrates-with-hive-in-other-ways" class="md-nav__link">
+    6-5 AWS integrates with Hive in other ways
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7apache-pig-on-emr" class="md-nav__link">
+    7、Apache Pig on EMR
+  </a>
+  
+    <nav class="md-nav" aria-label="7、Apache Pig on EMR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#7-1-how-pig-works" class="md-nav__link">
+    7-1 How pig works
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-2-pig-aws-integration" class="md-nav__link">
+    7-2 Pig AWS Integration
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8hbase-on-emr" class="md-nav__link">
+    8、HBase on EMR
+  </a>
+  
+    <nav class="md-nav" aria-label="8、HBase on EMR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8-1-sounds-a-lot-like-dynamodb" class="md-nav__link">
+    8-1 Sounds a lot like DynamoDB
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-2-hbase-aws-integration" class="md-nav__link">
+    8-2 HBase AWS integration
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9presto-on-emr" class="md-nav__link">
+    9、Presto on EMR
+  </a>
+  
+    <nav class="md-nav" aria-label="9、Presto on EMR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#9-1-presto" class="md-nav__link">
+    9-1 Presto
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-2-presto-connectors" class="md-nav__link">
+    9-2 Presto connectors
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10zeppelin-and-emr-notebooks" class="md-nav__link">
+    10、Zeppelin and EMR Notebooks
+  </a>
+  
+    <nav class="md-nav" aria-label="10、Zeppelin and EMR Notebooks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#10-1-zeppelin-spark" class="md-nav__link">
+    10-1 Zeppelin + Spark
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-2-emr-notebook" class="md-nav__link">
+    10-2 EMR Notebook
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-3-emr-notebook-features" class="md-nav__link">
+    10-3 EMR Notebook Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11hue-splunk-and-flume" class="md-nav__link">
+    11、Hue, Splunk, and Flume
+  </a>
+  
+    <nav class="md-nav" aria-label="11、Hue, Splunk, and Flume">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-1-hue" class="md-nav__link">
+    11-1 Hue
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-2-splunk" class="md-nav__link">
+    11-2 Splunk
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-3-flume" class="md-nav__link">
+    11-3 Flume
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-4-mxnet" class="md-nav__link">
+    11-4 MXNet
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12s3distcp-and-other-services" class="md-nav__link">
+    12、S3DistCP and Other Services
+  </a>
+  
+    <nav class="md-nav" aria-label="12、S3DistCP and Other Services">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#12-1-other-emr-hadoop-tools-throw-out-for-misdirect" class="md-nav__link">
+    12-1 Other EMR / Hadoop Tools (Throw out for misdirect)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13emr-security-and-instance-types" class="md-nav__link">
+    13、EMR Security and Instance Types
+  </a>
+  
+    <nav class="md-nav" aria-label="13、EMR Security and Instance Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#13-1-emr-security" class="md-nav__link">
+    13-1 EMR Security
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-2-emr-choosing-instance-types" class="md-nav__link">
+    13-2 EMR: Choosing Instance Types
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../17Process_EMR_Exer/" class="md-nav__link">
+        L5 Elastic MapReduce Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15process_DataPipeline/" class="md-nav__link">
+        L6 AWS Data Pipeline
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../20Process_DL/" class="md-nav__link">
+        L7 Deep Learning
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Section5:Analysis
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Section5:Analysis
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/21Ana_KA/" class="md-nav__link">
+        L1 Amazon Kinesis Data Analytics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/22Ana_Kinesis_ana_Exer/" class="md-nav__link">
+        L2 Kinesis Analytics Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/23Ana_ES/" class="md-nav__link">
+        L3 Amazon Elasticsearch Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/24Ana_ES_Exer/" class="md-nav__link">
+        L4 Amazon Elasticsearch Service Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/25Ana_Athena/" class="md-nav__link">
+        L5 Amazon Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/26Glue_Athena_Exer/" class="md-nav__link">
+        L6 [Exercise] AWS Glue and Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/27Ana_Redshift/" class="md-nav__link">
+        L7 AWS Redshift
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/28Redshift_Spectrum_exer/" class="md-nav__link">
+        L8 [Exercise] Redshift Spectrum
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          Section6:Visualization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Section6:Visualization
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6/30Vis_Qs/" class="md-nav__link">
+        L1 Visualization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6/31Vis_Exer/" class="md-nav__link">
+        L2 Amazon Quicksight Exercise
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          Section7:Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Section7:Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/32Secu_Encryption/" class="md-nav__link">
+        L1 Security - Encryption
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/33Secu_bg_svc/" class="md-nav__link">
+        L2 AWS Services Security Deep Dive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/34Secu_account_fedration/" class="md-nav__link">
+        L3 Account and Identity Federation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/35Secu_others/" class="md-nav__link">
+        L4 Polices, CloudTrail & VPCe
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          Section8:WrapUp
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          Section8:WrapUp
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8/36bg_integration/" class="md-nav__link">
+        L1 AWS Bigdata Integration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8/37bg_instances/" class="md-nav__link">
+        L2 AWS Big Data Instances
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+          Section9:Machine Learning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          Section9:Machine Learning
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9/18Process_ML/" class="md-nav__link">
+        AWS Machine Learning （Amazon ML Service/Amazon SageMaker)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+          Section10:Quizs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Section10:Quizs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz1_coll/" class="md-nav__link">
+        Quiz1 Collection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz2_storage/" class="md-nav__link">
+        Quiz2 Storage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz3_lambda/" class="md-nav__link">
+        Quiz3 AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz4_glue/" class="md-nav__link">
+        Quiz4 AWS Glue
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz5_emr/" class="md-nav__link">
+        Quiz5 EMR and the Hadoop Ecosystem
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz6_ka/" class="md-nav__link">
+        Quiz6 Kinesis Analytics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz7_ES/" class="md-nav__link">
+        Quiz7 Amazon ES
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz8_athena/" class="md-nav__link">
+        Quiz8 Amazon Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz9_redshift/" class="md-nav__link">
+        Quiz9 Amazon Redshift
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz10_quicksight/" class="md-nav__link">
+        Quiz10 Amazon Quicksight
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz11_security/" class="md-nav__link">
+        Quiz11 Security
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz12_ML/" class="md-nav__link">
+        Quiz12 Amazon Machine Learning and Sagemaker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz_final/" class="md-nav__link">
+        AWS Certified Data Analytics Specialty Practice Exam
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+          Section11: Learning Big Data
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_12">
+          <span class="md-nav__icon md-icon"></span>
+          Section11: Learning Big Data
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_1bigdata_intro/" class="md-nav__link">
+        第一节 大数据体系中明确路径
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_2bigdata_structure/" class="md-nav__link">
+        第二节 大数据架构 & Hadoop介绍
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_3bigdata_coll/" class="md-nav__link">
+        第三节 大数据中的数据来源
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_4bigdata_hdfs/" class="md-nav__link">
+        第四节 HDFS解决大数据存储问题 & Hadoop on K8S
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_5bigdata_hive_hbase/" class="md-nav__link">
+        第五节 HBase 和 Hive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_6bigdtat_kafka_flume/" class="md-nav__link">
+        第六节 消息系统 Kafka 与 Flume
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_7bigdata_mapreduce/" class="md-nav__link">
+        第七节 MapReduce 处理大数据
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_8bigdata_spark/" class="md-nav__link">
+        第八节 Spark 与 Flink 的爱恨情仇 (Spark)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_9bigdata_flink/" class="md-nav__link">
+        第九节 Spark 与 Flink 的爱恨情仇 (Flink)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_10data_mining/" class="md-nav__link">
+        第十节 数据挖掘
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+          Section12: AWS Big Data Concept(CN)
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_13">
+          <span class="md-nav__icon md-icon"></span>
+          Section12: AWS Big Data Concept(CN)
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap12/1aws_data_storage/" class="md-nav__link">
+        数据库、数据湖、数据仓库、湖仓一体、智能湖仓
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap12/2aws_emr_20230421/" class="md-nav__link">
+        20230421-云原生大数据EMR研讨会
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1elastic-mapreduce-emr-architecture-and-usage" class="md-nav__link">
+    1、Elastic MapReduce (EMR) Architecture and Usage
+  </a>
+  
+    <nav class="md-nav" aria-label="1、Elastic MapReduce (EMR) Architecture and Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-what-is-emr" class="md-nav__link">
+    1-1 What is EMR?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-an-emr-cluster" class="md-nav__link">
+    1-2 An EMR Cluster
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-emr-usage" class="md-nav__link">
+    1-3 EMR Usage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2emr-aws-integration-and-storage" class="md-nav__link">
+    2、EMR, AWS integration, and Storage
+  </a>
+  
+    <nav class="md-nav" aria-label="2、EMR, AWS integration, and Storage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-emr-aws-integration" class="md-nav__link">
+    2-1 EMR / AWS Integration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-emr-storage" class="md-nav__link">
+    2-2 EMR Storage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-3-hdfs-description-hadoop-distributed-file-system" class="md-nav__link">
+    2-3 HDFS Description (Hadoop distributed file system)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-4-hdfs-block" class="md-nav__link">
+    2-4 HDFS Block
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-5-emrfs" class="md-nav__link">
+    2-5 EMRFS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-6-local-file-system" class="md-nav__link">
+    2-6 Local file system
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-7-ebs-for-hdfs" class="md-nav__link">
+    2-7 EBS for HDFS
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3emr-promises-intro-to-hadoop" class="md-nav__link">
+    3、EMR Promises; Intro to Hadoop
+  </a>
+  
+    <nav class="md-nav" aria-label="3、EMR Promises; Intro to Hadoop">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-1-emr-promises" class="md-nav__link">
+    3-1 EMR promises
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2-whats-hadoop" class="md-nav__link">
+    3-2 What's hadoop
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4intro-to-apache-spark" class="md-nav__link">
+    4、Intro to Apache Spark
+  </a>
+  
+    <nav class="md-nav" aria-label="4、Intro to Apache Spark">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-apache-spark" class="md-nav__link">
+    4-1 Apache Spark
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2-what-is-spark" class="md-nav__link">
+    4-2 What is Spark
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-3-how-to-use-spark" class="md-nav__link">
+    4-3 How to use Spark
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-4-how-spark-works" class="md-nav__link">
+    4-4 How Spark Works
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-5-spark-components" class="md-nav__link">
+    4-5 Spark Components
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-1-spark-structured-streaming" class="md-nav__link">
+    5-1 Spark Structured Streaming
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-2-spark-streaming-kinesis" class="md-nav__link">
+    5-2 Spark Streaming + Kinesis
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-3-spark-redshift" class="md-nav__link">
+    5-3 Spark + Redshift
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6hive-on-emr" class="md-nav__link">
+    6、Hive on EMR
+  </a>
+  
+    <nav class="md-nav" aria-label="6、Hive on EMR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-1-apache-hive" class="md-nav__link">
+    6-1 Apache Hive
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-2-why-hive" class="md-nav__link">
+    6-2 Why Hive?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-3-the-hive-metastore" class="md-nav__link">
+    6-3 The Hive Metastore
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-4-external-hive-metastores" class="md-nav__link">
+    6-4 External Hive Metastores
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-5-aws-integrates-with-hive-in-other-ways" class="md-nav__link">
+    6-5 AWS integrates with Hive in other ways
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7apache-pig-on-emr" class="md-nav__link">
+    7、Apache Pig on EMR
+  </a>
+  
+    <nav class="md-nav" aria-label="7、Apache Pig on EMR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#7-1-how-pig-works" class="md-nav__link">
+    7-1 How pig works
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-2-pig-aws-integration" class="md-nav__link">
+    7-2 Pig AWS Integration
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8hbase-on-emr" class="md-nav__link">
+    8、HBase on EMR
+  </a>
+  
+    <nav class="md-nav" aria-label="8、HBase on EMR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8-1-sounds-a-lot-like-dynamodb" class="md-nav__link">
+    8-1 Sounds a lot like DynamoDB
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-2-hbase-aws-integration" class="md-nav__link">
+    8-2 HBase AWS integration
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9presto-on-emr" class="md-nav__link">
+    9、Presto on EMR
+  </a>
+  
+    <nav class="md-nav" aria-label="9、Presto on EMR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#9-1-presto" class="md-nav__link">
+    9-1 Presto
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-2-presto-connectors" class="md-nav__link">
+    9-2 Presto connectors
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10zeppelin-and-emr-notebooks" class="md-nav__link">
+    10、Zeppelin and EMR Notebooks
+  </a>
+  
+    <nav class="md-nav" aria-label="10、Zeppelin and EMR Notebooks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#10-1-zeppelin-spark" class="md-nav__link">
+    10-1 Zeppelin + Spark
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-2-emr-notebook" class="md-nav__link">
+    10-2 EMR Notebook
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-3-emr-notebook-features" class="md-nav__link">
+    10-3 EMR Notebook Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11hue-splunk-and-flume" class="md-nav__link">
+    11、Hue, Splunk, and Flume
+  </a>
+  
+    <nav class="md-nav" aria-label="11、Hue, Splunk, and Flume">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-1-hue" class="md-nav__link">
+    11-1 Hue
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-2-splunk" class="md-nav__link">
+    11-2 Splunk
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-3-flume" class="md-nav__link">
+    11-3 Flume
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-4-mxnet" class="md-nav__link">
+    11-4 MXNet
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12s3distcp-and-other-services" class="md-nav__link">
+    12、S3DistCP and Other Services
+  </a>
+  
+    <nav class="md-nav" aria-label="12、S3DistCP and Other Services">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#12-1-other-emr-hadoop-tools-throw-out-for-misdirect" class="md-nav__link">
+    12-1 Other EMR / Hadoop Tools (Throw out for misdirect)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13emr-security-and-instance-types" class="md-nav__link">
+    13、EMR Security and Instance Types
+  </a>
+  
+    <nav class="md-nav" aria-label="13、EMR Security and Instance Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#13-1-emr-security" class="md-nav__link">
+    13-1 EMR Security
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-2-emr-choosing-instance-types" class="md-nav__link">
+    13-2 EMR: Choosing Instance Types
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="l4-emr-elastic-mapreduce"><strong>L4 EMR Elastic MapReduce</strong></h1>
+<h2 id="1elastic-mapreduce-emr-architecture-and-usage"><strong>1、Elastic MapReduce (EMR) Architecture and Usage</strong></h2>
+<h3 id="1-1-what-is-emr"><strong>1-1 What is EMR?</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/15_1.png" title="body image" /> </p>
+<ul>
+<li>Elastic MapReduce </li>
+<li>Managed Hadoop framework on EC2 instances </li>
+<li>Includes Spark, HBase, Presto, Flink, Hive &amp; more </li>
+<li>EMR Notebooks </li>
+<li>Several integration points with AWS</li>
+</ul>
+<h3 id="1-2-an-emr-cluster"><strong>1-2 An EMR Cluster</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/15_2.png" title="body image" /> </p>
+<p><strong>Master node</strong>: manages the cluster </p>
+<ul>
+<li>Tracks status of tasks, monitors cluster health </li>
+<li>Single EC2 instance (it can be a single node cluster even) </li>
+<li>AKA "leader node" </li>
+</ul>
+<p><strong>Core node</strong>: Hosts HDFS data and runs tasks </p>
+<ul>
+<li>Can be scaled up &amp; down, but with some risk </li>
+<li>Multi-node clusters have at least one </li>
+</ul>
+<p><strong>Task node</strong>: Runs tasks, does not host data </p>
+<ul>
+<li>Optional </li>
+<li>No risk of data loss when removing </li>
+<li>Good use of <strong>spot instances</strong> </li>
+</ul>
+<h3 id="1-3-emr-usage"><strong>1-3 EMR Usage</strong></h3>
+<ul>
+<li>Frameworks and applications are specified at cluster launch </li>
+<li>Connect directly to master to run jobs directly </li>
+<li>
+<p>Or, submit ordered steps via the console </p>
+<ul>
+<li>Process data in S3 or HDFS </li>
+<li>Output data to S3 or somewhere </li>
+<li>Once defined, steps can be invoked via the console </li>
+</ul>
+</li>
+<li>
+<p>Transient vs Long-Running Clusters </p>
+<ul>
+<li>Transient clusters terminate once all steps are complete<ul>
+<li>Loading data, processing, storing — then shut down </li>
+<li>Saves money </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Long-running clusters must be manually terminated </p>
+<ul>
+<li>Basically a data warehouse with periodic processing on large datasets </li>
+<li>Can spin up task nodes using Spot instances for temporary capacity </li>
+<li>Can use reserved instances on long-running clusters to save $ </li>
+<li>Termination protection on by default, auto-termination on </li>
+</ul>
+</li>
+</ul>
+<h2 id="2emr-aws-integration-and-storage"><strong>2、EMR, AWS integration, and Storage</strong></h2>
+<h3 id="2-1-emr-aws-integration"><strong>2-1 EMR / AWS Integration</strong></h3>
+<ul>
+<li>Amazon EC2 for the instances that comprise the nodes in the cluster </li>
+<li>Amazon VPC to configure the virtual network in which you launch your instances</li>
+<li>Amazon S3 to store input and output data </li>
+<li>Amazon Cloud Watch to monitor cluster performance and configure alarms </li>
+<li>AWS IAM to configure permissions </li>
+<li>AWS CloudTrail to audit requests made to the service </li>
+<li>AWS Data Pipeline to schedule and start your clusters </li>
+</ul>
+<blockquote>
+<p>self-contained job that requires you to spin up an EMR cluster run that job and then 
+shut it down.</p>
+</blockquote>
+<h3 id="2-2-emr-storage"><strong>2-2 EMR Storage</strong></h3>
+<ul>
+<li>HDFS</li>
+<li>
+<p>EMRFS: <strong>access S3 as if it were HDFS</strong> </p>
+<ul>
+<li><strong>EMRFS Consistent View</strong> — Optional for Consistency(exam) </li>
+<li>Uses DynamoDB to track consistency </li>
+</ul>
+</li>
+<li>
+<p>Local file system</p>
+</li>
+<li>EBS for HDFS</li>
+</ul>
+<h3 id="2-3-hdfs-description-hadoop-distributed-file-system"><strong>2-3 HDFS Description (Hadoop distributed file system)</strong></h3>
+<ul>
+<li>HDFS is a distributed scalable file system for Hadoop and it distributes the data at <strong>stores across different instances</strong> in your cluster. </li>
+<li>Allows Hadoop to actually, try to run the code that analyzes your data on the same instance where that data is stored --- <strong>performance optimization</strong></li>
+<li>Stores multiple copies of your data on different instances and that ensures that no data is lost if an individual instance fails</li>
+<li><strong>HDFS is ephemeral when you terminate your cluster that data is gone</strong>. </li>
+<li>It is useful for caching intermediate results during MapReduce processing or for workloads </li>
+</ul>
+<h3 id="2-4-hdfs-block"><strong>2-4 HDFS Block</strong></h3>
+<ul>
+<li><strong>Each file in HDFS is stored as blocks</strong> and it's distributed across the entire Hadoor cluster. </li>
+<li>If you have a large file <strong>that you're storing in HDFS it's going to get broken up into blocks</strong> and <strong>those blocks are going to be stored in multiple places for backup purposes</strong>. </li>
+<li><strong>By default a block size is 128 megabytes</strong> </li>
+<li>If you have a big file and you're gonna be storing it on HDFS that file will ultimately be split up into 128 megabyte chunks for processing. </li>
+</ul>
+<h3 id="2-5-emrfs"><strong>2-5 EMRFS</strong></h3>
+<ul>
+<li>This basically creates a file system that looks like HDFS but it's <strong>actually backed by S3</strong>. </li>
+<li>Terminate your cluster your data will still live in S3 and you don't lose anything. </li>
+<li>Also <strong>S3 would be used to store your input and output data</strong> and you could <strong>still use HDFS to store intermediate results</strong> </li>
+<li>With S3, you may encounter consistency problem, EMRFS consistent view solves for you. </li>
+<li><strong>DynamoDB database to store object metadata and track consistency with S3</strong> </li>
+</ul>
+<h3 id="2-6-local-file-system"><strong>2-6 Local file system</strong></h3>
+<ul>
+<li>The local file system pre-configured with an instance store. And of course that will only persist until the lifetime of that individual EC2 instance </li>
+</ul>
+<h3 id="2-7-ebs-for-hdfs"><strong>2-7 EBS for HDFS</strong></h3>
+<ul>
+<li>Amazon EBS <strong>general purpose SSD 10GB</strong> volume as the root device for its AMIs to enhance your performance </li>
+<li>You can add additional EBS volumes to the instances in your EMR cluster to allow you to customize a storage on an instance </li>
+<li>EMR will delete these volumes once the cluster is terminated. </li>
+<li><strong>You cannot attach an EBS volume to a running cluster</strong>, You can only add EBS volumes when launching a cluster </li>
+<li>Can't mess with your EBS storage once your cluster is up </li>
+</ul>
+<h2 id="3emr-promises-intro-to-hadoop"><strong>3、EMR Promises; Intro to Hadoop</strong></h2>
+<h3 id="3-1-emr-promises"><strong>3-1 EMR promises</strong></h3>
+<ul>
+<li>
+<p>EMR charges by the hour </p>
+<ul>
+<li>Plus EC2 charges </li>
+</ul>
+</li>
+<li>
+<p><strong>Provisions new nodes</strong> if a core node fails </p>
+</li>
+<li>Can add and remove tasks nodes on the fly </li>
+<li><strong>Can resize a running cluster's core nodes</strong> </li>
+</ul>
+<h3 id="3-2-whats-hadoop"><strong>3-2 What's hadoop</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/15_3.png" title="body image" /> </p>
+<p>Hadoop consists of these three systems <strong>MapReduce, Yarn, and HDFS</strong> these contain the <strong>libraries and utilities required for other Hadoop modules and provides the underlying file system and operating system</strong> level abstractions that we need. Also contains all the <strong>jar files and scripts that we need to start Hadoop itself</strong>. </p>
+<p><strong>1. HDFS</strong> </p>
+<p>What This is a distributed scalable file system for Hadoop. </p>
+<p>It distributes the data it stores across the instances in the cluster and it stores r,rewft copies of that data on different instances to ensure that no data is lost. </p>
+<p><strong>Negative</strong></p>
+<p>That data will be lost if you terminate your EMR cluster it is stored on the cluster itself. </p>
+<p><strong>Positive</strong> </p>
+<p>This can be useful from a <strong>performance standpoint</strong> because it allows Hadoop to try to run the analysis of your code on the same node where that data is stored </p>
+<p><strong>2. Yarn</strong> </p>
+<p><strong>Yarn stands another resource negotiator</strong></p>
+<p><strong>What</strong> </p>
+<p>It's a component introduced in Hadoop 2.0 to <strong>centrally manage cluster resources or multiple data processing frameworks.</strong> </p>
+<p><strong>How</strong></p>
+<p>Manages what gets run </p>
+<p><strong>3.Hadoop MapReduce</strong> </p>
+<p><strong>The software framework for easily writing applications</strong> that process <strong>vast amounts of data in parallel</strong> on large clusters of commodity hardware in a reliable fault tolerant manner. </p>
+<p><strong>Map functions</strong> </p>
+<ul>
+<li><strong>Map data to sets of key value pairs called intermediate results</strong> </li>
+</ul>
+<p><strong>Reduce functions</strong> </p>
+<p>Combine the intermediate results applies additional algorithms and produces the final output from your system. </p>
+<h2 id="4intro-to-apache-spark"><strong>4、Intro to Apache Spark</strong></h2>
+<h3 id="4-1-apache-spark"><strong>4-1 Apache Spark</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/15_4.png" title="body image" /> </p>
+<h3 id="4-2-what-is-spark"><strong>4-2 What is Spark</strong></h3>
+<p>Mainly taking the place of <strong>MapReduce is Apache Spark</strong> and it's an open source distributed processing system commonly used for big data workloads. </p>
+<p>Its secret is using in memory caching so it really does a lot of work in memory instead of on disk and it uses directed acyclic graphs to optimize its query execution for very fast analytic queries against data of any size </p>
+<h3 id="4-3-how-to-use-spark"><strong>4-3 How to use Spark</strong></h3>
+<p>Spark provides development APIs in Java, Scala, python, and R, so you do need to write code to use Spark </p>
+<p><strong>Spark provides lot of code libraries built in</strong> so you can reuse that code across multiple workloads and some of the libraries it provides you will do </p>
+<ul>
+<li>batch processing </li>
+<li>interactive queries</li>
+<li>real time analytics</li>
+<li>machine learning</li>
+<li>graph processing </li>
+</ul>
+<p><strong>Common Usage</strong> </p>
+<ul>
+<li>Apache Spark includes <strong>stream processing through Spark streaming</strong>. This allows you to <strong>process data</strong> collected from Amazon Kinesis for example but also things outside of the AWS ecosystem such as <strong>Apache Kafka</strong> or any other data stream that spark streaming can integrate with on Amazon EMR. </li>
+<li>it can also <strong>do streaming analytics</strong> and it's <strong>performed in a fault tolerant way</strong> and you can write the results of those analytics to HDFS or in the case of AWS to S3. </li>
+<li>You can also use <strong>Spark for machine learning at massive scale</strong> and includes a <strong>library called M.L. lib</strong> which is a library of machine learning algorithms that work on data at massive scale </li>
+<li>You can do interactive SQL using Spark SQL that's used for low latency interactive queries using either SQL or Hive QL </li>
+</ul>
+<p><strong>Anti pattern</strong></p>
+<ul>
+<li>So it's <strong>not really meant for real time  usage</strong>. </li>
+<li><strong>Spark is not meant for OLTP or batch processing, Spark jobs generally takes some time to complete</strong> because it has to distribute all that work across the cluster and collect the results back to it. </li>
+</ul>
+<h3 id="4-4-how-spark-works"><strong>4-4 How Spark Works</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/15_5.png" title="body image" /> </p>
+<p><strong>Driver - Spark context object:</strong></p>
+<p><strong>Spark context object within your main program and that program is known as the driver program or the driver script.</strong> </p>
+<p>This is the actual code of your Spark program that tells a Sark cluster what you want to do with your data the Spark context <strong>will connect to different cluster managers</strong> </p>
+<p><strong>Cluster Managers</strong></p>
+<p><strong>cluster managers will take care of allocating all the resources that your driver script needs across different applications.</strong></p>
+<p>In the case of EMR it's going to be using Apache yarn because that's a component of Hadoop.</p>
+<p>You can also <strong>use Apache Spark outside of a Hadoop cluster</strong> as well it has its own cluster manager </p>
+<p>so once the cluster manager has decided how to distribute that work Spark will <strong>acquire executors on nodes</strong> </p>
+<p><strong>Executors</strong> </p>
+<p>Within the cluster executors are processes that <strong>run computations and store the data for your applications</strong>.</p>
+<p>The application code is then sent to each executor and in the final step the Spark context sends the tasks to the executors to run. </p>
+<h3 id="4-5-spark-components"><strong>4-5 Spark Components</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/15_6.png" title="body image" /> </p>
+<p><strong>Spark core</strong> </p>
+<p>It's responsible for <strong>memory management, fault recovery, scheduling, distributing and monitoring jobs, and interacting with storage systems</strong>. </p>
+<p>It supports <strong>APIs for Java, Scala, python, and R</strong> at the lowest level here it's dealing with something called a <strong>resilient distributed dataset(RDD)</strong> and that <strong>represents a logical collection of data partitioned across the different compute nodes.</strong> </p>
+<p><strong>Spark SQL</strong> </p>
+<p>We tend to deal with data these days in Spark <strong>at a higher level than the RDDs</strong> and that's where <strong>Spark SQL</strong> comes in. So <strong>Spark SQL is a distributed query engine that provides low latency interactive queries up to 100 times faster than MapReduce</strong>. </p>
+<ul>
+<li>
+<p>Spark SQL includes: </p>
+<ul>
+<li>cost based optimizer</li>
+<li>columnar storage </li>
+<li>cogeneration for fast queries </li>
+</ul>
+</li>
+<li>
+<p>It supports various data sources coming into it such as JDBC, ODBC, JSON, HDFS, Hive, Orc, and Parquet </p>
+</li>
+<li>It also supports querying Hive tables using Hive QL. </li>
+</ul>
+<p>Spark SQL is especially important because it contains a construct known as a <strong>data set</strong> that basically <strong>lets you view the data that you have on Spark as a giant database</strong> if you will and by using straight up SQL to interact with your data it makes the development of your Spark driver scripts a lot more simple and it allows Spark itself to perform optimizations that it could not normally do. </p>
+<p><strong>Modern Spark code its using the datasets that are exposed through Spark SQL</strong></p>
+<p><strong>Spark Streaming</strong> </p>
+<p>Spark streaming is also built on top of Spark core and it also integrates with Spark SQL to use datasets as well Spark streaming is a real time solution that <strong>leverages Spark core's fast scheduling capability to do streaming analytics</strong> </p>
+<p>It ingests data in mini batches and it enables analytics on that data with the same application code you would write for batch analytics it improves your developer productivity because the same code can be used for both batch processing </p>
+<p>Real time streaming applications it supports data from a variety of streaming sources as well <strong>including Kafka, Flume, HDFS, and Zero MQ</strong> </p>
+<p><strong>ML lib</strong> </p>
+<p>ML library of algorithms to do machine learnin on data at large scale </p>
+<p><strong>These algorithms include things like the ability to do classification, regression, clustering, collaborative filtering, and pattern mining.</strong> </p>
+<p><strong>ML lib can read data from HDFS, Hbase, or any Hadoop data source as well as S3 on EMR.</strong></p>
+<p>Spark code you can write your M.L. lib applications with Scala, Java, Python, or Spark, R. </p>
+<p><strong>GraphX</strong></p>
+<p>GraphX that's a <strong>distributed graph processing framework built on top of Spark, graphs in the data structure sense</strong></p>
+<p>It provides <strong>ETL capabilities, exploratory analysis, and iterative graph computation</strong> to enable users to <strong>interactively build and transform a graph data structure at scale</strong></p>
+<p>If has a highly flexible API and <strong>you can select from different distributed graph algorithms.</strong> </p>
+<p><strong>5、Spark Integration with Kinesis and Redshift</strong></p>
+<h3 id="5-1-spark-structured-streaming"><strong>5-1 Spark Structured Streaming</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/15_7.png" title="body image" /> </p>
+<p><strong>Spark applications</strong> usually use something called a data set in their code to refer to your data and a data set is treated very much like a database table with <strong>Spark streaming</strong> </p>
+<p>New data is received by the stream it just keeps adding rows to that <strong>virtual database table</strong> in the form of a data set so you can query this data using windows of time. </p>
+<p><strong>Code Example</strong> </p>
+<p><strong>Monitor all the stuff that's being thrown into a logs bucket in S3.</strong></p>
+<pre><code>val inputDF = spark.readStream.json(&quot;s3://logs&quot;) 
+inputDF.groupBy($&quot;action&quot;, window(Vtime&quot;, &quot;1 hour&quot;)).count().writeStream.formandb c&quot;).start(ldbc:mysql//...&quot;) 
+</code></pre>
+<ul>
+<li>1 hour: Continually <strong>counting up the records being received</strong> in that bucket over the previous one hour and the <strong>write those counts using JDBC into some external MySQL database</strong> </li>
+</ul>
+<h3 id="5-2-spark-streaming-kinesis"><strong>5-2 Spark Streaming + Kinesis</strong></h3>
+<p>There is a library for <strong>Spark streaming built on top of the Kinesis client library</strong> to allow <strong>Spark streaming to import data from Amazon Kinesis data streams</strong> and you just have to plug in that library and code against it and you can treat Kinesis as any other stream of data coming into a data set in Spark structured streaming. </p>
+<p><img alt="Alt Image Text" src="../../images/15_8.png" title="body image" /> </p>
+<p><strong>So for example</strong> </p>
+<ol>
+<li>There are some Kinesis producers use bunch of EC2 host generating logs </li>
+<li>Pumping data into a Kinesis data stream. </li>
+<li>Integrate that using the Spark data set integration code as any other dataset coming in to Spark streaming</li>
+<li>Process dataset acros the tire cluster on EMR using Apache Spark</li>
+</ol>
+<h3 id="5-3-spark-redshift"><strong>5-3 Spark + Redshift</strong></h3>
+<ul>
+<li>
+<p>spark-redshift package allows Spark datasets from Redshift </p>
+<ul>
+<li>Its a Spark SQL data source </li>
+</ul>
+</li>
+<li>
+<p>Useful for ETL using Spark </p>
+</li>
+</ul>
+<p><strong>Redshift is a massive distributed data warehouse that's offered by AWS</strong>. </p>
+<p>There is Spark Redshitt package and that allows <strong>Spark to treat data sets from Redshift just like any other SQL database</strong>. </p>
+<p><img alt="Alt Image Text" src="../../images/15_9.png" title="body image" /> </p>
+<blockquote>
+<p>Integrating Redshift with Spark I an distribute the processing of that !huge data set sitting in S3 </p>
+</blockquote>
+<ol>
+<li>Deploy <strong>Amazon Redshift spectrum</strong> on top of that data in S3 which will <strong>provide SQL Interface on top of that data that lives in S3</strong>.  </li>
+<li>Using the <strong>Spark Redshift package spin up in Apache Spark cluster on Amazon EMR</strong> </li>
+<li><strong>Perform ETL on that data that's residing in S3 through Amazon Redshift</strong> because Redshift like any other SQL data source to Apache Spark. </li>
+<li>Put that <strong>process data back into another Amazon Redshift table</strong> for further processing. </li>
+</ol>
+<h2 id="6hive-on-emr"><strong>6、Hive on EMR</strong></h2>
+<h3 id="6-1-apache-hive"><strong>6-1 Apache Hive</strong></h3>
+<ul>
+<li><strong>Hive basically exposes SQL interface to your underlying data stored on your EMR cluster</strong>. </li>
+<li><strong>Hive execute straight up SQL code on underlying unstructured data that might live in Hadoop, Yarn, or S3</strong> </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/15_10.png" title="body image" /> </p>
+<p><strong>EMR Hive sits on top of MapReduce to figure out how to distribute the processing of SQL</strong> on the underlying data </p>
+<p><strong>Tez:</strong> </p>
+<p>Tez is kind of like <strong>Apache Spark</strong> and that it uses <strong>a lot of</strong> in memory directed acyclic graph[无环图] to accelerate things, so <strong>Hive often being used on top of Tez instead of MapReduce</strong> </p>
+<h3 id="6-2-why-hive"><strong>6-2 Why Hive?</strong></h3>
+<ul>
+<li>Uses familiar SQL syntax (HiveQL)</li>
+<li>Interactive </li>
+<li>Scalable - works with "big data" on a cluster <ul>
+<li>Really most appropriate for data warehouse applications </li>
+</ul>
+</li>
+<li><strong>Easy OLAP queries WAY easier than writing MapReduce in Java</strong> </li>
+<li>Highly optimized Highly extensible <ul>
+<li>User defined functions </li>
+<li>Thrift server </li>
+<li>JDBC / ODBC driver </li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>anti-pattern</p>
+<p>Hive is not really for OLTP so you shouldn't be writing a web service that hits Hive continuously hundreds of times per second or anything like that trying to get results back very quickly </p>
+</blockquote>
+<h3 id="6-3-the-hive-metastore"><strong>6-3 The Hive Metastore</strong></h3>
+<ul>
+<li>Hive maintains a "<strong>metastore</strong>" that <strong>imparts a structure</strong> you define on the unstructured data that is stored on HDFS etc. <ul>
+<li>Column names N</li>
+<li>Data types </li>
+</ul>
+</li>
+</ul>
+<pre><code>CREATE TABLE ratings ( 
+    userID INT, 
+    movieID INT, 
+    rating INT, 
+    time INT) 
+ROW FORMAT DELIMTED 
+FIELDS TERMINATED BY '\t 
+STORED AS TEXTFILE; 
+
+
+LOAD DATA LOCAL INPATH '${env:HOME}/m1-100k/u.data' 
+OVERWRITE INTO TABLE ratings; 
+</code></pre>
+<blockquote>
+<p>How the actual <strong>data is delimited</strong> and terminated and the <strong>format</strong> that it's stored in and where it is actually located That information has to be stored somewhere and that's what we call the <strong>Hive Metastore</strong>. </p>
+</blockquote>
+<h3 id="6-4-external-hive-metastores"><strong>6-4 External Hive Metastores</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/15_12.png" title="body image" /> </p>
+<ul>
+<li>By default the <strong>hive metastore just stored in a MySQL database on the master node of your cluster (Not persistence if shut down master node)</strong> </li>
+<li><strong>External metastores offer better resiliency</strong> / integration <ul>
+<li>AWS Glue Data Catalog</li>
+<li>Amazon RDS </li>
+</ul>
+</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/15_11.png" title="body image" /> </p>
+<p><strong>1. store Hive Metastore within AWS glue data catalog</strong> </p>
+<p><strong>AWS glue data catalog that serves double duty as a hive metastore</strong> and that allows you to centrally locate your metadata for your unstructured data  and ex ose that directly to hive where Amazon EMR can get to it but also expose that same metadata to <strong>Amazon Redshift, Amazon Athena</strong>. </p>
+<p><strong>2.Store your hive metastore on an external Amazon RDS instance or Amazon Aurora</strong></p>
+<p>Master node you can choose to <strong>store that in an external RDS database instance</strong> that will be more persistent. So even if you shut down your cluster that metastore will survive in your RDS database. </p>
+<h3 id="6-5-aws-integrates-with-hive-in-other-ways"><strong>6-5 AWS integrates with Hive in other ways</strong></h3>
+<ul>
+<li>Load table partitions from S3</li>
+<li>Write tables in S3 </li>
+<li>Load scripts from S3 </li>
+<li>DynamoDB as an external table </li>
+</ul>
+<p><strong>1. integrates with S3</strong></p>
+<ul>
+<li>
+<p>Using hive with EMR provides the ability to load a table partitions automatically from S3</p>
+<ul>
+<li><strong>Example</strong>: Store your data in S3 undr different sub directories for example year then month then date then hour </li>
+<li>Translated into table partitions and you can do that automatically with hive on EMR </li>
+</ul>
+</li>
+<li>
+<p>Hive with Amazon EMR provides the ability to specify an off instance metadata store </p>
+</li>
+</ul>
+<p><strong>2. integrates with DynamoDB</strong> </p>
+<ul>
+<li>Use hive to analyze the data stored in dynamo DB and either load the results back into dynamo DB or archive them into Amazon S3. </li>
+<li>Allows you to copy data from a dynamoDB into EMR FS or HDFS and vice versa</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/15_13.png" title="body image" /> </p>
+<h2 id="7apache-pig-on-emr"><strong>7、Apache Pig on EMR</strong></h2>
+<p>Apache Pig is also an important part of the Hadoop ecosystem that comes pre-installed on Amazon EMR. </p>
+<p><strong>Pig is an alternative interface to MapReduce.it recognizes that writing code from mappers and reducers using MapReduce takes a tong time</strong></p>
+<ul>
+<li>Writing mappers and reducers by hand takes a long time. </li>
+<li>Pig introduces <strong>Pig Latin, a scripting language that lets yon use SQL-like syntax to define your map and reduce steps</strong> instead of Java code for MapReduce. </li>
+<li>Highly extensible with user-defined functions (LIDF's) </li>
+</ul>
+<h3 id="7-1-how-pig-works"><strong>7-1 How pig works</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/15_14.png" title="body image" /> </p>
+<h3 id="7-2-pig-aws-integration"><strong>7-2 Pig AWS Integration</strong></h3>
+<ul>
+<li>Ability to use multiple file systems (not just HDFS) <ul>
+<li>i.e., query data in S3 </li>
+</ul>
+</li>
+<li><strong>Load JAR's and scripts from S3</strong> </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/15_15.png" title="body image" /> </p>
+<h2 id="8hbase-on-emr"><strong>8、HBase on EMR</strong></h2>
+<p><img alt="Alt Image Text" src="../../images/15_16.png" title="body image" /> </p>
+<ul>
+<li><strong>Non-relational</strong>, petabyte-scale database </li>
+<li>Based on <strong>Google's BigTable, on top of HDFS</strong> </li>
+<li>In-memory (fast) </li>
+<li>Hive integration </li>
+</ul>
+<h3 id="8-1-sounds-a-lot-like-dynamodb"><strong>8-1 Sounds a lot like DynamoDB</strong></h3>
+<ul>
+<li>Both are NoSQL databases intended for the same sorts of things </li>
+<li>
+<p>But if you're all-in with AWS anyhow, <strong>DynamoDB has advantages</strong> </p>
+<ul>
+<li>Fully managed (auto-scaling) </li>
+<li>More integration with other AWS services </li>
+<li><strong>AWS Glue integration</strong> </li>
+</ul>
+</li>
+<li>
+<p>HBase has some advantages though: </p>
+<ul>
+<li>Efficient storage of sparse data,</li>
+</ul>
+<blockquote>
+<p>If vou have data that's just really scattered across your entire cluster. HBase tends to be able to deal with that better than dynamo DB. </p>
+</blockquote>
+<ul>
+<li>Appropriate for high frequency counters (consistent reads &amp; writes)</li>
+<li>High write &amp; update throughput </li>
+<li>More integration with Hadoop </li>
+</ul>
+</li>
+</ul>
+<h3 id="8-2-hbase-aws-integration"><strong>8-2 HBase AWS integration</strong></h3>
+<ul>
+<li>Can store data (StoreFiles and metadata) on S3 via <strong>EMRFS</strong> </li>
+<li>Can back up to S3 </li>
+</ul>
+<h2 id="9presto-on-emr"><strong>9、Presto on EMR</strong></h2>
+<p><img alt="Alt Image Text" src="../../images/15_17.png" title="body image" /> </p>
+<h3 id="9-1-presto"><strong>9-1 Presto</strong></h3>
+<ul>
+<li><strong>It can connect to many different "big data" databases and data stores at once. and query across them</strong> </li>
+</ul>
+<blockquote>
+<p>You can write a SQL join command that combines data from different databases stored in different technologies that live on your cluster. </p>
+</blockquote>
+<ul>
+<li><strong>Interactive queries at petabayte scale</strong> </li>
+<li>Familiar SQL syntax </li>
+<li>Optimized for OLAP analytical queries, data warehousing </li>
+<li>Developed, and still partially maintained by Faceboolik ---</li>
+</ul>
+<blockquote>
+<p>Athena is a serverless version of Presto and with a nice little skin on top of it</p>
+</blockquote>
+<ul>
+<li><strong>This is what Amazon Athena uses under the hood</strong> </li>
+<li><strong>Exposes JDBC, Command-Line, and Tableau interfaces</strong> </li>
+</ul>
+<h3 id="9-2-presto-connectors"><strong>9-2 Presto connectors</strong></h3>
+<ul>
+<li>HDFS </li>
+<li>S3 </li>
+<li>Cassandra </li>
+<li>MongoDB </li>
+<li>HBase </li>
+<li>SQL </li>
+<li>Redshift </li>
+<li>Teradata </li>
+</ul>
+<p>Using Presto can be <strong>both relational and non relational databases</strong> like it doesn't care can treat them all as a SQL interface</p>
+<p>Amazon EMR you can launch a Presto cluster in just minutes. <strong>You don't have to do node provisioning or a cluster setup or Presto configuration or cluster tuning</strong> </p>
+<h2 id="10zeppelin-and-emr-notebooks"><strong>10、Zeppelin and EMR Notebooks</strong></h2>
+<p><img alt="Alt Image Text" src="../../images/15_18.png" title="body image" /> </p>
+<ul>
+<li>
+<p>If you're familiar with iPython notebooks —it's like that </p>
+<ul>
+<li>Lets you interactively run scripts against our data o</li>
+<li>Can interleave with nicely formatted notes </li>
+<li>Can share notebooks with others on your cluster </li>
+</ul>
+</li>
+<li>
+<p><strong>Spark, Python, JDBC, HBase, Elasticsearch + more</strong> </p>
+</li>
+</ul>
+<h3 id="10-1-zeppelin-spark"><strong>10-1 Zeppelin + Spark</strong></h3>
+<ul>
+<li>Can run Spark code interactively (like you can in the Spark shell) <ul>
+<li>This speeds up your development cycle</li>
+<li>And allows easy experimentation and exploration of your big data </li>
+</ul>
+</li>
+<li>Can execute SQL queries directly against SparkSQL </li>
+<li>Query results may be visualized in charts and graphs </li>
+<li>Makes Spark feel more like sicence tool! </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/15_19.png" title="body image" /> </p>
+<h3 id="10-2-emr-notebook"><strong>10-2 EMR Notebook</strong></h3>
+<ul>
+<li>Similar concept to Zeppelin, with more AWS integration </li>
+<li>Notebooks backed up to S3 </li>
+<li>Provision clusters from the notebook! </li>
+<li>Hosted inside a VPC </li>
+<li>Accessed only via AWS console </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/15_20.png" title="body image" /> </p>
+<h3 id="10-3-emr-notebook-features"><strong>10-3 EMR Notebook Features</strong></h3>
+<ul>
+<li><strong>Packaged with some popular open source graphical libraries from the anaconda repository</strong> that helps you to prototype code and visualize results </li>
+<li>Perform exploratory analysis with Spark data frames they <strong>can be attached to an existing cluster or you can revision new clusters directly</strong> from the notebook. </li>
+<li><strong>Allows multiple users from the organization</strong> to create their own notebooks attach them to shared multi tenant EMR clusters </li>
+<li><strong>No additional charge</strong> to Amazon EMR customers. </li>
+</ul>
+<h2 id="11hue-splunk-and-flume"><strong>11、Hue, Splunk, and Flume</strong></h2>
+<h3 id="11-1-hue"><strong>11-1 Hue</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/15_21.png" title="body image" /> </p>
+<ul>
+<li>Hadoop User Experience </li>
+<li><strong>Graphical front-end for applications on your EMR cluster</strong> </li>
+<li>IAM integration: Hue Super-users inherit IAM roles </li>
+<li><strong>S3: Can browse &amp; move data between HDFS and S3</strong> </li>
+</ul>
+<p><strong>Exam: Which tool:</strong> </p>
+<p><strong>Hue is this a management tool it's the front end  dashboard for your entire cluster</strong> </p>
+<h3 id="11-2-splunk"><strong>11-2 Splunk</strong></h3>
+<ul>
+<li>Splunk / Hunk "makes machine data accessible, usable, and valuable to everyone" </li>
+<li><strong>Operational tool — can be used to visualize EMR and S3 data using your EMR Hadoop cluster</strong>. </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/15_22.png" title="body image" /> </p>
+<p><strong>Exam: Which tool:</strong> </p>
+<p><strong>Splunk is just an operational tool</strong></p>
+<h3 id="11-3-flume"><strong>11-3 Flume</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/15_23.png" title="body image" /> </p>
+<blockquote>
+<p>Another way of streaming data into your cluster, like Kinesis or Kafka </p>
+</blockquote>
+<ul>
+<li>Another way to stream data into your clustr </li>
+<li>
+<p>Made from the start with Hadoop in mind</p>
+<ul>
+<li>Built-in sinks for HDFS and HBas </li>
+</ul>
+</li>
+<li>
+<p><strong>Originally made to handle log aggregation</strong> </p>
+</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/15_24.png" title="body image" /> </p>
+<ul>
+<li>A web server act as an external source that provides events to a flume source. </li>
+<li>That event is then stored in one or more channels </li>
+<li>A channel acts as a passive store that keeps the event until it is consumed by a flume sink </li>
+<li>The flume sink then removes the event from the channel </li>
+<li>And the flume sink puts event into an external repository like HDFS on your EMR cluster. </li>
+</ul>
+<p><strong>Flume sink</strong> </p>
+<ul>
+<li><strong>HDFS sink</strong> that writes events into HDFS it supports creating text and sequence files and supports compression and both file types as well. </li>
+<li><strong>Hive sink</strong> and that would stream events containing delimited text or JSON data directly into a hive table or partition events are written using hive transactions </li>
+</ul>
+<p><strong>Exam: Which tool:</strong> </p>
+<p><strong>Flume is a way of streaming log data into a cluster, as an alternative technology</strong></p>
+<p><strong>for handling streaming applications on an EMR cluster.</strong></p>
+<h3 id="11-4-mxnet"><strong>11-4 MXNet</strong></h3>
+<ul>
+<li>Like Tensorflow, a library for building and accelerating neural networks </li>
+<li>Included on EMR </li>
+</ul>
+<p><strong>Exam: Which tool</strong></p>
+<p><strong>MXNet is a framework and library that is used to build deep learning applications.</strong> </p>
+<h2 id="12s3distcp-and-other-services"><strong>12、S3DistCP and Other Services</strong></h2>
+<ul>
+<li>
+<p>Tool for copying large amounts of data </p>
+<ul>
+<li>From S3 into HDFS </li>
+<li>From HDFS into S3 </li>
+</ul>
+</li>
+<li>
+<p><strong>Uses MapReduce to copy in a distributed manner</strong> </p>
+</li>
+<li>Suitable for parallel copying of large numbers of objects <ul>
+<li>Across buckets, across accounts </li>
+</ul>
+</li>
+</ul>
+<h3 id="12-1-other-emr-hadoop-tools-throw-out-for-misdirect"><strong>12-1 Other EMR / Hadoop Tools (Throw out for misdirect)</strong></h3>
+<ul>
+<li><strong>Ganglia (monitoring like cloudwatch)</strong> </li>
+<li><strong>Mahout (machine learning</strong> like spark's ML lib) </li>
+<li><strong>Accumulo (another NoSQL database</strong> like HBase and dynamo DB) </li>
+<li><strong>Sqoop</strong> (relational database connector like S3DistCP, used primarily for importing data from external databases into your cluster in a very scalable manner.) </li>
+<li><strong>HCatalog (table and storage management for Hive metastore)</strong> </li>
+<li><strong>Kinesis Connector (directly access Kinesis streams in your scripts</strong> on EC2 node) </li>
+<li><strong>Tachyon (accelerator for Spark)</strong> </li>
+<li><strong>Derby (open-source relational DB in Java)</strong> </li>
+<li><strong>Ranger (data security manager for Hadoop)</strong> </li>
+<li>Install whatever you want </li>
+</ul>
+<h2 id="13emr-security-and-instance-types"><strong>13、EMR Security and Instance Types</strong></h2>
+<h3 id="13-1-emr-security"><strong>13-1 EMR Security</strong></h3>
+<ul>
+<li>IAM policies Kerberos </li>
+<li>SSH </li>
+<li>IAM roles </li>
+</ul>
+<p><strong>IAM policies</strong> </p>
+<ul>
+<li>IAM rules for EMRFS requests to Amazon S3</li>
+</ul>
+<p><strong>Kerberos</strong> </p>
+<p><strong>Kerberos</strong> is a way of providing strong authenti alio through secret key cryptography. </p>
+<p>This is a <strong>network authentication protocol</strong> that ensures that <strong>passwords or other credentials aren't sent over the network in an unencrypted format</strong> </p>
+<p><strong>SSH</strong></p>
+<ul>
+<li>SSH provides a secure way for users to <strong>connect to the command line on cluster instances</strong> </li>
+<li><strong>It provides tunneling so you can view web interfaces</strong> that are hosted on your master node of your cluster from outside of the cluster itself. </li>
+</ul>
+<p><strong>IAM roles</strong> </p>
+<p>If you're going to be enabling automatic scaling on your cluster you're going to need an auto scaling IAM role attached to it </p>
+<h3 id="13-2-emr-choosing-instance-types"><strong>13-2 EMR: Choosing Instance Types</strong></h3>
+<p><strong>Master Node:</strong> </p>
+<ul>
+<li>m4.large if &lt; 50 nodes, m4.xlarge if &gt; 50 nodes </li>
+</ul>
+<p><strong>Core &amp; task nodes:</strong> </p>
+<ul>
+<li>m4 large is usually good </li>
+<li>If cluster waits a lot on external dependencies (i.e. a web crawler), t2.medium </li>
+<li>Improved performance: m4.xlarge </li>
+<li><strong>Computation-intensive applications: high CPU instances</strong> </li>
+<li>Database, memory-caching applications: high memory instances </li>
+<li>Network / CPU-intensive (NLP, ML) — cluster computer instances </li>
+</ul>
+<p><strong>Spot instances</strong> </p>
+<ul>
+<li>Good choice for task nodes </li>
+<li><strong>Only use on core &amp; master if you're testing or very cost-sensitive</strong>; you're risking partial data loss </li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.fac441b0.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2109 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's AWS Certified Big Data Specialty">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+        <link rel="canonical" href="https://chao-xi.github.io/jxawscbdbook/chap11/chap11_4bigdata_hdfs/">
+      
+      
+        <link rel="prev" href="../chap11_3bigdata_coll/">
+      
+      
+        <link rel="next" href="../chap11_5bigdata_hive_hbase/">
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
+    
+    
+      
+        <title>第四节 HDFS解决大数据存储问题 & Hadoop on K8S - Jacob AWS Certified Big Data Specialty Tutorial</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a6bdf11c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="amber" data-md-color-accent="amber">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hdfs-hadoop-on-k8s" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AWS Certified Big Data Specialty Tutorial" class="md-header__button md-logo" aria-label="Jacob AWS Certified Big Data Specialty Tutorial" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AWS Certified Big Data Specialty Tutorial
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第四节 HDFS解决大数据存储问题 & Hadoop on K8S
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxawscbdbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscbdbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AWS Certified Big Data Specialty Tutorial" class="md-nav__button md-logo" aria-label="Jacob AWS Certified Big Data Specialty Tutorial" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AWS Certified Big Data Specialty Tutorial
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxawscbdbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscbdbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Section1:Intro
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Section1:Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/1intro/" class="md-nav__link">
+        AWS Certified Big Data Specialty 2020 - In Depth & Hands On!
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Section2:Collection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Section2:Collection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/2Kinesis_data_collection/" class="md-nav__link">
+        L1 Collections - Kinesis DataStream Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/3Coll_Kinesis_Firehose_Exer/" class="md-nav__link">
+        L2 [Exercise] Kinesis Firehose (PurchaseLogs/OrderLogs)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/4Coll_Kinesis_DS_Exer/" class="md-nav__link">
+        L3 [Exercise] Kinesis Data Streams
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/5Coll_SQS_Kinesis/" class="md-nav__link">
+        L4 SQS vs. Kinesis Data Stream
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/6Coll_IOT/" class="md-nav__link">
+        L5 IoT Overview and DeepDive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/7Coll_Others/" class="md-nav__link">
+        L6 Data Collection Others
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/7Coll_MSK/" class="md-nav__link">
+        L7 MSK Managed Streaming for Apache Kafka (Amazon MSK)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Section3:Storage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Section3:Storage
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8Storage_S3/" class="md-nav__link">
+        L1 Storage S3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/9Storage_dynamoDB/" class="md-nav__link">
+        L2 DynamoDB Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8Hands_onS3/" class="md-nav__link">
+        L3 Hands on S3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/10Storage_cache/" class="md-nav__link">
+        L4 ElastiCache Overview
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Section4:Processing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Section4:Processing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/11Process_Lambda/" class="md-nav__link">
+        L1 AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/12Process_Lambda_Exer/" class="md-nav__link">
+        L2 [Exercise] AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/13Process_ETL_intro/" class="md-nav__link">
+        L3 AWS Glue and Lake Formation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/15process_EMR/" class="md-nav__link">
+        L4 EMR Elastic MapReduce
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/17Process_EMR_Exer/" class="md-nav__link">
+        L5 Elastic MapReduce Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/15process_DataPipeline/" class="md-nav__link">
+        L6 AWS Data Pipeline
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/20Process_DL/" class="md-nav__link">
+        L7 Deep Learning
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Section5:Analysis
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Section5:Analysis
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/21Ana_KA/" class="md-nav__link">
+        L1 Amazon Kinesis Data Analytics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/22Ana_Kinesis_ana_Exer/" class="md-nav__link">
+        L2 Kinesis Analytics Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/23Ana_ES/" class="md-nav__link">
+        L3 Amazon Elasticsearch Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/24Ana_ES_Exer/" class="md-nav__link">
+        L4 Amazon Elasticsearch Service Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/25Ana_Athena/" class="md-nav__link">
+        L5 Amazon Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/26Glue_Athena_Exer/" class="md-nav__link">
+        L6 [Exercise] AWS Glue and Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/27Ana_Redshift/" class="md-nav__link">
+        L7 AWS Redshift
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/28Redshift_Spectrum_exer/" class="md-nav__link">
+        L8 [Exercise] Redshift Spectrum
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          Section6:Visualization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Section6:Visualization
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6/30Vis_Qs/" class="md-nav__link">
+        L1 Visualization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6/31Vis_Exer/" class="md-nav__link">
+        L2 Amazon Quicksight Exercise
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          Section7:Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Section7:Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/32Secu_Encryption/" class="md-nav__link">
+        L1 Security - Encryption
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/33Secu_bg_svc/" class="md-nav__link">
+        L2 AWS Services Security Deep Dive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/34Secu_account_fedration/" class="md-nav__link">
+        L3 Account and Identity Federation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/35Secu_others/" class="md-nav__link">
+        L4 Polices, CloudTrail & VPCe
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          Section8:WrapUp
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          Section8:WrapUp
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8/36bg_integration/" class="md-nav__link">
+        L1 AWS Bigdata Integration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8/37bg_instances/" class="md-nav__link">
+        L2 AWS Big Data Instances
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+          Section9:Machine Learning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          Section9:Machine Learning
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9/18Process_ML/" class="md-nav__link">
+        AWS Machine Learning （Amazon ML Service/Amazon SageMaker)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+          Section10:Quizs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Section10:Quizs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz1_coll/" class="md-nav__link">
+        Quiz1 Collection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz2_storage/" class="md-nav__link">
+        Quiz2 Storage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz3_lambda/" class="md-nav__link">
+        Quiz3 AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz4_glue/" class="md-nav__link">
+        Quiz4 AWS Glue
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz5_emr/" class="md-nav__link">
+        Quiz5 EMR and the Hadoop Ecosystem
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz6_ka/" class="md-nav__link">
+        Quiz6 Kinesis Analytics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz7_ES/" class="md-nav__link">
+        Quiz7 Amazon ES
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz8_athena/" class="md-nav__link">
+        Quiz8 Amazon Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz9_redshift/" class="md-nav__link">
+        Quiz9 Amazon Redshift
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz10_quicksight/" class="md-nav__link">
+        Quiz10 Amazon Quicksight
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz11_security/" class="md-nav__link">
+        Quiz11 Security
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz12_ML/" class="md-nav__link">
+        Quiz12 Amazon Machine Learning and Sagemaker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz_final/" class="md-nav__link">
+        AWS Certified Data Analytics Specialty Practice Exam
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+          Section11: Learning Big Data
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_12">
+          <span class="md-nav__icon md-icon"></span>
+          Section11: Learning Big Data
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap11_1bigdata_intro/" class="md-nav__link">
+        第一节 大数据体系中明确路径
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap11_2bigdata_structure/" class="md-nav__link">
+        第二节 大数据架构 & Hadoop介绍
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap11_3bigdata_coll/" class="md-nav__link">
+        第三节 大数据中的数据来源
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          第四节 HDFS解决大数据存储问题 & Hadoop on K8S
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        第四节 HDFS解决大数据存储问题 & Hadoop on K8S
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1、文件系统
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2hdfs" class="md-nav__link">
+    2、HDFS 基础
+  </a>
+  
+    <nav class="md-nav" aria-label="2、HDFS 基础">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-hdfs" class="md-nav__link">
+    2-1 HDFS 的架构
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3hdfs" class="md-nav__link">
+    3、HDFS 的优缺点
+  </a>
+  
+    <nav class="md-nav" aria-label="3、HDFS 的优缺点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-1" class="md-nav__link">
+    3-1 优点
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4kuberneteshadoop" class="md-nav__link">
+    4、在Kubernetes平台上运行Hadoop的实践
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5hdfs" class="md-nav__link">
+    5、HDFS 简单使用
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap11_5bigdata_hive_hbase/" class="md-nav__link">
+        第五节 HBase 和 Hive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap11_6bigdtat_kafka_flume/" class="md-nav__link">
+        第六节 消息系统 Kafka 与 Flume
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap11_7bigdata_mapreduce/" class="md-nav__link">
+        第七节 MapReduce 处理大数据
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap11_8bigdata_spark/" class="md-nav__link">
+        第八节 Spark 与 Flink 的爱恨情仇 (Spark)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap11_9bigdata_flink/" class="md-nav__link">
+        第九节 Spark 与 Flink 的爱恨情仇 (Flink)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap11_10data_mining/" class="md-nav__link">
+        第十节 数据挖掘
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+          Section12: AWS Big Data Concept(CN)
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_13">
+          <span class="md-nav__icon md-icon"></span>
+          Section12: AWS Big Data Concept(CN)
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap12/1aws_data_storage/" class="md-nav__link">
+        数据库、数据湖、数据仓库、湖仓一体、智能湖仓
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap12/2aws_emr_20230421/" class="md-nav__link">
+        20230421-云原生大数据EMR研讨会
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1、文件系统
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2hdfs" class="md-nav__link">
+    2、HDFS 基础
+  </a>
+  
+    <nav class="md-nav" aria-label="2、HDFS 基础">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-hdfs" class="md-nav__link">
+    2-1 HDFS 的架构
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3hdfs" class="md-nav__link">
+    3、HDFS 的优缺点
+  </a>
+  
+    <nav class="md-nav" aria-label="3、HDFS 的优缺点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-1" class="md-nav__link">
+    3-1 优点
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4kuberneteshadoop" class="md-nav__link">
+    4、在Kubernetes平台上运行Hadoop的实践
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5hdfs" class="md-nav__link">
+    5、HDFS 简单使用
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="hdfs-hadoop-on-k8s"><strong>第四节 HDFS解决大数据存储问题 &amp; Hadoop on K8S</strong></h1>
+<h2 id="1"><strong>1、文件系统</strong></h2>
+<p>在电脑中，常用的存储有内存和硬盘两种形式：</p>
+<ul>
+<li>内存的速度快，但是价格更贵，所以使用的存储容量较小；</li>
+<li>硬盘价格便宜，速度要慢很多。</li>
+</ul>
+<p><strong>电脑中一般都使用硬盘来进行长期存储，而内存用来存储程序运行时的数据。</strong>所以，对于我们的硬盘来说，最基本的功能就是读取和写入功能。</p>
+<ul>
+<li>硬盘上的位置如何划分；</li>
+<li>怎么能够尽快在硬盘上找到需要的数据；</li>
+<li>对于一块空间如何保障读数据和写数据不是同时进行的；</li>
+</ul>
+<p>一个文件就是一个单元，占用一个独立的地址空间，程序可以读取文件或者创建新的文件。</p>
+<p>而对这些文件进行管理，解决这些文件的结构、访问、保护、寻址等功能的系统，我们就称为文件系统。</p>
+<p><strong>而我们所要介绍的 HDFS，全称 Hadoop Distribute File System，也就是分布式文件系统的意思，HDFS 是文件系统的一种实例。</strong></p>
+<h2 id="2hdfs"><strong>2、HDFS 基础</strong></h2>
+<p>HDFS，它可以利用廉价的普通服务器作为其存储，组建一个大规模存储集群，为各类计算提供数据访问的基础。那么 HDFS 的文件系统比起一般的文件系统有什么特色呢？</p>
+<p><strong>其实 HDFS 文件系统最大的特色就是它在分布式架构上的处理，同时 HDFS 的设计适合一次写入，多次读出的场景，且不支持文件的修改，所以不适合反复修改数据的场景</strong>。</p>
+<h3 id="2-1-hdfs"><strong>2-1 HDFS 的架构</strong></h3>
+<p><strong>1、数据块</strong></p>
+<p>HDFS 默认最基本的存储单位是 64MB 的数据块（在 2.x 版本中是 128MB），大小通过配置可调。对于存储空间未达到数据块大小的文件，不会占用整个数据块的存储空间。</p>
+<p><strong>2、元数据节点（NameNode）</strong></p>
+<p>元数据节点算是 HDFS 中非常重要的一个概念，用于管理文件系统的命令空间，将所有文件和文件夹的元数据保存在文件系统树中，通过在硬盘保存避免丢失，采用文件命名空间镜像（fs image）及修改日志（edit log）方式保存。</p>
+<p><strong>3、数据节点（DataNode）</strong></p>
+<p>数据节点即是真正数据存储的地方。</p>
+<p><strong>4、从元数据节点（Secondary NameNode）</strong></p>
+<p>从字面来看像是元数据节点的备用节点，但实际不然，<strong>它和元数据节点负责不同的事情，主要负责将命名空间镜像与修改日志文件周期性合并，避免文件过大，合并过后文件会同步至元数据节点，同时本地保存一份，以便在出现故障时恢复。</strong></p>
+<p><strong>5、Client，即客户端</strong></p>
+<ul>
+<li>客户端是我们平时用来和 HDFS 服务进行交互的部分，客户端中内置了一套文件操作命令来帮助我们访问 HDFS 服务，比如说我们上传文件、下载文件；</li>
+<li>同时客户端还负责把我们上传的文件按前面说的数据块进行切分，以方便后续的存储；</li>
+<li><strong>因此，客户端当然也负责与 NameNode 和 DataNode 进行交互以获取文件位置或者读写文件操作等</strong>。</li>
+</ul>
+<p><strong>HDFS的架构</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap11_4_1.png" title="Body image" /></p>
+<h2 id="3hdfs"><strong>3、HDFS 的优缺点</strong></h2>
+<h3 id="3-1"><strong>3-1 优点</strong></h3>
+<ul>
+<li>
+<p>高容错性。</p>
+<ul>
+<li>在 HDFS 文件系统中，数据都会有多个副本。其中的某一个副本丢失（某一个节点的机器损坏）并不影响整体的使用，可以自动恢复。</li>
+</ul>
+</li>
+<li>
+<p><strong>适合大数据处理</strong>。</p>
+<ul>
+<li>数据规模：能够处理数据规模达到 GB、TB、甚至 PB 级别的数据；</li>
+<li>文件规模：能够处理百万规模以上的文件数量，相当之大。</li>
+</ul>
+</li>
+<li>
+<p><strong>提供数据一致性保障</strong>。</p>
+</li>
+<li>任意一个节点所占用的资源较少，<strong>可以在廉价的机器上运行，支持线性扩张</strong>。</li>
+</ul>
+<p><strong>3-2 缺点</strong></p>
+<ul>
+<li><strong>不适合低延时数据访问，比如毫秒级的存储数据，是做不到的</strong>。</li>
+<li><strong>无法高效地对大量小文件进行存储</strong>。<ul>
+<li>存储大量小文件的话，它会占用 NameNode 大量的内存来存储文件、目录和块信息。这样是不可取的，因为 NameNode 的内存总是有限的；</li>
+<li>小文件存储的寻址时间会超过读取时间，它违反了 HDFS 的设计目标。</li>
+</ul>
+</li>
+<li><strong>不支持并发写入、文件随机修改</strong>。</li>
+</ul>
+<p>对于一个文件，只能有一个线程写入，不可以多个线程同时写入。基本不能进行文件的修改，只支持数据的追加，如果想修改需要使用新文件覆盖整个旧的文件。</p>
+<h2 id="4kuberneteshadoop"><strong>4、在Kubernetes平台上运行Hadoop的实践</strong></h2>
+<p>本文我们给出Hadoop在Kubernetes上的实践案例，以弥补这种缺憾。</p>
+<ul>
+<li>第一， Hadoop集群重度依赖DNS机制，一些组件还使用了反向域名解析，以确定集群中的节点身份，这对Hadoop在Kubernetes上的建模和运行带来极大挑战，需要深入了解Hadoop集群工作原理并且精通Kubernetes，才能很好解决这一难题。</li>
+<li>第二， <strong>Hadoop新的Map-Reduce计算框架Yarn的模型出现的比较晚，它的集群机制要比HDFS复杂，资料也相对较少，增加了Hadoop整体建模与迁移Kubernetes平台的难度</strong>。</li>
+<li>第三， Hadoop与Kubernetes分别属于两个不同的领域，一个是传统的大数据领域，一个是新兴的容器与微服务架构领域，这两个领域之间交集本来很小，加之Hadoop最近几年已经失去焦点（这点从百度搜索关键词就能发现），所以，没有多少人关注和研究Hadoop在Kubernetes的部署问题，也是情理之中的事情。</li>
+</ul>
+<p>Hadoop 2.0其实是由两套完整的集群所组成，一个是基本的HDFS文件集群，一个是YARN资源调度集群，如下图所示：</p>
+<p><img alt="Alt Image Text" src="../../images/chap11_4_2.png" title="Body image" /></p>
+<p>因此在Kubernetes建模之前，我们需要分别对这两种集群的工作机制和运行原理做出深入的分析，下图是HDFS集群的架构图：</p>
+<p><img alt="Alt Image Text" src="../../images/chap11_4_1.png" title="Body image" /></p>
+<p>我们看到，HDFS集群是由NameNode（Master节点）和Datanode（数据节点）等两类节点所组成，其中，客户端程序（Client）以及DataNode节点会访问NameNode，因此，NameNode节点需要建模为Kubernetes Service以提供服务，以下是对应的Service定义文件：</p>
+<pre><code>apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-hadoop-master
+spec:
+  // type: NodePort
+  type: clusterIP
+  selector:
+    app: k8s-hadoop-master
+  ports:
+    - name: rpc
+      port: 9000
+      targetPort: 9000
+    - name: http
+      port: 50070
+      targetPort: 50070
+      nodePort: 32007
+</code></pre>
+<p>其中，NameNode节点暴露2个服务端口：</p>
+<ul>
+<li>9000端口用于内部IPC通信，主要用于获取文件的元数据</li>
+<li>50070端口用于HTTP服务，为Hadoop 的Web管理使用</li>
+</ul>
+<p>为了减少Hadoop镜像的数量，我们构建了一个镜像，并且通过容器的环境变量<code>HADOOP_NODE_TYPE</code>来区分不同的节点类型，从而启动不同的<code>Hadoop</code>组件，下面是镜像里的启动脚本startnode.sh的内容：</p>
+<pre><code>#!/usr/bin/env bash
+sed -i &quot;s/@HDFS_MASTER_SERVICE@/$HDFS_MASTER_SERVICE/g&quot; $HADOOP_HOME/etc/hadoop/core-site.xml
+sed -i &quot;s/@HDOOP_YARN_MASTER@/$HDOOP_YARN_MASTER/g&quot; $HADOOP_HOME/etc/hadoop/yarn-site.xml
+yarn-master
+HADOOP_NODE=&quot;${HADOOP_NODE_TYPE}&quot;
+if [ $HADOOP_NODE = &quot;datanode&quot; ]; then
+        echo &quot;Start DataNode ...&quot;
+        hdfs datanode  -regular
+else
+    if [  $HADOOP_NODE = &quot;namenode&quot; ]; then
+        echo &quot;Start NameNode ...&quot;
+        hdfs namenode
+    else
+        if [ $HADOOP_NODE = &quot;resourceman&quot; ]; then
+            echo &quot;Start Yarn Resource Manager ...&quot;
+            yarn resourcemanager
+        else
+             if [ $HADOOP_NODE = &quot;yarnnode&quot; ]; then
+                 echo &quot;Start Yarn Resource Node  ...&quot;
+                 yarn nodemanager    
+             else               
+                echo &quot;not recoginized nodetype &quot;
+             fi
+        fi
+    fi  
+fi
+</code></pre>
+<p>我们注意到，启动命令里把Hadoop配置文件（<code>core-site.xml</code>与<code>yarn-site.xml</code>）中的HDFS Master节点地址用环境变量中的参数<code>HDFS_MASTER_SERVICE</code>来替换，YARN Master节点地址则用<code>HDOOP_YARN_MASTER</code>来替换。</p>
+<p>下图是Hadoop HDFS 2节点集群的完整建模示意图：</p>
+<p><img alt="Alt Image Text" src="../../images/chap11_4_3.png" title="Body image" /></p>
+<p>图中的圆圈表示Pod，可以看到，Datanode并没有建模<code>Kubernetes Service</code>，而是建模为独立的Pod，这是因为Datanode并不直接被客户端所访问，因此无需建模<code>Service</code>。</p>
+<p>当Datanode运行在Pod容器里的时候，我们需要修改配置文件中的以下参数，取消<code>DataNode</code>节点所在主机的主机名（DNS）与对应IP地址的检查机制：</p>
+<pre><code>dfs.namenode.datanode.registration.ip-hostname-check=false
+</code></pre>
+<p>如果上述参数没有修改，就会出现DataNode集群“分裂”的假象，因为Pod的主机名无法对应Pod的IP地址，因此界面会显示2个节点，这两个节点都状态都为异常状态。</p>
+<pre><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: k8s-hadoop-master
+  labels:
+    app: k8s-hadoop-master
+spec:
+  containers:
+    - name: k8s-hadoop-master
+      image: kubeguide/hadoop
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 9000
+        - containerPort: 50070    
+      env:
+        - name: HADOOP_NODE_TYPE
+          value: namenode
+        - name: HDFS_MASTER_SERVICE
+          valueFrom:
+            configMapKeyRef:
+              name: ku8-hadoop-conf
+              key: HDFS_MASTER_SERVICE
+        - name: HDOOP_YARN_MASTER
+          valueFrom:
+            configMapKeyRef:
+              name: ku8-hadoop-conf
+              key: HDOOP_YARN_MASTER
+  restartPolicy: Always
+</code></pre>
+<p>下面是HDFS的Datanode的节点定义（<code>hadoop-datanode-1</code>）：</p>
+<pre><code>apiVersion: v1
+kind: Pod
+metadata:
+    name: hadoop-datanode-1
+    labels:
+      app: hadoop-datanode-1
+spec:
+  containers:
+    - name: hadoop-datanode-1
+      image: kubeguide/hadoop
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 9000
+        - containerPort: 50070    
+      env:
+        - name: HADOOP_NODE_TYPE
+          value: datanode
+        - name: HDFS_MASTER_SERVICE
+          valueFrom:
+            configMapKeyRef:
+              name: ku8-hadoop-conf
+              key: HDFS_MASTER_SERVICE
+        - name: HDOOP_YARN_MASTER
+          valueFrom:
+            configMapKeyRef:
+              name: ku8-hadoop-conf
+              key: HDOOP_YARN_MASTER        
+  restartPolicy: Always
+</code></pre>
+<p>实际上，Datanode可以用DaemonSet方式在每个Kubernerntes节点上部署一个，在这里为了清晰起见，就没有用这个方式 定义。</p>
+<p>接下来，我们来看看Yarn框架如何建模，下图是Yarn框架的集群架构图：</p>
+<p><img alt="Alt Image Text" src="../../images/chap11_4_4.png" title="Body image" /></p>
+<p>我们看到，Yarn集群中存在两种角色的节点：</p>
+<p><strong>ResourceManager以及NodeManger，前者属于Yarn集群的头脑（Master），后者是工作承载节点（Work Node），这个架构虽然与HDFS很相似，但因为一个重要细节的差别，无法沿用HDFS的建模方式，这个细节就是Yarn集群中的ResourceManager要对NodeManger节点进行严格验证，即NodeManger节点的节点所在主机的主机名（DNS）与对应IP地址严格匹配，</strong></p>
+<p>简单来说，就是要符合如下规则：</p>
+<p><strong>NodeManger建立TCP连接时所用的IP地址，必须是该节点主机名对应的IP地址，即主机DNS名称解析后返回节点的IP地址。</strong></p>
+<p>所以我们采用了Kubernetes里较为特殊的一种Service——Headless Service来解决这个问题，即为<strong>每个NodeManger节点建模一个Headless Service与对应的Pod，下面是一个ResourceManager与两个NodeManger节点所组成的Yarn集群的建模示意图：</strong></p>
+<p><strong>Headless Service的特殊之处在于这种Service没有分配Cluster IP，</strong></p>
+<p><strong>在Kuberntes DNS里Ping这种Service的名称时，会返回后面对应的Pod的IP地址，如果后面有多个Pod实例，则会随机轮询返回其中一个的Pod地址，我们用Headless Service建模NodeManger的时候，</strong></p>
+<p>还有一个细节需要注意，即Pod的名字（容器的主机名）必须与对应的Headless Service的名字一样，这样一来，当运行在容器里的NodeManger进程向ResourceManager发起TCP连接的过程中会用到容器的主机名，<strong>而这个主机名恰好是NodeManger Service的服务名，而这个服务名解析出来的IP地址又刚好是容器的IP地址，这样一来，就巧妙的解决了Yarn集群的DNS限制问题。</strong></p>
+<p>下面以yarn-node-1为例，给出对应的Service与Pod的YAM文件，首先是yarn-node-1对应的Headless Service的YAM定义：</p>
+<pre><code>apiVersion: v1
+kind: Service
+metadata:
+  name: yarn-node-1
+spec:
+  clusterIP: None
+  selector:
+    app: yarn-node-1
+  ports:
+     - port: 8040
+</code></pre>
+<p><strong>注意到定义中“clusterIP:None”这句话，表明这是一个Headless Service，</strong>没有自己的Cluster IP地址，下面给出YAM文件定义：</p>
+<pre><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: yarn-node-1
+  labels:
+    app: yarn-node-1
+spec:
+  containers:
+    - name: yarn-node-1
+      image: kubeguide/hadoop
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 8040
+        - containerPort: 8041   
+        - containerPort: 8042        
+      env:
+        - name: HADOOP_NODE_TYPE
+          value: yarnnode
+        - name: HDFS_MASTER_SERVICE
+          valueFrom:
+            configMapKeyRef:
+              name: ku8-hadoop-conf
+              key: HDFS_MASTER_SERVICE
+        - name: HDOOP_YARN_MASTER
+          valueFrom:
+            configMapKeyRef:
+              name: ku8-hadoop-conf
+              key: HDOOP_YARN_MASTER          
+  restartPolicy: Always
+</code></pre>
+<p>ResourceManager的YAML定义没有什么特殊的地方，其中Service定义如下：</p>
+<pre><code>apiVersion: v1
+kind: Service
+metadata:
+  name: ku8-yarn-master
+spec:
+  type: NodePort
+  selector:
+    app: yarn-master
+  ports:
+     - name: &quot;8030&quot;       
+       port: 8030
+     - name: &quot;8031&quot;     
+       port: 8031
+     - name: &quot;8032&quot;
+       port: 8032     
+     - name: http
+       port: 8088
+       targetPort: 8088
+       nodePort: 32088
+</code></pre>
+<p>对应的Pod定义如下：</p>
+<pre><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: yarn-master
+  labels:
+    app: yarn-master
+spec:
+  containers:
+    - name: yarn-master
+      image: kubeguide/hadoop
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 9000
+        - containerPort: 50070    
+      env:
+        - name: HADOOP_NODE_TYPE
+          value: resourceman
+        - name: HDFS_MASTER_SERVICE
+          valueFrom:
+            configMapKeyRef:
+              name: ku8-hadoop-conf
+              key: HDFS_MASTER_SERVICE
+        - name: HDOOP_YARN_MASTER
+          valueFrom:
+            configMapKeyRef:
+              name: ku8-hadoop-conf
+              key: HDOOP_YARN_MASTER          
+  restartPolicy: Always
+</code></pre>
+<p>目前这个方案，还遗留了一个问题有待解决：HDFS NameNode节点重启后的文件系统格式化问题，这个问题可以通过启动脚本来解决，即判断HDFS文件系统是否已经格式化过，如果没有，就启动时候执行格式化命令，否则跳过格式化命令。</p>
+<p>安装完毕后，我们可以通过浏览器访问Hadoop的HDFS管理界面，点击主页上的Overview页签会显示我们熟悉的HDFS界面：</p>
+<p><img alt="Alt Image Text" src="../../images/chap11_4_5.png" title="Body image" /></p>
+<p>切换到Datanodes页签，可以看到每个Datanodes的的信息以及当前状态：</p>
+<p><img alt="Alt Image Text" src="../../images/chap11_4_6.png" title="Body image" /></p>
+<p>接下来，<strong>我们可以登录到NameNode所在的Pod里并执行HDSF命令进行功能性验证，下面的命令执行结果是建立一个HDFS目录，并且上传一个文件到此目录中</strong>：</p>
+<p><img alt="Alt Image Text" src="../../images/chap11_4_7.png" title="Body image" /></p>
+<p>然后，我们可以在HDFS管理界面中浏览HDFS文件系统，验证刚才的操作结果：</p>
+<p><img alt="Alt Image Text" src="../../images/chap11_4_8.png" title="Body image" /></p>
+<p>接下来，我们再登录到hadoop-master对应的Pod上，启动一个Map-Reduce测试作业——wordcount，作业启动后，我们可以在Yarn的管理界面中看到作业的执行信息，如下图所示：</p>
+<p><img alt="Alt Image Text" src="../../images/chap11_4_9.png" title="Body image" /></p>
+<p>当作业执行完成后，可以通过界面看到详细的统计信息，比如wordcount的执行结果如下图所示：</p>
+<p><img alt="Alt Image Text" src="../../images/chap11_4_10.png" title="Body image" /></p>
+<p>最后，我们进行了裸机版Hadoop集群与Kubernetes之上的Hadoop集群的性能对比测试，测试环境为十台服务器组成的集群，具体参数如下：</p>
+<p>硬件：</p>
+<ul>
+<li>CPU：<code>2*E5-2640v3-8Core</code></li>
+<li>内存：<code>16*16G DDR4</code></li>
+<li>网卡：2*10GE多模光口</li>
+<li>硬盘：12*3T SATA</li>
+</ul>
+<p>软件：</p>
+<ul>
+<li>BigCloud Enterprise Linux 7（GNU/Linux 3.10.0-514.el7.x86_64 x86_64）</li>
+<li>Hadoop2.7.2</li>
+<li>Kubernetes 1.7.4+ Calico V3.0.1</li>
+</ul>
+<p>我们执行了以下这些标准测试项：</p>
+<ul>
+<li>TestDFSIO：分布式系统读写测试</li>
+<li>NNBench：NameNode测试</li>
+<li>MRBench：MapReduce测试</li>
+<li>WordCount：单词频率统计任务测试</li>
+<li>TeraSort：TeraSort任务测试</li>
+</ul>
+<p><strong>综合测试下来，Hadoop跑在Kuberntes集群上时，性能有所下降，以TestDFSIO的测试为例，下面是Hadoop集群文件读取的性能测试对比：</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap11_4_11.png" title="Body image" /></p>
+<p>我们看到，Kubernetes集群上的文件读性能与物理机相比，下降了差不多30%左右，并且任务执行时间也增加不少，再来对比文件写入的性能，测试结果如下下图所示：</p>
+<p><img alt="Alt Image Text" src="../../images/chap11_4_12.png" title="Body image" /></p>
+<p>我们看到，写文件性能的差距并不大，这里的主要原因是在测试过程中，HDFS写磁盘的速度远远低于读磁盘的速度，因此无法拉开差距。</p>
+<p>之所以部署在Kuberntes上的Hadoop集群的性能会有所下降，主要一个原因是容器虚拟网络所带来的性能损耗，如果用Host Only模型，则两者之间的差距会进一步缩小，下图是TestDFSIO测试中Hadoop集群文件读取的性能测试对比：</p>
+<p><img alt="Alt Image Text" src="../../images/chap11_4_13.png" title="Body image" /></p>
+<p>因此我们建议在生产环境中采用Host Only的网络模型，以提升Hadoop的集群性能。</p>
+<p>攻下Hadoop在Kubernetes上的部署，并且在生产中加以验证，我们可以很自豪的说，现在没有什么能够难倒应用向Kubernetes的迁移的步伐，采用统一的PaaS构建企业的应用集群和大数据集群，实现资源的共享和服务的统一管理将会大大的提升企业的业务部署速度和管理的效率。</p>
+<h2 id="5hdfs"><strong>5、HDFS 简单使用</strong></h2>
+<p>除了这些命令，HDFS 的操作还有：</p>
+<ul>
+<li>显示文件内容的 cat 命令；</li>
+<li>上传文件的 put 命令；</li>
+<li>下载文件的 get 命令；</li>
+<li>移动文件的 mv 命令；</li>
+<li>删除文件的 rm 命令；</li>
+<li>……</li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.fac441b0.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2756 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's AWS Certified Big Data Specialty">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+        <link rel="canonical" href="https://chao-xi.github.io/jxawscbdbook/chap2/2Kinesis_data_collection/">
+      
+      
+        <link rel="prev" href="../../chap1/1intro/">
+      
+      
+        <link rel="next" href="../3Coll_Kinesis_Firehose_Exer/">
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
+    
+    
+      
+        <title>L1 Collections - Kinesis DataStream Overview - Jacob AWS Certified Big Data Specialty Tutorial</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a6bdf11c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="amber" data-md-color-accent="amber">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#l1-collections-kinesis-datastream-overview" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AWS Certified Big Data Specialty Tutorial" class="md-header__button md-logo" aria-label="Jacob AWS Certified Big Data Specialty Tutorial" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AWS Certified Big Data Specialty Tutorial
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              L1 Collections - Kinesis DataStream Overview
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxawscbdbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscbdbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AWS Certified Big Data Specialty Tutorial" class="md-nav__button md-logo" aria-label="Jacob AWS Certified Big Data Specialty Tutorial" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AWS Certified Big Data Specialty Tutorial
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxawscbdbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscbdbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Section1:Intro
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Section1:Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/1intro/" class="md-nav__link">
+        AWS Certified Big Data Specialty 2020 - In Depth & Hands On!
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Section2:Collection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Section2:Collection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          L1 Collections - Kinesis DataStream Overview
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        L1 Collections - Kinesis DataStream Overview
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-collection-section-introduction-moving-data-into-aws" class="md-nav__link">
+    1. Collection Section Introduction (Moving Data into AWS)
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Collection Section Introduction (Moving Data into AWS)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-collection-introduction" class="md-nav__link">
+    1-1 Collection Introduction
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-aws-kinesis-overview" class="md-nav__link">
+    1-2 AWS Kinesis Overview
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-kinesis" class="md-nav__link">
+    1-3 Kinesis
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-4-kinesis-streams-overview" class="md-nav__link">
+    1-4 Kinesis Streams Overview
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-5-kinesis-streams-shards" class="md-nav__link">
+    1-5 Kinesis Streams Shards
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-6-kinesis-streams-records" class="md-nav__link">
+    1-6 Kinesis Streams Records
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-7-kinesis-data-streams-limits-to-know" class="md-nav__link">
+    1-7 Kinesis Data Streams Limits to know
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-8-kinesis-data-streams-handling-duplicates-for-producers" class="md-nav__link">
+    1-8 Kinesis Data Streams — Handling Duplicates For Producers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-9-kinesis-data-streams-kinesis-data-streams-handling-duplicates-for-consumers" class="md-nav__link">
+    1-9 Kinesis Data Streams — Kinesis Data Streams — Handling Duplicates For Consumers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-10-cloudwatch-logs-subscriptions-filters-with-kinesis" class="md-nav__link">
+    1-10 CloudWatch Logs Subscriptions Filters with Kinesis
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-11-cloudwatch-logs-subscription-filter-patterns-near-real-time-into-amazon-es" class="md-nav__link">
+    1-11 CloudWatch Logs Subscription Filter Patterns Near Real Time into Amazon ES
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2kinesis-producers" class="md-nav__link">
+    2、Kinesis Producers
+  </a>
+  
+    <nav class="md-nav" aria-label="2、Kinesis Producers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-kinesis-producer-sdk-putrecords" class="md-nav__link">
+    2-1 Kinesis Producer SDK - PutRecord(s)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-aws-kinesis-api-exceptions" class="md-nav__link">
+    2-2 AWS Kinesis API Exceptions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-3-kinesis-producer-library-kpl-aggrengation" class="md-nav__link">
+    2-3 Kinesis Producer Library (KPL) Aggrengation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-4-kinesis-agent" class="md-nav__link">
+    2-4 Kinesis Agent
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3kinesis-consumers" class="md-nav__link">
+    3、Kinesis Consumers
+  </a>
+  
+    <nav class="md-nav" aria-label="3、Kinesis Consumers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-1-kinesis-consumers-classic" class="md-nav__link">
+    3-1 Kinesis Consumers - Classic
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2-kinesis-consumer-sdk-getrecords" class="md-nav__link">
+    3-2 Kinesis Consumer SDK - GetRecords
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-3-kinesis-client-library-kcl-de-aggregation" class="md-nav__link">
+    3-3 Kinesis Client Library (KCL) &gt; de-aggregation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-4-kinesis-connector-library" class="md-nav__link">
+    3-4 Kinesis Connector Library
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-5aws-lambda-sourcing-from-kinesis" class="md-nav__link">
+    3-5AWS Lambda sourcing from Kinesis
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4kinesis-enhanced-fan-out" class="md-nav__link">
+    4、Kinesis Enhanced Fan Out
+  </a>
+  
+    <nav class="md-nav" aria-label="4、Kinesis Enhanced Fan Out">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-kinesis-enhanced-fan-out" class="md-nav__link">
+    4-1 Kinesis Enhanced Fan Out
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2-enhanced-fan-out-vs-standard-consumers" class="md-nav__link">
+    4-2 Enhanced Fan Out vs Standard Consumers
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5kinesis-scaling" class="md-nav__link">
+    5、Kinesis Scaling
+  </a>
+  
+    <nav class="md-nav" aria-label="5、Kinesis Scaling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-1-kinesis-operations-adding-shards" class="md-nav__link">
+    5-1 Kinesis Operations — Adding Shards
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-2-kinesis-operations-merging-shards" class="md-nav__link">
+    5-2 Kinesis Operations Merging Shards
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-3-kinesis-operations-auto-scaling" class="md-nav__link">
+    5-3 Kinesis Operations Auto Scaling
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-4-kinesis-scaling-limitations" class="md-nav__link">
+    5-4 Kinesis Scaling Limitations
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6kinesis-security" class="md-nav__link">
+    6、Kinesis Security
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7aws-kinesis-data-firehose" class="md-nav__link">
+    7、AWS kinesis Data Firehose
+  </a>
+  
+    <nav class="md-nav" aria-label="7、AWS kinesis Data Firehose">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#7-1-kinesis-data-firehose-diagram" class="md-nav__link">
+    7-1 kinesis Data Firehose Diagram
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-2-kinesis-data-firehose-deliver-diagram" class="md-nav__link">
+    7-2 Kinesis Data Firehose Deliver Diagram
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-3-firehose-buffer-sizing" class="md-nav__link">
+    7-3 Firehose Buffer Sizing
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8kinesis-data-streams-vs-firehose" class="md-nav__link">
+    8、Kinesis Data Streams vs Firehose
+  </a>
+  
+    <nav class="md-nav" aria-label="8、Kinesis Data Streams vs Firehose">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8-1-streams" class="md-nav__link">
+    8-1 Streams
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-2-firehose" class="md-nav__link">
+    8-2 Firehose
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9kinesis-data-streams-vs-firehose" class="md-nav__link">
+    9、Kinesis Data Streams vs Firehose
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3Coll_Kinesis_Firehose_Exer/" class="md-nav__link">
+        L2 [Exercise] Kinesis Firehose (PurchaseLogs/OrderLogs)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4Coll_Kinesis_DS_Exer/" class="md-nav__link">
+        L3 [Exercise] Kinesis Data Streams
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5Coll_SQS_Kinesis/" class="md-nav__link">
+        L4 SQS vs. Kinesis Data Stream
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6Coll_IOT/" class="md-nav__link">
+        L5 IoT Overview and DeepDive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7Coll_Others/" class="md-nav__link">
+        L6 Data Collection Others
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7Coll_MSK/" class="md-nav__link">
+        L7 MSK Managed Streaming for Apache Kafka (Amazon MSK)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Section3:Storage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Section3:Storage
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8Storage_S3/" class="md-nav__link">
+        L1 Storage S3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/9Storage_dynamoDB/" class="md-nav__link">
+        L2 DynamoDB Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8Hands_onS3/" class="md-nav__link">
+        L3 Hands on S3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/10Storage_cache/" class="md-nav__link">
+        L4 ElastiCache Overview
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Section4:Processing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Section4:Processing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/11Process_Lambda/" class="md-nav__link">
+        L1 AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/12Process_Lambda_Exer/" class="md-nav__link">
+        L2 [Exercise] AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/13Process_ETL_intro/" class="md-nav__link">
+        L3 AWS Glue and Lake Formation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/15process_EMR/" class="md-nav__link">
+        L4 EMR Elastic MapReduce
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/17Process_EMR_Exer/" class="md-nav__link">
+        L5 Elastic MapReduce Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/15process_DataPipeline/" class="md-nav__link">
+        L6 AWS Data Pipeline
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/20Process_DL/" class="md-nav__link">
+        L7 Deep Learning
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Section5:Analysis
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Section5:Analysis
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/21Ana_KA/" class="md-nav__link">
+        L1 Amazon Kinesis Data Analytics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/22Ana_Kinesis_ana_Exer/" class="md-nav__link">
+        L2 Kinesis Analytics Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/23Ana_ES/" class="md-nav__link">
+        L3 Amazon Elasticsearch Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/24Ana_ES_Exer/" class="md-nav__link">
+        L4 Amazon Elasticsearch Service Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/25Ana_Athena/" class="md-nav__link">
+        L5 Amazon Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/26Glue_Athena_Exer/" class="md-nav__link">
+        L6 [Exercise] AWS Glue and Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/27Ana_Redshift/" class="md-nav__link">
+        L7 AWS Redshift
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/28Redshift_Spectrum_exer/" class="md-nav__link">
+        L8 [Exercise] Redshift Spectrum
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          Section6:Visualization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Section6:Visualization
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6/30Vis_Qs/" class="md-nav__link">
+        L1 Visualization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6/31Vis_Exer/" class="md-nav__link">
+        L2 Amazon Quicksight Exercise
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          Section7:Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Section7:Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/32Secu_Encryption/" class="md-nav__link">
+        L1 Security - Encryption
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/33Secu_bg_svc/" class="md-nav__link">
+        L2 AWS Services Security Deep Dive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/34Secu_account_fedration/" class="md-nav__link">
+        L3 Account and Identity Federation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/35Secu_others/" class="md-nav__link">
+        L4 Polices, CloudTrail & VPCe
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          Section8:WrapUp
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          Section8:WrapUp
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8/36bg_integration/" class="md-nav__link">
+        L1 AWS Bigdata Integration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8/37bg_instances/" class="md-nav__link">
+        L2 AWS Big Data Instances
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+          Section9:Machine Learning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          Section9:Machine Learning
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9/18Process_ML/" class="md-nav__link">
+        AWS Machine Learning （Amazon ML Service/Amazon SageMaker)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+          Section10:Quizs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Section10:Quizs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz1_coll/" class="md-nav__link">
+        Quiz1 Collection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz2_storage/" class="md-nav__link">
+        Quiz2 Storage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz3_lambda/" class="md-nav__link">
+        Quiz3 AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz4_glue/" class="md-nav__link">
+        Quiz4 AWS Glue
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz5_emr/" class="md-nav__link">
+        Quiz5 EMR and the Hadoop Ecosystem
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz6_ka/" class="md-nav__link">
+        Quiz6 Kinesis Analytics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz7_ES/" class="md-nav__link">
+        Quiz7 Amazon ES
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz8_athena/" class="md-nav__link">
+        Quiz8 Amazon Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz9_redshift/" class="md-nav__link">
+        Quiz9 Amazon Redshift
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz10_quicksight/" class="md-nav__link">
+        Quiz10 Amazon Quicksight
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz11_security/" class="md-nav__link">
+        Quiz11 Security
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz12_ML/" class="md-nav__link">
+        Quiz12 Amazon Machine Learning and Sagemaker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz_final/" class="md-nav__link">
+        AWS Certified Data Analytics Specialty Practice Exam
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+          Section11: Learning Big Data
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_12">
+          <span class="md-nav__icon md-icon"></span>
+          Section11: Learning Big Data
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_1bigdata_intro/" class="md-nav__link">
+        第一节 大数据体系中明确路径
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_2bigdata_structure/" class="md-nav__link">
+        第二节 大数据架构 & Hadoop介绍
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_3bigdata_coll/" class="md-nav__link">
+        第三节 大数据中的数据来源
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_4bigdata_hdfs/" class="md-nav__link">
+        第四节 HDFS解决大数据存储问题 & Hadoop on K8S
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_5bigdata_hive_hbase/" class="md-nav__link">
+        第五节 HBase 和 Hive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_6bigdtat_kafka_flume/" class="md-nav__link">
+        第六节 消息系统 Kafka 与 Flume
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_7bigdata_mapreduce/" class="md-nav__link">
+        第七节 MapReduce 处理大数据
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_8bigdata_spark/" class="md-nav__link">
+        第八节 Spark 与 Flink 的爱恨情仇 (Spark)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_9bigdata_flink/" class="md-nav__link">
+        第九节 Spark 与 Flink 的爱恨情仇 (Flink)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_10data_mining/" class="md-nav__link">
+        第十节 数据挖掘
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+          Section12: AWS Big Data Concept(CN)
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_13">
+          <span class="md-nav__icon md-icon"></span>
+          Section12: AWS Big Data Concept(CN)
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap12/1aws_data_storage/" class="md-nav__link">
+        数据库、数据湖、数据仓库、湖仓一体、智能湖仓
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap12/2aws_emr_20230421/" class="md-nav__link">
+        20230421-云原生大数据EMR研讨会
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-collection-section-introduction-moving-data-into-aws" class="md-nav__link">
+    1. Collection Section Introduction (Moving Data into AWS)
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Collection Section Introduction (Moving Data into AWS)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-collection-introduction" class="md-nav__link">
+    1-1 Collection Introduction
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-aws-kinesis-overview" class="md-nav__link">
+    1-2 AWS Kinesis Overview
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-kinesis" class="md-nav__link">
+    1-3 Kinesis
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-4-kinesis-streams-overview" class="md-nav__link">
+    1-4 Kinesis Streams Overview
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-5-kinesis-streams-shards" class="md-nav__link">
+    1-5 Kinesis Streams Shards
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-6-kinesis-streams-records" class="md-nav__link">
+    1-6 Kinesis Streams Records
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-7-kinesis-data-streams-limits-to-know" class="md-nav__link">
+    1-7 Kinesis Data Streams Limits to know
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-8-kinesis-data-streams-handling-duplicates-for-producers" class="md-nav__link">
+    1-8 Kinesis Data Streams — Handling Duplicates For Producers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-9-kinesis-data-streams-kinesis-data-streams-handling-duplicates-for-consumers" class="md-nav__link">
+    1-9 Kinesis Data Streams — Kinesis Data Streams — Handling Duplicates For Consumers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-10-cloudwatch-logs-subscriptions-filters-with-kinesis" class="md-nav__link">
+    1-10 CloudWatch Logs Subscriptions Filters with Kinesis
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-11-cloudwatch-logs-subscription-filter-patterns-near-real-time-into-amazon-es" class="md-nav__link">
+    1-11 CloudWatch Logs Subscription Filter Patterns Near Real Time into Amazon ES
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2kinesis-producers" class="md-nav__link">
+    2、Kinesis Producers
+  </a>
+  
+    <nav class="md-nav" aria-label="2、Kinesis Producers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-kinesis-producer-sdk-putrecords" class="md-nav__link">
+    2-1 Kinesis Producer SDK - PutRecord(s)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-aws-kinesis-api-exceptions" class="md-nav__link">
+    2-2 AWS Kinesis API Exceptions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-3-kinesis-producer-library-kpl-aggrengation" class="md-nav__link">
+    2-3 Kinesis Producer Library (KPL) Aggrengation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-4-kinesis-agent" class="md-nav__link">
+    2-4 Kinesis Agent
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3kinesis-consumers" class="md-nav__link">
+    3、Kinesis Consumers
+  </a>
+  
+    <nav class="md-nav" aria-label="3、Kinesis Consumers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-1-kinesis-consumers-classic" class="md-nav__link">
+    3-1 Kinesis Consumers - Classic
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2-kinesis-consumer-sdk-getrecords" class="md-nav__link">
+    3-2 Kinesis Consumer SDK - GetRecords
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-3-kinesis-client-library-kcl-de-aggregation" class="md-nav__link">
+    3-3 Kinesis Client Library (KCL) &gt; de-aggregation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-4-kinesis-connector-library" class="md-nav__link">
+    3-4 Kinesis Connector Library
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-5aws-lambda-sourcing-from-kinesis" class="md-nav__link">
+    3-5AWS Lambda sourcing from Kinesis
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4kinesis-enhanced-fan-out" class="md-nav__link">
+    4、Kinesis Enhanced Fan Out
+  </a>
+  
+    <nav class="md-nav" aria-label="4、Kinesis Enhanced Fan Out">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-kinesis-enhanced-fan-out" class="md-nav__link">
+    4-1 Kinesis Enhanced Fan Out
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2-enhanced-fan-out-vs-standard-consumers" class="md-nav__link">
+    4-2 Enhanced Fan Out vs Standard Consumers
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5kinesis-scaling" class="md-nav__link">
+    5、Kinesis Scaling
+  </a>
+  
+    <nav class="md-nav" aria-label="5、Kinesis Scaling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-1-kinesis-operations-adding-shards" class="md-nav__link">
+    5-1 Kinesis Operations — Adding Shards
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-2-kinesis-operations-merging-shards" class="md-nav__link">
+    5-2 Kinesis Operations Merging Shards
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-3-kinesis-operations-auto-scaling" class="md-nav__link">
+    5-3 Kinesis Operations Auto Scaling
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-4-kinesis-scaling-limitations" class="md-nav__link">
+    5-4 Kinesis Scaling Limitations
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6kinesis-security" class="md-nav__link">
+    6、Kinesis Security
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7aws-kinesis-data-firehose" class="md-nav__link">
+    7、AWS kinesis Data Firehose
+  </a>
+  
+    <nav class="md-nav" aria-label="7、AWS kinesis Data Firehose">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#7-1-kinesis-data-firehose-diagram" class="md-nav__link">
+    7-1 kinesis Data Firehose Diagram
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-2-kinesis-data-firehose-deliver-diagram" class="md-nav__link">
+    7-2 Kinesis Data Firehose Deliver Diagram
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-3-firehose-buffer-sizing" class="md-nav__link">
+    7-3 Firehose Buffer Sizing
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8kinesis-data-streams-vs-firehose" class="md-nav__link">
+    8、Kinesis Data Streams vs Firehose
+  </a>
+  
+    <nav class="md-nav" aria-label="8、Kinesis Data Streams vs Firehose">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8-1-streams" class="md-nav__link">
+    8-1 Streams
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-2-firehose" class="md-nav__link">
+    8-2 Firehose
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9kinesis-data-streams-vs-firehose" class="md-nav__link">
+    9、Kinesis Data Streams vs Firehose
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="l1-collections-kinesis-datastream-overview"><strong>L1 Collections - Kinesis DataStream Overview</strong></h1>
+<h2 id="1-collection-section-introduction-moving-data-into-aws"><strong>1. Collection Section Introduction (Moving Data into AWS)</strong></h2>
+<h3 id="1-1-collection-introduction"><strong>1-1 Collection Introduction</strong></h3>
+<p><strong>Real Time - Immediate actions</strong></p>
+<ul>
+<li>Kinesis Data Streams (KDS)</li>
+<li>Simple Queue Service (SQS) </li>
+<li>Internet of Things (IoT)</li>
+</ul>
+<p><strong>Near-real time - Reactive actions</strong></p>
+<ul>
+<li>Kinesis Data Firehose (KDF) </li>
+<li>Database Migration Service (DMS) </li>
+</ul>
+<p><strong>Batch - Historical Analysis</strong> </p>
+<ul>
+<li>Snowball </li>
+<li>Data Pipeline </li>
+</ul>
+<h3 id="1-2-aws-kinesis-overview"><strong>1-2 AWS Kinesis Overview</strong></h3>
+<ul>
+<li><strong>Kinesis is a managed alternative to <code>Apache Kafka</code></strong> </li>
+<li>Great for application <strong>logs, metrics, loT, clickstreams</strong> </li>
+<li><strong>Great for "real-time" big data</strong> </li>
+<li>Great for streaming processing frameworks (Spark, NiFi, etc...) </li>
+<li><strong>Data is automatically replicated synchronously to 3 AZ</strong> </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/2_1.png" title="body image" /> </p>
+<ul>
+<li><strong>Kinesis Streams</strong>: low latency streamin ingest at Scale</li>
+<li><strong>Kinesis Analytics</strong>: perform real-time analytics on streams using SQL SQL </li>
+<li><strong>Kinesis Firehose: load streams into S3, Redshift  ElasticSearch &amp; Splunk</strong></li>
+</ul>
+<h3 id="1-3-kinesis"><strong>1-3 Kinesis</strong></h3>
+<p>What is the architecture surrounding Kinesis? </p>
+<p><img alt="Alt Image Text" src="../../images/2_2.png" title="body image" /> </p>
+<ul>
+<li>The streams can take a lot of data from say <strong>click streams</strong> or <strong>IoT devices</strong> for example a connected bike or metrics and logs from your servers directly. So the streams will just ingest a lot of data </li>
+<li>You would like to analyze that there in real time maybe you're trying to compute a metric maybe build alerts for this you can use optionally the <strong>Amazon Kinesis Analytics service</strong></li>
+<li>Kinesis Firehose can deliver your data to maybe an <strong>Amazon S3 bucket</strong> or an <strong>Amazon Redshift database, or Splunk, or ElasticSearch</strong> </li>
+</ul>
+<h3 id="1-4-kinesis-streams-overview"><strong>1-4 Kinesis Streams Overview</strong></h3>
+<ul>
+<li>Streams are divided in ordered <strong>Shards / Partitions</strong> </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/2_3.png" title="body image" /> </p>
+<ul>
+<li>Data retention is <strong>24 hours by default, can go up to 7 days</strong> </li>
+<li>Ability to <strong>reprocess / replay data</strong> </li>
+<li><strong>Multiple applications can consume the same stream</strong> </li>
+<li>Real-time processing with scale of throughput </li>
+<li><strong>Once data is inserted in Kinesis, it can't be deleted (immutability)</strong> </li>
+</ul>
+<h3 id="1-5-kinesis-streams-shards"><strong>1-5 Kinesis Streams Shards</strong></h3>
+<ul>
+<li><strong>One stream is made of many different shards</strong> </li>
+<li>Billing is per shard provisioned, can have as many shards as you want</li>
+<li>Batching available or per message calls. </li>
+<li><strong>The number of shards can evolve over time (reshal / merge)</strong> •</li>
+<li><strong>Records are ordered per shard</strong> </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/2_4.png" title="body image" /> </p>
+<h3 id="1-6-kinesis-streams-records"><strong>1-6 Kinesis Streams Records</strong></h3>
+<ul>
+<li>
+<p><strong>Data Blob</strong>: data being sent, <strong>serialized as bytes. Up to 1 MB</strong>. Can represent anything </p>
+</li>
+<li>
+<p><strong>Record Key:</strong> </p>
+</li>
+<li>
+<p>sent alongside a record, helps to group records in Shards. <code>Same key = Same shard</code> </p>
+</li>
+<li>Use a highly distributed key to avoid the "<strong>hot partition</strong>" problem </li>
+<li><strong>Sequence number</strong>: Unique identifer for each records put in shards. <strong>Added by Kinesis after ingestion</strong></li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/2_5.png" title="body image" /> </p>
+<h3 id="1-7-kinesis-data-streams-limits-to-know"><strong>1-7 Kinesis Data Streams Limits to know</strong></h3>
+<p><strong>Producer</strong></p>
+<ul>
+<li>1 MB/s or 1000 messages/s at <strong>write PER SHARD</strong></li>
+<li>"<strong>ProvisionedThroughputException</strong>" otherwise </li>
+</ul>
+<p><strong>Cosumer Classic:</strong></p>
+<ul>
+<li><strong>2MB/s at read <code>PER SHARD</code>, across all consumers</strong></li>
+<li><strong>5 API calls per second PER SHARD across all consumers</strong></li>
+</ul>
+<p><strong>Consumer ENHANCED Fan-Out</strong> </p>
+<ul>
+<li><strong>2MB/s at read PER SHARD, PER ENHANCED CONSUMER</strong> </li>
+<li><strong>No API</strong> calls needed (push model) </li>
+</ul>
+<p><strong>Data Retention</strong>: </p>
+<ul>
+<li><strong>24 hours data retention by default</strong> </li>
+<li><strong>Can be extended to 7 days</strong> </li>
+</ul>
+<h3 id="1-8-kinesis-data-streams-handling-duplicates-for-producers"><strong>1-8 Kinesis Data Streams — Handling Duplicates For Producers</strong></h3>
+<ul>
+<li>Producer retries can create duplicates due to <strong>network timeouts</strong> </li>
+<li>Although the two records have identical data, they also have unique sequence numbers </li>
+<li>Fix: <strong>embed unique record ID</strong> in the data to de-duplicate on the consumer side </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/2_19.png" title="body image" /> </p>
+<h3 id="1-9-kinesis-data-streams-kinesis-data-streams-handling-duplicates-for-consumers"><strong>1-9 Kinesis Data Streams — Kinesis Data Streams — Handling Duplicates For Consumers</strong></h3>
+<ul>
+<li>Consumer retries can <strong>make your application read the same data twice</strong> </li>
+<li>
+<p>Consumer retries happen when <strong>record processors restart</strong>: </p>
+<ol>
+<li>A worker terminates unexpectedly </li>
+<li>Worker instances are added or removed </li>
+<li>Shards are merged or split </li>
+<li>The application is deployed </li>
+</ol>
+</li>
+<li>
+<p>Fixes: </p>
+<ul>
+<li><strong>Make your consumer application idempotent</strong> </li>
+<li><strong>If the final destination can handle duplicates, it's recommended to do it there</strong> </li>
+</ul>
+</li>
+</ul>
+<p><strong>More info</strong>: </p>
+<p><a href="https://docs.aws.amazon.com/streams/latest/dev/kinesis-record-processor-duplicates.html">https://docs.aws.amazon.com/streams/latest/dev/kinesis-record-processor-duplicates.html</a></p>
+<h3 id="1-10-cloudwatch-logs-subscriptions-filters-with-kinesis"><strong>1-10 CloudWatch Logs Subscriptions Filters with Kinesis</strong></h3>
+<ul>
+<li>
+<p>You can stream CloudWatch Logs into </p>
+<ul>
+<li><strong>Kinesis Data Streams</strong> </li>
+<li>Kinesis Data Firehose </li>
+<li><strong>AWS Lambda</strong> </li>
+</ul>
+</li>
+<li>
+<p><strong>Using CloudWatch Logs Subscriptions Filters</strong> </p>
+</li>
+<li><strong>You can enable them using the AWS CLI</strong> </li>
+</ul>
+<h3 id="1-11-cloudwatch-logs-subscription-filter-patterns-near-real-time-into-amazon-es"><strong>1-11 CloudWatch Logs Subscription Filter Patterns Near Real Time into Amazon ES</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/2_20.png" title="body image" /> </p>
+<p><img alt="Alt Image Text" src="../../images/2_21.png" title="body image" /> </p>
+<p><strong>CloudWatch Logs Subscriptions Filters Patterns Real Time Analytics</strong></p>
+<p><img alt="Alt Image Text" src="../../images/2_22.png" title="body image" /> </p>
+<h2 id="2kinesis-producers"><strong>2、Kinesis Producers</strong></h2>
+<ul>
+<li>
+<p><strong>Kinesis SDK</strong></p>
+</li>
+<li>
+<p>SDK allows you to write code or use the CLI to directly send data into Amazon Kinesis streams</p>
+</li>
+<li>
+<p><strong>Kinesis Producer Library (KPL)</strong> </p>
+<ul>
+<li>Better Code </li>
+</ul>
+</li>
+<li>
+<p><strong>Kinesis Agent</strong> </p>
+</li>
+</ul>
+<p>The Kinesis agent is a linux program that runs on your server so remember that it's an agent that runs on servers and it basically allows you to get a log file for example and send that reliably into the Amazon Kinesis streams </p>
+<ul>
+<li>3rd party libraries: Spark, Log4J Appenders, Flume, Kafka Connect, NiFi...</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/2_6.png" title="body image" /> </p>
+<h3 id="2-1-kinesis-producer-sdk-putrecords"><strong>2-1 Kinesis Producer SDK - PutRecord(s)</strong></h3>
+<ul>
+<li>APIs that are used are <strong>PutRecord (one) and PutRecords (many records)</strong> </li>
+<li><strong>PutRecords</strong> uses batching and increase throughput =&gt; l<strong>ess HTTP requests</strong> </li>
+<li><strong>ProvisionedThroughputExceeded</strong> if we go over the limits </li>
+<li><code>+ AWS Mobile SDK</code>: Android, iOS, etc... </li>
+<li>Use case: <strong>low throughput, higher latency, API, AWS Lambda</strong></li>
+</ul>
+<p><strong>Managed AWS sources for Kinesis Data Streams:</strong> </p>
+<ul>
+<li>CloudWatch Logs </li>
+<li>AWS IoT </li>
+<li>Kinesis Data Analytics </li>
+</ul>
+<h3 id="2-2-aws-kinesis-api-exceptions"><strong>2-2 AWS Kinesis API Exceptions</strong></h3>
+<p><strong><code>ProvisionedThroughputExceeded Exceptions</code></strong></p>
+<ul>
+<li>Happens when sending more data (exceeding MB/s or TPS for any shard) </li>
+<li>Make sure you don't have a hot shard (such as your partition key is bad and too much data goes to that partition) </li>
+</ul>
+<p><strong>Solution</strong></p>
+<ul>
+<li>
+<p>Retries with backoff: </p>
+<ul>
+<li><strong>That means that you will retry after maybe 2s and if it doesn't work you will try to 4s and then after 8s</strong> </li>
+</ul>
+</li>
+<li>
+<p><strong>Increase shards (scaling)</strong> </p>
+<ul>
+<li>It might be good to increase the much the amount of scaling you can do </li>
+</ul>
+</li>
+<li>
+<p><strong>Ensure your partition key is a good one</strong> </p>
+</li>
+</ul>
+<h3 id="2-3-kinesis-producer-library-kpl-aggrengation"><strong>2-3 Kinesis Producer Library (KPL) Aggrengation</strong></h3>
+<ul>
+<li>Easy to use and highly configurable C++ / Java library </li>
+<li>Used for building high performance, long-running producers </li>
+<li>Automated and configurable retry mechanism </li>
+<li><strong>Synchronous or Asynchronous API (better performance for async)</strong> </li>
+<li><strong>Submits metrics to CloudWatch for monitoring</strong> </li>
+<li>
+<p><strong>Batching</strong> (both turned on by default) increase throughput, decrease cost: </p>
+<ul>
+<li><strong>Collect Records and Write to multiple shards in the same PutRecords API call</strong> </li>
+<li>Aggregate increased latency <ul>
+<li>Capability to store multiple records in one record (go over 1000 records per second limit) </li>
+<li>Increase payload size and improve throughput (maximize 1 MB/s limit) • </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Compression must be implemented the user </p>
+</li>
+<li>KPL Records must be de-coded with KCL or special helper library </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/2_7.png" title="body image" /> </p>
+<ul>
+<li>We can influence the bat Sy by introducing some delay with <strong>RecordMaxBufferedTime</strong> (default 100ms)</li>
+</ul>
+<h3 id="2-4-kinesis-agent"><strong>2-4 Kinesis Agent</strong></h3>
+<ul>
+<li>Monitor Log files and sends them to Kinesis Data Streams</li>
+<li>Java-based agent, built on top of KPL</li>
+<li><strong>Install in Linux-based server environments</strong> </li>
+</ul>
+<p><strong>Features:</strong> </p>
+<ul>
+<li>Write from multiple directories and write to multiple streams </li>
+<li>Routing feature based on directory / log file </li>
+<li>Pre-process data before sending to streams  (single line, csv to json, log to jsOn•••) •</li>
+<li>he agent handles file rotatiRp, checkpointing, and retry upon failures </li>
+<li><strong>Emits metrics to CloudWatch for monitoring</strong></li>
+</ul>
+<h2 id="3kinesis-consumers"><strong>3、Kinesis Consumers</strong></h2>
+<h3 id="3-1-kinesis-consumers-classic"><strong>3-1 Kinesis Consumers - Classic</strong></h3>
+<ul>
+<li>Kinesis SDK </li>
+<li>Kinesis Client Library (KCL) </li>
+<li>Kinesis Connector Library </li>
+<li>3rd party libraries: Spark, Log4J Appenders, Flume, Kafka Connect...</li>
+<li>Kinesis Firehose </li>
+<li>AWS Lambda </li>
+<li>(Kinesis Consumer Enhanced Fan-Out discussed in the next lecture) </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/2_8.png" title="body image" /> </p>
+<h3 id="3-2-kinesis-consumer-sdk-getrecords"><strong>3-2 Kinesis Consumer SDK - GetRecords</strong></h3>
+<ul>
+<li><strong>Classic Kinesis</strong> - Records are polled by consumers from a shard </li>
+<li><strong>Each shard has 2 MB total aggregate throughput</strong> </li>
+<li>GetRecords returns up to 10MB of data (then throttle for 5 seconds) or up to 10000 records </li>
+<li><strong>Maximum of 5 GetRecords API calls</strong> per shard per second <strong>= 200ms latency</strong> </li>
+<li><strong>If 5 consumers application consume from the same shard,  means every consumer can  poll once a second and receive less than 400 KB/s</strong>  </li>
+</ul>
+<p><code>More consumers =&gt; less throughput you will have per consumer</code></p>
+<p>So if we had consumer B and consumers C they will all share that limit of 2MB/s per shard and <strong>they will all share that limit of 5 get records API call per second</strong>. </p>
+<blockquote>
+<p>So it's really important to understand that and we'll see how <strong>Kinesis Enhance FanOut</strong> for consumers will solve that problem. </p>
+</blockquote>
+<p><img alt="Alt Image Text" src="../../images/2_9.png" title="body image" /> </p>
+<h3 id="3-3-kinesis-client-library-kcl-de-aggregation"><strong>3-3 Kinesis Client Library (KCL) &gt; de-aggregation</strong></h3>
+<ul>
+<li>Java-first library but exists for other lanuages too (Golang, Python, Ruby, Node,.NET...) </li>
+<li><strong>Read records from Kinesis produced with the KPL (de-aggregation)</strong> </li>
+<li>Share mutiple shards with multiple consumers in one "group", shard discovery •</li>
+<li><strong>Checpointing</strong> feature to resume progress </li>
+<li><strong>Leverages DynamoDB for coordination and checkpointing (one row per shard)</strong> <ul>
+<li>Make sure you provision enough <code>WCU / RCU</code> (Write Capacit Unit/Read Capacity Unit) </li>
+<li>Or use On-Demand for DynamoDB </li>
+<li>Otherwise DynamoDBmay slow down KCL </li>
+<li>API of Record processors will Process the data </li>
+</ul>
+</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/2_10.png" title="body image" /> </p>
+<blockquote>
+<p>So how does checkpointing works and all the shard discovery? Well it basically uses an Amazon dynamoDB table to check point the progress over time and synchronize to see who is going to read which shard </p>
+</blockquote>
+<p><strong>Exam Question</strong>: My KCL library is not reading fast enough even though there isn't a throughput in my Kinesis data stream what's the problem? </p>
+<p>Answer: the problem is that you probably have <strong>undellorovisioned your dynamodb table and therefore it cannot checkpoint fast enough and therefore it cannot consume fast enough.</strong></p>
+<h3 id="3-4-kinesis-connector-library"><strong>3-4 Kinesis Connector Library</strong></h3>
+<ul>
+<li>Older Java library (2016), leverages the KCL library </li>
+<li>Write data to: <ul>
+<li>Amazon S3 </li>
+<li>DynamoDB </li>
+<li>Redshift </li>
+<li>ElasticSearch </li>
+</ul>
+</li>
+</ul>
+<p><strong>Kinesis Firehose replaces the Connector Library for a few of these targets</strong>, Lambda for the others </p>
+<p><img alt="Alt Image Text" src="../../images/2_11.png" title="body image" /> </p>
+<blockquote>
+<p><strong>Connector library</strong> must be running on an EC2 instance for example for it to happen since an application whose sole purpose is to take data from <strong>Kinesis data streams</strong> and send it to all these destinations. </p>
+</blockquote>
+<h3 id="3-5aws-lambda-sourcing-from-kinesis"><strong>3-5AWS Lambda sourcing from Kinesis</strong></h3>
+<ul>
+<li>AWS Lambda can source records from Kinesis Data Streams </li>
+<li>Lambda consumer has a library to de-aggregate record from the KPL </li>
+<li>
+<p>Lambda can be used to run lightweight ETL to: </p>
+<ul>
+<li>Amazon S3 </li>
+<li>DynamoDB </li>
+<li>Redshift </li>
+<li>ElasticSearch </li>
+<li>Anywhere you want </li>
+</ul>
+</li>
+<li>
+<p>Lambda can be used to trigger notifications I send emails in real time</p>
+</li>
+<li>Lambda has a configurable batch size (more in Lambda section) </li>
+</ul>
+<h2 id="4kinesis-enhanced-fan-out"><strong>4、Kinesis Enhanced Fan Out</strong></h2>
+<h3 id="4-1-kinesis-enhanced-fan-out"><strong>4-1 Kinesis Enhanced Fan Out</strong></h3>
+<ul>
+<li>New game-changing feature from August 2018.</li>
+<li>Works with <code>KCL 2.0</code> and AWS Lambda (Nov 2018) </li>
+<li>Each Consumer get 2 ms/s of provisioned throughput per shard </li>
+<li>That means <strong>20 consumers</strong> will get <code>40MB/s</code> per shard aggregated </li>
+<li><strong>No more 2 MB/s limit</strong> </li>
+<li>Enhanced Fan Out: <strong>Kinesis pushes data to consumers over HTTP/2</strong> </li>
+<li>Reduce latency (~70 ms) </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/2_12.png" title="body image" /> </p>
+<h3 id="4-2-enhanced-fan-out-vs-standard-consumers"><strong>4-2 Enhanced Fan Out vs Standard Consumers</strong></h3>
+<p><strong>Standard consumers:</strong></p>
+<ul>
+<li>Low number of consuming applications (1,2,3...) </li>
+<li>Can tolerate <code>~200</code> ms latency </li>
+<li>Minimize cost </li>
+</ul>
+<p><strong>Enhanced Fan Out Consumers:</strong></p>
+<ul>
+<li>Multiple Consumer applications for the same Stream </li>
+<li>Low Latency requirements <code>~70ms</code></li>
+<li>Higher costs (see Kinesis pricing page) </li>
+<li><strong>Default limit of 5 consumers using enhanced fan-out per data stream</strong> </li>
+</ul>
+<h2 id="5kinesis-scaling"><strong>5、Kinesis Scaling</strong></h2>
+<h3 id="5-1-kinesis-operations-adding-shards"><strong>5-1 Kinesis Operations — Adding Shards</strong></h3>
+<ul>
+<li>Also called <strong>"Shard Splitting"</strong> </li>
+<li>Can be used to increase the Stream capacity (1 MB/s data in per shard) </li>
+<li><strong>Can be used to divide a "hot shard"</strong> </li>
+<li>The old shard is closed and will be deleted once the data is expired </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/2_13.png" title="body image" /> </p>
+<ol>
+<li>We have shard 1, 2, and 3 in this example and they occupy the same space. </li>
+<li>Now shard 2 is very hot and we want to split it to increase throughput on this key space of shard </li>
+<li>So we're going to do a split operation what's going to happen is that there's gonna be <strong>shard 4 that has been created and shard 5 that're being created</strong>. </li>
+<li>And as you can see they're occupying the same space as shard 2 </li>
+<li>Because we have two shards we have two <code>2MB/s</code> on this space instead of 1MB/s then the other shard </li>
+<li>1 and 3 there remain the same. </li>
+<li>So shard 2 will be available as long as the data in it is not expired but when it's expired it will be gone. </li>
+</ol>
+<blockquote>
+<p>You can split as many shards as you want over time and increase your throughput this way. </p>
+</blockquote>
+<h3 id="5-2-kinesis-operations-merging-shards"><strong>5-2 Kinesis Operations Merging Shards</strong></h3>
+<ul>
+<li>Decrease the Stream capacity and save costs </li>
+<li>Can be used to group two shards with low traffic </li>
+<li>Old shards are closed and deleted based on data expiration </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/2_14.png" title="body image" /> </p>
+<ol>
+<li>Maybe shard 1 and 4 didn't get much traffic so we can merge them together and save some cost. </li>
+<li>So we're going to merge them together and it's becoming shard 6 </li>
+<li>Then shard 5 and 3 while they remain on the same the same the same as before. </li>
+</ol>
+<h3 id="5-3-kinesis-operations-auto-scaling"><strong>5-3 Kinesis Operations Auto Scaling</strong></h3>
+<ul>
+<li>Auto Scaling is not a native feature of Kinesis</li>
+<li>The API call to Change the number of shards is <strong>UpdateShardCount</strong> </li>
+<li>We can implement Auto Scaling with AWS Lambda </li>
+</ul>
+<p><a href="https://aws.amazon.com/blogs/big-data/scaling-amazon-kinesis-data-streams-with-aws-application-auto-scaling/">https://aws.amazon.com/blogs/big-data/scaling-amazon-kinesis-data-streams-with-aws-application-auto-scaling/</a> </p>
+<p><img alt="Alt Image Text" src="../../images/2_15.png" title="body image" /> </p>
+<h3 id="5-4-kinesis-scaling-limitations"><strong>5-4 Kinesis Scaling Limitations</strong></h3>
+<ul>
+<li>Resharding cannot be done in parallel. Plan capacity in advance </li>
+<li>You can only perform one esharding operation at a time and it takes a few seconds </li>
+<li>For 1000 shards, it takes 30K seconds(8.3 hours) to double the shards to 2000 </li>
+</ul>
+<p><strong>You can't do the following</strong></p>
+<ul>
+<li>Scale more than twice for each rolling 24-hour period for each stream </li>
+<li>Scale up to more than double your current shard count for a stream </li>
+<li>Scale down below half your current shard count for a stream </li>
+<li>Scale up to more than 500 shards in a stream </li>
+<li>Scale a stream with more than 500 shards down unless the result is fewer than 500 shards </li>
+<li>scale up to more than the shard limit for your account </li>
+</ul>
+<h2 id="6kinesis-security"><strong>6、Kinesis Security</strong></h2>
+<ul>
+<li>Control access / authorization using IAM policies </li>
+<li>Encryption in flight using HTTPS endpoints </li>
+<li>Encryption at rest using KMS </li>
+<li>Client side encryption must be manually implemented (harder) </li>
+<li><strong>VPC Endpoints available for Kinesis to access within VPC</strong></li>
+</ul>
+<h2 id="7aws-kinesis-data-firehose"><strong>7、AWS kinesis Data Firehose</strong></h2>
+<p><img alt="Alt Image Text" src="../../images/2_16.png" title="body image" /> </p>
+<ul>
+<li>Fully Managed Service, no administration </li>
+<li>Near Real Time (60 seconds latency minimum for non full batches) </li>
+<li><strong>Load data into Redshift Ama2on S3 / ElasticSearch / Splunk</strong> </li>
+<li>Automatic scaling </li>
+<li>Supports many data formats </li>
+<li>Data Conversions from JSON to Parquet / ORC onl for S3) </li>
+<li><strong>Data Transformation through AWS Lambda (ex: CSV =&gt; JSON)</strong> </li>
+<li>Supports compression when target is Amazon S3 (GZIP, ZIP and SNAPPY) </li>
+<li>Only GZIP is the data is further loaded into Redshift </li>
+<li><strong>Pay for the amount of data going through Firehose</strong> </li>
+<li>Spark/KCL do not read from KDF </li>
+</ul>
+<p>Exam will trick you into thinking that Spark or the KCL can read from KDF(Kinesis data firehose) </p>
+<p>This is not the case. <strong>Spark streaming and Kinesis client library</strong> from fire hose they only read it from <strong>Kinesis data stream</strong>. </p>
+<h3 id="7-1-kinesis-data-firehose-diagram"><strong>7-1 kinesis Data Firehose Diagram</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/2_17.png" title="body image" /> </p>
+<h3 id="7-2-kinesis-data-firehose-deliver-diagram"><strong>7-2 Kinesis Data Firehose Deliver Diagram</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/2_18.png" title="body image" /> </p>
+<p><strong>Actually it goes through S3 and then there will be a copy command issued to put that data into Redshift.</strong> </p>
+<blockquote>
+<p>Exam asks you "How do we get all the source data into an Amazon S3 bucket through consider a firehose?" </p>
+<p><strong>This is directly a feature from firehose</strong>. </p>
+</blockquote>
+<h3 id="7-3-firehose-buffer-sizing"><strong>7-3 Firehose Buffer Sizing</strong></h3>
+<ul>
+<li>Firehose accumulates records in a buffer </li>
+<li>
+<p>The buffer is flushed based on time and size rules </p>
+</li>
+<li>
+<p><strong>Buffer Size</strong> (ex: 32MB): if that buffer size is reached, its flushed</p>
+</li>
+<li><strong>BufferTime (ex: 2 minutes)</strong>: if that time is reached, it's flushed </li>
+<li>
+<p><strong>Firehose can automatically increase</strong> the buffer size to increase throughput </p>
+</li>
+<li>
+<p><strong>High throughput —&gt; Buffer Size will be hit</strong> </p>
+</li>
+<li><strong>Low throughput =&gt; BufferTime will be hit</strong> </li>
+</ul>
+<h2 id="8kinesis-data-streams-vs-firehose"><strong>8、Kinesis Data Streams vs Firehose</strong></h2>
+<h3 id="8-1-streams"><strong>8-1 Streams</strong></h3>
+<ul>
+<li>Going to write custom code (producer / consumer)</li>
+<li>Real time (-200 ms latency for classic, —70 ms latency for enhanced fan-out) </li>
+<li>Must manage scaling (shard splitting / merging)</li>
+<li>Data Storage for 1 to 7 da s, replay capability, multi consumers </li>
+<li>Use with Lambda to insert data in real-time to ElasticSearch (for example) </li>
+</ul>
+<h3 id="8-2-firehose"><strong>8-2 Firehose</strong></h3>
+<ul>
+<li>Fully managed, send to <strong>S3, Splunk, Redshift, ElasticSearch</strong> </li>
+<li>Serverless data transformations with Lambda </li>
+<li><strong>Near real time (lowest buffer time is 1 minute)</strong> </li>
+<li><strong>Automated Scaling</strong> </li>
+<li>No data storage </li>
+</ul>
+<h2 id="9kinesis-data-streams-vs-firehose"><strong>9、Kinesis Data Streams vs Firehose</strong></h2>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.fac441b0.min.js"></script>
+      
+    
+  </body>
+</html>

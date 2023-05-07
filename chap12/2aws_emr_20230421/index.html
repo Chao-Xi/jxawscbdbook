@@ -1,0 +1,2238 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's AWS Certified Big Data Specialty">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+        <link rel="canonical" href="https://chao-xi.github.io/jxawscbdbook/chap12/2aws_emr_20230421/">
+      
+      
+        <link rel="prev" href="../1aws_data_storage/">
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
+    
+    
+      
+        <title>20230421-云原生大数据EMR研讨会 - Jacob AWS Certified Big Data Specialty Tutorial</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a6bdf11c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="amber" data-md-color-accent="amber">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#20230421-emr" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AWS Certified Big Data Specialty Tutorial" class="md-header__button md-logo" aria-label="Jacob AWS Certified Big Data Specialty Tutorial" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AWS Certified Big Data Specialty Tutorial
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              20230421-云原生大数据EMR研讨会
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxawscbdbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscbdbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AWS Certified Big Data Specialty Tutorial" class="md-nav__button md-logo" aria-label="Jacob AWS Certified Big Data Specialty Tutorial" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AWS Certified Big Data Specialty Tutorial
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxawscbdbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscbdbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Section1:Intro
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Section1:Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/1intro/" class="md-nav__link">
+        AWS Certified Big Data Specialty 2020 - In Depth & Hands On!
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Section2:Collection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Section2:Collection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/2Kinesis_data_collection/" class="md-nav__link">
+        L1 Collections - Kinesis DataStream Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/3Coll_Kinesis_Firehose_Exer/" class="md-nav__link">
+        L2 [Exercise] Kinesis Firehose (PurchaseLogs/OrderLogs)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/4Coll_Kinesis_DS_Exer/" class="md-nav__link">
+        L3 [Exercise] Kinesis Data Streams
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/5Coll_SQS_Kinesis/" class="md-nav__link">
+        L4 SQS vs. Kinesis Data Stream
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/6Coll_IOT/" class="md-nav__link">
+        L5 IoT Overview and DeepDive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/7Coll_Others/" class="md-nav__link">
+        L6 Data Collection Others
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/7Coll_MSK/" class="md-nav__link">
+        L7 MSK Managed Streaming for Apache Kafka (Amazon MSK)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Section3:Storage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Section3:Storage
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8Storage_S3/" class="md-nav__link">
+        L1 Storage S3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/9Storage_dynamoDB/" class="md-nav__link">
+        L2 DynamoDB Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8Hands_onS3/" class="md-nav__link">
+        L3 Hands on S3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/10Storage_cache/" class="md-nav__link">
+        L4 ElastiCache Overview
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Section4:Processing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Section4:Processing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/11Process_Lambda/" class="md-nav__link">
+        L1 AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/12Process_Lambda_Exer/" class="md-nav__link">
+        L2 [Exercise] AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/13Process_ETL_intro/" class="md-nav__link">
+        L3 AWS Glue and Lake Formation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/15process_EMR/" class="md-nav__link">
+        L4 EMR Elastic MapReduce
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/17Process_EMR_Exer/" class="md-nav__link">
+        L5 Elastic MapReduce Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/15process_DataPipeline/" class="md-nav__link">
+        L6 AWS Data Pipeline
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/20Process_DL/" class="md-nav__link">
+        L7 Deep Learning
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Section5:Analysis
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Section5:Analysis
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/21Ana_KA/" class="md-nav__link">
+        L1 Amazon Kinesis Data Analytics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/22Ana_Kinesis_ana_Exer/" class="md-nav__link">
+        L2 Kinesis Analytics Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/23Ana_ES/" class="md-nav__link">
+        L3 Amazon Elasticsearch Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/24Ana_ES_Exer/" class="md-nav__link">
+        L4 Amazon Elasticsearch Service Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/25Ana_Athena/" class="md-nav__link">
+        L5 Amazon Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/26Glue_Athena_Exer/" class="md-nav__link">
+        L6 [Exercise] AWS Glue and Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/27Ana_Redshift/" class="md-nav__link">
+        L7 AWS Redshift
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/28Redshift_Spectrum_exer/" class="md-nav__link">
+        L8 [Exercise] Redshift Spectrum
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          Section6:Visualization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Section6:Visualization
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6/30Vis_Qs/" class="md-nav__link">
+        L1 Visualization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6/31Vis_Exer/" class="md-nav__link">
+        L2 Amazon Quicksight Exercise
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          Section7:Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Section7:Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/32Secu_Encryption/" class="md-nav__link">
+        L1 Security - Encryption
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/33Secu_bg_svc/" class="md-nav__link">
+        L2 AWS Services Security Deep Dive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/34Secu_account_fedration/" class="md-nav__link">
+        L3 Account and Identity Federation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/35Secu_others/" class="md-nav__link">
+        L4 Polices, CloudTrail & VPCe
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          Section8:WrapUp
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          Section8:WrapUp
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8/36bg_integration/" class="md-nav__link">
+        L1 AWS Bigdata Integration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8/37bg_instances/" class="md-nav__link">
+        L2 AWS Big Data Instances
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+          Section9:Machine Learning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          Section9:Machine Learning
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9/18Process_ML/" class="md-nav__link">
+        AWS Machine Learning （Amazon ML Service/Amazon SageMaker)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+          Section10:Quizs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Section10:Quizs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz1_coll/" class="md-nav__link">
+        Quiz1 Collection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz2_storage/" class="md-nav__link">
+        Quiz2 Storage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz3_lambda/" class="md-nav__link">
+        Quiz3 AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz4_glue/" class="md-nav__link">
+        Quiz4 AWS Glue
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz5_emr/" class="md-nav__link">
+        Quiz5 EMR and the Hadoop Ecosystem
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz6_ka/" class="md-nav__link">
+        Quiz6 Kinesis Analytics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz7_ES/" class="md-nav__link">
+        Quiz7 Amazon ES
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz8_athena/" class="md-nav__link">
+        Quiz8 Amazon Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz9_redshift/" class="md-nav__link">
+        Quiz9 Amazon Redshift
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz10_quicksight/" class="md-nav__link">
+        Quiz10 Amazon Quicksight
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz11_security/" class="md-nav__link">
+        Quiz11 Security
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz12_ML/" class="md-nav__link">
+        Quiz12 Amazon Machine Learning and Sagemaker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz_final/" class="md-nav__link">
+        AWS Certified Data Analytics Specialty Practice Exam
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+          Section11: Learning Big Data
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_12">
+          <span class="md-nav__icon md-icon"></span>
+          Section11: Learning Big Data
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_1bigdata_intro/" class="md-nav__link">
+        第一节 大数据体系中明确路径
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_2bigdata_structure/" class="md-nav__link">
+        第二节 大数据架构 & Hadoop介绍
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_3bigdata_coll/" class="md-nav__link">
+        第三节 大数据中的数据来源
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_4bigdata_hdfs/" class="md-nav__link">
+        第四节 HDFS解决大数据存储问题 & Hadoop on K8S
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_5bigdata_hive_hbase/" class="md-nav__link">
+        第五节 HBase 和 Hive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_6bigdtat_kafka_flume/" class="md-nav__link">
+        第六节 消息系统 Kafka 与 Flume
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_7bigdata_mapreduce/" class="md-nav__link">
+        第七节 MapReduce 处理大数据
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_8bigdata_spark/" class="md-nav__link">
+        第八节 Spark 与 Flink 的爱恨情仇 (Spark)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_9bigdata_flink/" class="md-nav__link">
+        第九节 Spark 与 Flink 的爱恨情仇 (Flink)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_10data_mining/" class="md-nav__link">
+        第十节 数据挖掘
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+          Section12: AWS Big Data Concept(CN)
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_13">
+          <span class="md-nav__icon md-icon"></span>
+          Section12: AWS Big Data Concept(CN)
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1aws_data_storage/" class="md-nav__link">
+        数据库、数据湖、数据仓库、湖仓一体、智能湖仓
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          20230421-云原生大数据EMR研讨会
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        20230421-云原生大数据EMR研讨会
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    新趋势
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    下一代代数据分析架构
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#emr" class="md-nav__link">
+    EMR 部署模式
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#managed-scaling" class="md-nav__link">
+    Managed Scaling 功能概述
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    多租户共享集群
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    构建智能湖仓架构
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    客户业务范围及数据分析场景
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    方案优势&amp;客户收益
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    客户当前架构
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#amazon-emr-serverless" class="md-nav__link">
+    Amazon EMR Serverless 无需管理运维集群
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#emr-serverless" class="md-nav__link">
+    EMR Serverless 核心概念
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#emr-serverless_1" class="md-nav__link">
+    EMR Serverless 工作示意图
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#amazon-emr-on-eks" class="md-nav__link">
+    Amazon EMR on EKS
+  </a>
+  
+    <nav class="md-nav" aria-label="Amazon EMR on EKS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#compute-cost-optimization" class="md-nav__link">
+    Compute cost optimization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#runtime-performance-impacts-costs" class="md-nav__link">
+    Runtime performance impacts costs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#amazon-emr-on-amazon-eks" class="md-nav__link">
+    Amazon EMR on Amazon EKS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#managed-apache-flink" class="md-nav__link">
+    Managed Apache Flink
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#amazon-emr-on-amazon-eks_1" class="md-nav__link">
+    Amazon EMR on Amazon EKS
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    新趋势
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    下一代代数据分析架构
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#emr" class="md-nav__link">
+    EMR 部署模式
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#managed-scaling" class="md-nav__link">
+    Managed Scaling 功能概述
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    多租户共享集群
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    构建智能湖仓架构
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    客户业务范围及数据分析场景
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    方案优势&amp;客户收益
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    客户当前架构
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#amazon-emr-serverless" class="md-nav__link">
+    Amazon EMR Serverless 无需管理运维集群
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#emr-serverless" class="md-nav__link">
+    EMR Serverless 核心概念
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#emr-serverless_1" class="md-nav__link">
+    EMR Serverless 工作示意图
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#amazon-emr-on-eks" class="md-nav__link">
+    Amazon EMR on EKS
+  </a>
+  
+    <nav class="md-nav" aria-label="Amazon EMR on EKS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#compute-cost-optimization" class="md-nav__link">
+    Compute cost optimization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#runtime-performance-impacts-costs" class="md-nav__link">
+    Runtime performance impacts costs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#amazon-emr-on-amazon-eks" class="md-nav__link">
+    Amazon EMR on Amazon EKS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#managed-apache-flink" class="md-nav__link">
+    Managed Apache Flink
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#amazon-emr-on-amazon-eks_1" class="md-nav__link">
+    Amazon EMR on Amazon EKS
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="20230421-emr"><strong>20230421-云原生大数据EMR研讨会</strong></h1>
+<p>与亚马逊云科技专家们互动并一起参加云原生大数据研讨会，了解与自建大数据平台相比，Amazon EMR是如何帮您节省 <strong>56%</strong> 的运营成本的。借助Amazon EMR，您可以在基础设施成本并末增加甚至减少的同时，通过使用EMR Serverless, EMR on EKS等最新托管服务来支持不断增长的大规模数据分析需求，从而使您的业务脱颖而出。</p>
+<ul>
+<li>了解Amazon EMR的最新产品信息，包括如何在Amazon Elastic Kubernetes Service(Amazon EKS)容器环境或者 Serverless全托管环境中使用Amazon EMR。</li>
+<li>初步了解Data on EKS, 包括如何使用Terraform蓝图模板来简化DevOps运维任务等。</li>
+</ul>
+<h3 id="_1"><strong>新趋势</strong></h3>
+<ul>
+<li>Always share data</li>
+<li>Metadata-driven data fabric</li>
+<li>Data-centric AI</li>
+<li>Business-composedD&amp;A</li>
+<li>Context-enriched analysis</li>
+<li>Adaptive AI systems</li>
+<li>Connected governance</li>
+<li>Vendor and region ecosystems</li>
+<li>Decision-centricD&amp;ADecision-centricD&amp;A</li>
+<li>AI risk management</li>
+<li>Expansion to the edge</li>
+<li>Skills and literacy shortfall</li>
+</ul>
+<h3 id="_2"><strong>下一代代数据分析架构</strong></h3>
+<ul>
+<li>
+<p><strong>数据服务</strong></p>
+<ul>
+<li>Augmented Analytics</li>
+<li>Continuous Intelligence</li>
+<li>Conversational Analytics</li>
+<li>Data Centric AI</li>
+</ul>
+</li>
+<li>
+<p><strong>计算</strong></p>
+</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap12_2_1.png" title="Body image" /></p>
+<ul>
+<li>
+<p>存储</p>
+<ul>
+<li>对象存储 S3</li>
+</ul>
+</li>
+<li>
+<p>分布式边缘基础设施</p>
+<ul>
+<li></li>
+</ul>
+</li>
+<li>
+<p><strong>增强数椐治理</strong></p>
+<ul>
+<li>数据目录： AWS Glue data catalog</li>
+<li>数据安全: AWS Lake Formation</li>
+<li>数据主权: Amazon Data Zone</li>
+<li>数据质量: AWS Glue data Quality</li>
+</ul>
+</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap12_2_2.png" title="Body image" /></p>
+<h3 id="emr">EMR 部署模式</h3>
+<p>自由选择最佳性价比的实例来运行工作负戰</p>
+<p><img alt="Alt Image Text" src="../../images/chap12_2_3.png" title="Body image" /></p>
+<p>在托管容器服务 EKS 内自动完成集群创建，管理，扩缩容执行Spark任务</p>
+<p><img alt="Alt Image Text" src="../../images/chap12_2_4.png" title="Body image" /></p>
+<p>在您自己的数据中心部馨、管理、运维EMR如在云上一样轻松</p>
+<p><img alt="Alt Image Text" src="../../images/chap12_2_5.png" title="Body image" /></p>
+<p>无需管理和运维，在云端也能执行PB级别的大數据分析服务</p>
+<p><img alt="Alt Image Text" src="../../images/chap12_2_6.png" title="Body image" /></p>
+<p><strong>Spark功能增强</strong></p>
+<ul>
+<li>动态Executor资源分配</li>
+<li>自适应Join方式选择</li>
+<li>动态裁剪数掘</li>
+<li>算子优化</li>
+<li>提前分配 Worker 节点</li>
+<li>智能过濾</li>
+<li>井行/ 异步初始化</li>
+<li>遊免重复扫描數据</li>
+<li>预先获取敷据</li>
+<li>智能选择 Broadcast Join</li>
+<li>統计推断</li>
+<li>优化元数招取方式</li>
+</ul>
+<p><strong>Presto/Trino 功能增强</strong></p>
+<ul>
+<li>Spot中断处理(Presto)</li>
+<li>改进关联的顺序及方法</li>
+<li>通过Lake Formation进行安全访问控制(Presto)</li>
+<li>支持Iceberg及Delta(Trino)</li>
+<li>容错执行(Trino)</li>
+<li>利用HDFS存储检查点数据 (Trino)</li>
+</ul>
+<p><strong>Hive 功能增强</strong></p>
+<ul>
+<li>Zero-rename 数据写入</li>
+<li>元数据 MSCK 优化</li>
+<li>Parquet 模块加密</li>
+<li>通过Lake Formation进行权限管理</li>
+<li>在Amazon EMR 6.9支持Iceberg</li>
+<li>集成300多个关键 Bug,新特性</li>
+</ul>
+<h3 id="managed-scaling"><strong>Managed Scaling 功能概述</strong></h3>
+<blockquote>
+<p>通过自动调整集群规模降低 60% 的成本</p>
+</blockquote>
+<ul>
+<li>持续改进的 EMR 托管箄法为您提供完整的托管体验</li>
+<li>通过Managed scaling获得高精度指标</li>
+<li>只需配靈最小/最大成本限制</li>
+<li>相比 AutoScaling提供更多數据点和更快速的响应</li>
+<li>解约20-60的成本</li>
+</ul>
+<p><strong>全面的安全功能</strong></p>
+<ul>
+<li><strong>隔离</strong><ul>
+<li>VPC</li>
+<li>私有子网</li>
+<li>安全组</li>
+</ul>
+</li>
+<li><strong>身份验证</strong><ul>
+<li>LDAP</li>
+<li>Kerberos</li>
+<li>Amazon SSO (EMR Studio)</li>
+<li>Amazon IAM (EMR Studlo)</li>
+</ul>
+</li>
+<li><strong>授权</strong><ul>
+<li>集群IAM角色</li>
+<li>AM Execution Role</li>
+<li>FGAC 使用 Apache Ranger</li>
+<li>FGAC 使用 Amazon Lake Formation</li>
+</ul>
+</li>
+<li><strong>加密</strong><ul>
+<li>存储后加密</li>
+<li>传输中加密</li>
+<li>秘钥管理</li>
+</ul>
+</li>
+<li><strong>审计</strong><ul>
+<li>使用 Ranger Amazon CloudWatch Logs进行审计</li>
+<li>使用 Amazon Lake Formation通过 Amazon Cloudtrail 进行审计</li>
+</ul>
+</li>
+</ul>
+<h3 id="_3">多租户共享集群</h3>
+<p>用户运行角色: User1 可以访问 Stream1, Bucket1 and Table1</p>
+<p><img alt="Alt Image Text" src="../../images/chap12_2_7.png" title="Body image" /></p>
+<p>Lake Formation实现细粒度的权限管控</p>
+<p><img alt="Alt Image Text" src="../../images/chap12_2_8.png" title="Body image" /></p>
+<h3 id="_4">构建智能湖仓架构</h3>
+<p><img alt="Alt Image Text" src="../../images/chap12_2_9.png" title="Body image" /></p>
+<p><strong>数据集成</strong></p>
+<ul>
+<li>基于CDC技术，提供不便入业务系统的企业吸实时数据
+同步服务，保障数据时饮性、可用性；</li>
+<li>基于WAI架构下的CKP异常自动保存技术，实现断点续
+便，面对复的网络状况，也能保证致据传输定性：</li>
+<li>插件式能力扩展，快速送代数短集成销力和数起习道面
+范围</li>
+</ul>
+<p><strong>数据建模</strong></p>
+<ul>
+<li>支持逻辑模型、物理模型设计保障建模流程规范可控</li>
+<li>支持模型逆行工程，快速容纳管理企业存量数据模型</li>
+<li>融合多个行业最健实践方法论提升建模效率：</li>
+</ul>
+<p><strong>数据开发</strong></p>
+<ul>
+<li>交持WEB SQL的可视化离线/实时任务开发，降低用户学习成本：</li>
+<li>多种任务DAG组尔形式，实现跨流程，跨项目任务依赖，方便支持多种业务场具</li>
+<li>丰富的大致大数据组件，根质资源现状灵活实原多种任务，资源利用率更</li>
+<li>支持数据的开发与生产环境隔离、多人协同开发、更安全、更高效：</li>
+</ul>
+<p><strong>数据运维</strong></p>
+<ul>
+<li>数据处理任务以DAG组织井监控、任务修复重跑、暂停、Kill等操作更优雅</li>
+<li>完备的告警体系，支持自定义告警规则和丰富的日志信息，提高运维效率：</li>
+</ul>
+<p><strong>数据服务</strong></p>
+<ul>
+<li>拖拽式工作流编排，实现复杂的API的场景</li>
+<li>统一的企业数据共享服务，严格管控数据使用权限</li>
+<li>多视角监控及分析服务的使用情况，高效评估数据询产的价值；</li>
+</ul>
+<p><strong>数据质量</strong></p>
+<ul>
+<li>覆盖数据资产化全流理进行质置监管和检验，保障数据完整性、有效性、及时性、一致性、准确性、唯一性；</li>
+<li>内置质量检测规则模板井支持自定义规则，使质量检查场景更丰富</li>
+<li>支持与ETL任务关联执行质量检查，及时发现问题数据，减少数据污染：</li>
+</ul>
+<p><strong>数据安全</strong></p>
+<p>贯穿数据资产化全场，提供对隐私数据的脱敏权限管理和安全审计等多种数据安全管理全方位保障致据的安全运作</p>
+<h3 id="_5">客户业务范围及数据分析场景</h3>
+<ul>
+<li>业务范国</li>
+</ul>
+<p>容户是广告中间环节服务商，将广告推送到终端投放设备。主要是对按上游广告提供商，和下游设备投放商。</p>
+<ul>
+<li>技术设备</li>
+</ul>
+<p>捕获广告接受和推送的数据，并针对广告推送效率，频次等数据进行分析。以及各个广告线路的成本分擔。</p>
+<p><img alt="Alt Image Text" src="../../images/chap12_2_10.png" title="Body image" /></p>
+<h3 id="_6">方案优势&amp;客户收益</h3>
+<ul>
+<li>学习成本低：在通过一整天的hands on培训，客户第二天就开始测试，第二周就实际在生产环境上线</li>
+<li>都署便捷：在多环境使用中，都署时间成本低</li>
+<li>使用成本低：针对低频率的ETL工作，EMR serverless有效降低使用成本</li>
+<li>资源弹性：针对不同Job，资源弹性分配，十分便捷。降低客户预估资源和准备资源的时间</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap12_2_11.png" title="Body image" /></p>
+<ul>
+<li>根本上解决客户数据附高，成本分担的需求</li>
+<li>达到客户的降本增效的预期，降本70%以上</li>
+</ul>
+<h3 id="_7">客户当前架构</h3>
+<ul>
+<li>主业务，依然使用EMR On EC2执行long running任务。</li>
+<li>子业务，使用EMR Serverless + Athena的方案</li>
+<li>临时性任务，使用Athena完成查询</li>
+<li>元数据通过glue catalog管理</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap12_2_12.png" title="Body image" /></p>
+<h3 id="amazon-emr-serverless">Amazon EMR Serverless 无需管理运维集群</h3>
+<ul>
+<li>所需版本可随意切换(EMR 6.6+)</li>
+<li>自动扩缩无需猜测所需资源</li>
+<li>成本优化更细颗粒度扩缩资源</li>
+<li>性能优化</li>
+<li>多可用区域(AZ)设计</li>
+<li>自动开始和停止任务</li>
+<li>集成Cloudwatch监测应用</li>
+<li>集成Apache Airflow</li>
+<li>自定义镜像</li>
+</ul>
+<h3 id="emr-serverless">EMR Serverless 核心概念</h3>
+<p><strong>任务</strong></p>
+<ul>
+<li>以Spark应用为单位</li>
+<li>多个任务可以发布到同一个应用</li>
+<li>可以在任务层面控制权限</li>
+</ul>
+<p><strong>工作节点</strong></p>
+<ul>
+<li>工作节点是最小单位用以执行您的工作负载</li>
+<li>工作节点运行选择的 Spark 或 Hive 版本</li>
+<li>您可以改变工作节点的配置(内存，VCPU)来控制其性能</li>
+</ul>
+<p><strong>预初始化节点</strong></p>
+<ul>
+<li>（可选) 设置预初始化工作节点</li>
+<li>优点：任务可以立即启动无需等待</li>
+<li>帮助您维护管理一个预热的资源池随时执行任务</li>
+<li>缺点：需要对与预初始化节点资源同样付费</li>
+</ul>
+<h3 id="emr-serverless_1">EMR Serverless 工作示意图</h3>
+<p><img alt="Alt Image Text" src="../../images/chap12_2_13.png" title="Body image" /></p>
+<p><strong>EMR部署模式成本比较</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap12_2_14.png" title="Body image" /></p>
+<h2 id="amazon-emr-on-eks">Amazon EMR on EKS</h2>
+<p>Consolidate analytics workloads with other workloads on Amazon EKS</p>
+<ul>
+<li>Simplify infrastructure management</li>
+<li>Consolidate multiple versions of Spark on same EKS cluster and simplify Spark application upgrades</li>
+<li>Add Multi-AZ resiliency Choose serverless with AWS Fargate on Amazon EKS</li>
+<li>Start jobs quickly, no cluster provisioning delays</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap12_2_15.png" title="Body image" /></p>
+<h3 id="compute-cost-optimization">Compute cost optimization</h3>
+<p><img alt="Alt Image Text" src="../../images/chap12_2_16.png" title="Body image" /></p>
+<ul>
+<li><strong>Amazon EC2 Spot</strong>： up to 90% off compared to on-demand pricing</li>
+<li><strong>AWS Savings Plans</strong>： up to 72% for committed compute usage</li>
+<li><strong>Auto Scaling</strong>： based on job-level usage/request</li>
+<li><strong>Arm-based CPU</strong>： 19% performance boost &amp; 15% cost reduction running on Graviton3 vs. Graviton2</li>
+</ul>
+<h3 id="runtime-performance-impacts-costs">Runtime performance impacts costs</h3>
+<p>Applications finish faster, resulting in lower TC as well as faster time to insights</p>
+<h3 id="amazon-emr-on-amazon-eks"><strong>Amazon EMR on Amazon EKS</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/chap12_2_17.png" title="Body image" /></p>
+<p>Amazon EMR on Amazon EKS</p>
+<ul>
+<li>individual queries can run over 10x faster.</li>
+<li>Faster Application runtime reduces costs</li>
+<li>Default Spark configurations to optimize application performance based on 10 years' experience of running workloads at all scale factors automatically applied to your application</li>
+</ul>
+<p><strong>Auto Pod Tuning</strong></p>
+<blockquote>
+<p>Auto-tuning workloads to improve performance, save costs and increase resiliency</p>
+</blockquote>
+<ul>
+<li>Automatically adjust pod sizes based on real-time and historic CPU / Memory utilization</li>
+<li>Minimize out of memory exceptions and improve Spark
+job resiliencies</li>
+<li>Avoid the need to manually tune driver, executors resources</li>
+<li>Save costs without performance penalty</li>
+</ul>
+<h3 id="managed-apache-flink">Managed Apache Flink</h3>
+<blockquote>
+<p>Managing and Scaling your Apache Flink Applications become easier</p>
+</blockquote>
+<ul>
+<li>Consolidate your Flink applications under a single EKS infrastructure</li>
+<li>Autoscales based on SLAs on your upstream data source (eg. Kafka, Kinesis) and resource usage by your Flink application</li>
+<li>100% compatible with open source Apache Flink</li>
+<li>Open to customers to configure their Flink applications just like open source Flink</li>
+<li>Frequent updates of Flink version to support new feature</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap12_2_18.png" title="Body image" /></p>
+<h3 id="amazon-emr-on-amazon-eks_1">Amazon EMR on Amazon EKS</h3>
+<ul>
+<li>Consolidate compute across the organization to
+optimize cost</li>
+<li>Allocate resources by team, application, or job to meet performance requirements</li>
+<li>Start jobs quickly by taking advantage of existing
+capacity or using AWS Fargate</li>
+<li>Run highly available data processing workloads across multiple availability zones</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap12_2_19.png" title="Body image" /></p>
+<p><strong>Data on EKS Focus Areas</strong></p>
+<ul>
+<li>Data Processing &amp; Analytics </li>
+<li>AI/ML</li>
+<li>Distributed Databases</li>
+<li>Streaming Platforms</li>
+<li>Distributed Query Engines</li>
+<li>Job &amp; Workflow Schedulers</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap12_2_20.png" title="Body image" /></p>
+<p><strong>Cluster add-ons</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap12_2_21.png" title="Body image" /></p>
+<p><strong>Multiple environments</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap12_2_22.png" title="Body image" /></p>
+<p><strong>Karpenter scale-up</strong></p>
+<blockquote>
+<p>HPA/Application Pending pods</p>
+</blockquote>
+<p><img alt="Alt Image Text" src="../../images/chap12_2_23.png" title="Body image" /></p>
+<p>Provisioning and scheduling decisions</p>
+<ul>
+<li>Early binding to provisioned nodes vs. placeholder instances</li>
+<li>Remove scheduler version dependency</li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.fac441b0.min.js"></script>
+      
+    
+  </body>
+</html>

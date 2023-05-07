@@ -1,0 +1,3354 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's AWS Certified Big Data Specialty">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+        <link rel="canonical" href="https://chao-xi.github.io/jxawscbdbook/chap10/qz_final/">
+      
+      
+        <link rel="prev" href="../qz12_ML/">
+      
+      
+        <link rel="next" href="../../chap11/chap11_1bigdata_intro/">
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
+    
+    
+      
+        <title>AWS Certified Data Analytics Specialty Practice Exam - Jacob AWS Certified Big Data Specialty Tutorial</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a6bdf11c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="amber" data-md-color-accent="amber">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#aws-certified-data-analytics-specialty-practice-exam" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AWS Certified Big Data Specialty Tutorial" class="md-header__button md-logo" aria-label="Jacob AWS Certified Big Data Specialty Tutorial" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AWS Certified Big Data Specialty Tutorial
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              AWS Certified Data Analytics Specialty Practice Exam
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxawscbdbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscbdbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AWS Certified Big Data Specialty Tutorial" class="md-nav__button md-logo" aria-label="Jacob AWS Certified Big Data Specialty Tutorial" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AWS Certified Big Data Specialty Tutorial
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxawscbdbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscbdbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Section1:Intro
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Section1:Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/1intro/" class="md-nav__link">
+        AWS Certified Big Data Specialty 2020 - In Depth & Hands On!
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Section2:Collection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Section2:Collection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/2Kinesis_data_collection/" class="md-nav__link">
+        L1 Collections - Kinesis DataStream Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/3Coll_Kinesis_Firehose_Exer/" class="md-nav__link">
+        L2 [Exercise] Kinesis Firehose (PurchaseLogs/OrderLogs)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/4Coll_Kinesis_DS_Exer/" class="md-nav__link">
+        L3 [Exercise] Kinesis Data Streams
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/5Coll_SQS_Kinesis/" class="md-nav__link">
+        L4 SQS vs. Kinesis Data Stream
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/6Coll_IOT/" class="md-nav__link">
+        L5 IoT Overview and DeepDive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/7Coll_Others/" class="md-nav__link">
+        L6 Data Collection Others
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/7Coll_MSK/" class="md-nav__link">
+        L7 MSK Managed Streaming for Apache Kafka (Amazon MSK)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Section3:Storage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Section3:Storage
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8Storage_S3/" class="md-nav__link">
+        L1 Storage S3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/9Storage_dynamoDB/" class="md-nav__link">
+        L2 DynamoDB Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8Hands_onS3/" class="md-nav__link">
+        L3 Hands on S3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/10Storage_cache/" class="md-nav__link">
+        L4 ElastiCache Overview
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Section4:Processing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Section4:Processing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/11Process_Lambda/" class="md-nav__link">
+        L1 AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/12Process_Lambda_Exer/" class="md-nav__link">
+        L2 [Exercise] AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/13Process_ETL_intro/" class="md-nav__link">
+        L3 AWS Glue and Lake Formation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/15process_EMR/" class="md-nav__link">
+        L4 EMR Elastic MapReduce
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/17Process_EMR_Exer/" class="md-nav__link">
+        L5 Elastic MapReduce Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/15process_DataPipeline/" class="md-nav__link">
+        L6 AWS Data Pipeline
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/20Process_DL/" class="md-nav__link">
+        L7 Deep Learning
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Section5:Analysis
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Section5:Analysis
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/21Ana_KA/" class="md-nav__link">
+        L1 Amazon Kinesis Data Analytics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/22Ana_Kinesis_ana_Exer/" class="md-nav__link">
+        L2 Kinesis Analytics Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/23Ana_ES/" class="md-nav__link">
+        L3 Amazon Elasticsearch Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/24Ana_ES_Exer/" class="md-nav__link">
+        L4 Amazon Elasticsearch Service Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/25Ana_Athena/" class="md-nav__link">
+        L5 Amazon Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/26Glue_Athena_Exer/" class="md-nav__link">
+        L6 [Exercise] AWS Glue and Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/27Ana_Redshift/" class="md-nav__link">
+        L7 AWS Redshift
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/28Redshift_Spectrum_exer/" class="md-nav__link">
+        L8 [Exercise] Redshift Spectrum
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          Section6:Visualization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Section6:Visualization
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6/30Vis_Qs/" class="md-nav__link">
+        L1 Visualization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6/31Vis_Exer/" class="md-nav__link">
+        L2 Amazon Quicksight Exercise
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          Section7:Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Section7:Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/32Secu_Encryption/" class="md-nav__link">
+        L1 Security - Encryption
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/33Secu_bg_svc/" class="md-nav__link">
+        L2 AWS Services Security Deep Dive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/34Secu_account_fedration/" class="md-nav__link">
+        L3 Account and Identity Federation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/35Secu_others/" class="md-nav__link">
+        L4 Polices, CloudTrail & VPCe
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          Section8:WrapUp
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          Section8:WrapUp
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8/36bg_integration/" class="md-nav__link">
+        L1 AWS Bigdata Integration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8/37bg_instances/" class="md-nav__link">
+        L2 AWS Big Data Instances
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+          Section9:Machine Learning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          Section9:Machine Learning
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9/18Process_ML/" class="md-nav__link">
+        AWS Machine Learning （Amazon ML Service/Amazon SageMaker)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+          Section10:Quizs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Section10:Quizs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qz1_coll/" class="md-nav__link">
+        Quiz1 Collection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qz2_storage/" class="md-nav__link">
+        Quiz2 Storage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qz3_lambda/" class="md-nav__link">
+        Quiz3 AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qz4_glue/" class="md-nav__link">
+        Quiz4 AWS Glue
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qz5_emr/" class="md-nav__link">
+        Quiz5 EMR and the Hadoop Ecosystem
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qz6_ka/" class="md-nav__link">
+        Quiz6 Kinesis Analytics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qz7_ES/" class="md-nav__link">
+        Quiz7 Amazon ES
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qz8_athena/" class="md-nav__link">
+        Quiz8 Amazon Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qz9_redshift/" class="md-nav__link">
+        Quiz9 Amazon Redshift
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qz10_quicksight/" class="md-nav__link">
+        Quiz10 Amazon Quicksight
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qz11_security/" class="md-nav__link">
+        Quiz11 Security
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qz12_ML/" class="md-nav__link">
+        Quiz12 Amazon Machine Learning and Sagemaker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          AWS Certified Data Analytics Specialty Practice Exam
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        AWS Certified Data Analytics Specialty Practice Exam
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#question-1" class="md-nav__link">
+    Question 1
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-2" class="md-nav__link">
+    Question 2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-3" class="md-nav__link">
+    Question 3:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-4" class="md-nav__link">
+    Question 4:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-5" class="md-nav__link">
+    Question 5:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-6" class="md-nav__link">
+    Question 6:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-7" class="md-nav__link">
+    Question 7:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-8" class="md-nav__link">
+    Question 8:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-9" class="md-nav__link">
+    Question 9:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-10" class="md-nav__link">
+    Question 10
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-11" class="md-nav__link">
+    Question 11
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-12" class="md-nav__link">
+    Question 12
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-13" class="md-nav__link">
+    Question 13
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-14" class="md-nav__link">
+    Question 14
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-15" class="md-nav__link">
+    Question 15
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-16" class="md-nav__link">
+    Question 16:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-17" class="md-nav__link">
+    Question 17:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-18" class="md-nav__link">
+    Question 18:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-19" class="md-nav__link">
+    Question 19:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-20" class="md-nav__link">
+    Question 20:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-21" class="md-nav__link">
+    Question 21:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-22" class="md-nav__link">
+    Question 22:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-23" class="md-nav__link">
+    Question 23:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-25" class="md-nav__link">
+    Question 25:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-26" class="md-nav__link">
+    Question 26:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-27" class="md-nav__link">
+    Question 27
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-28" class="md-nav__link">
+    Question 28:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-29" class="md-nav__link">
+    Question 29
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-30" class="md-nav__link">
+    Question 30:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-31" class="md-nav__link">
+    Question 31
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-32" class="md-nav__link">
+    Question 32
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-33" class="md-nav__link">
+    Question 33:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-34" class="md-nav__link">
+    Question 34:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-35" class="md-nav__link">
+    Question 35:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-37" class="md-nav__link">
+    Question 37:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-38" class="md-nav__link">
+    Question 38:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-39" class="md-nav__link">
+    Question 39
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-40" class="md-nav__link">
+    Question 40
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-41" class="md-nav__link">
+    Question 41:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-42" class="md-nav__link">
+    Question 42:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-43" class="md-nav__link">
+    Question 43
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-44" class="md-nav__link">
+    Question 44:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-45" class="md-nav__link">
+    Question 45:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-46" class="md-nav__link">
+    Question 46:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-47" class="md-nav__link">
+    Question 47:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-48" class="md-nav__link">
+    Question 48
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-50" class="md-nav__link">
+    Question 50
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-51" class="md-nav__link">
+    Question 51
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-52" class="md-nav__link">
+    Question 52
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-53" class="md-nav__link">
+    Question 53
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-54" class="md-nav__link">
+    Question 54
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-55" class="md-nav__link">
+    Question 55
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-56" class="md-nav__link">
+    Question 56
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-57" class="md-nav__link">
+    Question 57
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-58" class="md-nav__link">
+    Question 58
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-59" class="md-nav__link">
+    Question 59
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-60" class="md-nav__link">
+    Question 60
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-61" class="md-nav__link">
+    Question 61
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-62" class="md-nav__link">
+    Question 62
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-63" class="md-nav__link">
+    Question 63
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-64" class="md-nav__link">
+    Question 64
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-65" class="md-nav__link">
+    Question 65
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+          Section11: Learning Big Data
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_12">
+          <span class="md-nav__icon md-icon"></span>
+          Section11: Learning Big Data
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_1bigdata_intro/" class="md-nav__link">
+        第一节 大数据体系中明确路径
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_2bigdata_structure/" class="md-nav__link">
+        第二节 大数据架构 & Hadoop介绍
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_3bigdata_coll/" class="md-nav__link">
+        第三节 大数据中的数据来源
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_4bigdata_hdfs/" class="md-nav__link">
+        第四节 HDFS解决大数据存储问题 & Hadoop on K8S
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_5bigdata_hive_hbase/" class="md-nav__link">
+        第五节 HBase 和 Hive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_6bigdtat_kafka_flume/" class="md-nav__link">
+        第六节 消息系统 Kafka 与 Flume
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_7bigdata_mapreduce/" class="md-nav__link">
+        第七节 MapReduce 处理大数据
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_8bigdata_spark/" class="md-nav__link">
+        第八节 Spark 与 Flink 的爱恨情仇 (Spark)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_9bigdata_flink/" class="md-nav__link">
+        第九节 Spark 与 Flink 的爱恨情仇 (Flink)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_10data_mining/" class="md-nav__link">
+        第十节 数据挖掘
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+          Section12: AWS Big Data Concept(CN)
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_13">
+          <span class="md-nav__icon md-icon"></span>
+          Section12: AWS Big Data Concept(CN)
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap12/1aws_data_storage/" class="md-nav__link">
+        数据库、数据湖、数据仓库、湖仓一体、智能湖仓
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap12/2aws_emr_20230421/" class="md-nav__link">
+        20230421-云原生大数据EMR研讨会
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#question-1" class="md-nav__link">
+    Question 1
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-2" class="md-nav__link">
+    Question 2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-3" class="md-nav__link">
+    Question 3:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-4" class="md-nav__link">
+    Question 4:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-5" class="md-nav__link">
+    Question 5:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-6" class="md-nav__link">
+    Question 6:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-7" class="md-nav__link">
+    Question 7:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-8" class="md-nav__link">
+    Question 8:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-9" class="md-nav__link">
+    Question 9:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-10" class="md-nav__link">
+    Question 10
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-11" class="md-nav__link">
+    Question 11
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-12" class="md-nav__link">
+    Question 12
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-13" class="md-nav__link">
+    Question 13
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-14" class="md-nav__link">
+    Question 14
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-15" class="md-nav__link">
+    Question 15
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-16" class="md-nav__link">
+    Question 16:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-17" class="md-nav__link">
+    Question 17:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-18" class="md-nav__link">
+    Question 18:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-19" class="md-nav__link">
+    Question 19:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-20" class="md-nav__link">
+    Question 20:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-21" class="md-nav__link">
+    Question 21:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-22" class="md-nav__link">
+    Question 22:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-23" class="md-nav__link">
+    Question 23:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-25" class="md-nav__link">
+    Question 25:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-26" class="md-nav__link">
+    Question 26:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-27" class="md-nav__link">
+    Question 27
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-28" class="md-nav__link">
+    Question 28:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-29" class="md-nav__link">
+    Question 29
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-30" class="md-nav__link">
+    Question 30:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-31" class="md-nav__link">
+    Question 31
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-32" class="md-nav__link">
+    Question 32
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-33" class="md-nav__link">
+    Question 33:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-34" class="md-nav__link">
+    Question 34:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-35" class="md-nav__link">
+    Question 35:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-37" class="md-nav__link">
+    Question 37:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-38" class="md-nav__link">
+    Question 38:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-39" class="md-nav__link">
+    Question 39
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-40" class="md-nav__link">
+    Question 40
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-41" class="md-nav__link">
+    Question 41:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-42" class="md-nav__link">
+    Question 42:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-43" class="md-nav__link">
+    Question 43
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-44" class="md-nav__link">
+    Question 44:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-45" class="md-nav__link">
+    Question 45:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-46" class="md-nav__link">
+    Question 46:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-47" class="md-nav__link">
+    Question 47:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-48" class="md-nav__link">
+    Question 48
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-50" class="md-nav__link">
+    Question 50
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-51" class="md-nav__link">
+    Question 51
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-52" class="md-nav__link">
+    Question 52
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-53" class="md-nav__link">
+    Question 53
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-54" class="md-nav__link">
+    Question 54
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-55" class="md-nav__link">
+    Question 55
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-56" class="md-nav__link">
+    Question 56
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-57" class="md-nav__link">
+    Question 57
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-58" class="md-nav__link">
+    Question 58
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-59" class="md-nav__link">
+    Question 59
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-60" class="md-nav__link">
+    Question 60
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-61" class="md-nav__link">
+    Question 61
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-62" class="md-nav__link">
+    Question 62
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-63" class="md-nav__link">
+    Question 63
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-64" class="md-nav__link">
+    Question 64
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-65" class="md-nav__link">
+    Question 65
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="aws-certified-data-analytics-specialty-practice-exam"><strong>AWS Certified Data Analytics Specialty Practice Exam</strong></h1>
+<h3 id="question-1"><strong>Question 1</strong></h3>
+<p>What are THREE ways in which <strong>EMR integrates Pig with Amazon S3</strong>? </p>
+<ul>
+<li><strong>Submitting work from the EMR console using Pig scripts stored in S3 
+(Correct)</strong> </li>
+<li><strong>Loading custom JAR files from S3 with the REGISTER command (Correct)</strong></li>
+<li>Integration with AWS Glue to infer schemas on S3 data </li>
+<li><strong>Directly writing to HCatalog tables in S3 (Correct)</strong> </li>
+<li>Importing permissions from S3 buckets for use in your Pig Latin scripts </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> You can configure <strong>EMRFS, backed by S3, as your data store in Pig</strong>, which allows it to read and write to S3 as it would with HDFS. </p>
+</blockquote>
+<h3 id="question-2"><strong>Question 2</strong></h3>
+<p>An organization has a large body of <strong>web server logs stored on Amazon S3</strong>, and <strong>wishes to quickly analyze their data using Amazon Athena</strong>. Most queries are operational in nature, and are limited to a single day's logs.</p>
+<p>How should the log data be prepared to provide the most performant queries in Athena, and to minimize costs? </p>
+<ul>
+<li><strong>Convert the data into Apache Parquet format, compressed with Snappy, stored in a directory structure of <code>year=XXXX/month=XX/day=XX/</code>   (Correct)</strong></li>
+<li>Convert the data into AVRO format, with filenames that may be sorted by date </li>
+<li>Convert the data into Apache ORC format, uncompressed, and rotate their LI directories daily </li>
+<li>Compress the log data with gzip, and rotate their directories daily </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> Athena works best with columnar data; Parquet and ORC are both examples of columnar formats (Gzip and AVRO are not.) </p>
+<p>Compressing the data will allow them to be transferred more efficiently, and partitioning it using the "partition key=value" format in directory names further allows Athena to process only the data it needs. </p>
+</blockquote>
+<h3 id="question-3"><strong>Question 3:</strong></h3>
+<p>A large news website needs to produce personalized recommendations for articles to its readers, by training a machine learning model on a daily basis using historical click data. <strong>The influx of this data is fairly constant, except during major elections when traffic to the site spikes considerably</strong>. </p>
+<p>Which system would provide the most cost-effective and reliable solution? </p>
+<ul>
+<li>Publish click data into Amazon Elasticsearch using Kinesis Firehose, and query  the Elasticsearch data to produce recommendations in real-time. </li>
+<li>Publish click data into Amazon S3 using Kinesis Streams, and process the data in real time using Splunk on an EMR cluster with spot instances added as needed.Publish the model's results to DynamoDB for producing recommendations in real-time. </li>
+<li><strong>Publish click data into Amazon S3 using Kinesis Firehose, and process the data nightly using Apache Spark and MLLib using spot instances in an EMR cluster. Publish the model's results to DynamoDB for producing recommendations in real-time. 
+(Correct)</strong></li>
+<li>Publish click data into Amazon S3 using Kinesis Firehose, and process the data nightly using Apache Spark and MLLib using reserved instances in an EMR cluster. Publish the model's results to DynamoDB for producing recommendations in real-time.</li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong></p>
+<p>The use of spot instances in response to anticipated surges in usage is the most cost-effective approach for scaling up an EMR cluster, which rules out "Publish click data into Amazon S3 using Kinesis Firehose, and process the data nightly using Apache Spark and MLLib using reserved instances in an EMR cluster. Publish the model's results to DynamoDB for producing recommendations in real-time.". </p>
+<p>Kinesis streams is over-engineering because we do not have a real-time streaming requirement, ruling out "Publish click data into Amazon S3 using Kinesis Streams, and process the data in real time using Splunk on an EMR cluster with spot instances added as needed. Publish the model's results to DynamoDB for producing recommendations in real-time." </p>
+<p>"Publish click data into Amazon Elasticsearch using Kinesis Firehose, and query the Elasticsearch data to produce recommendations in real-time." doesn't make sense because Elasticsearch is not a recommender engine. </p>
+</blockquote>
+<h3 id="question-4"><strong>Question 4:</strong></h3>
+<p>Of the 4 four types of identity principals for authentication supported by AWS IoT, which one is commonly used by mobile applications? </p>
+<ul>
+<li>IAM users, groups and roles </li>
+<li>X.509 certificates </li>
+<li>Federated Identities  </li>
+<li><strong>Cognito Identities (Correct)</strong></li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>For IoT mobile applications, the standard is to leverage Cognito. </p>
+</blockquote>
+<h3 id="question-5"><strong>Question 5:</strong></h3>
+<p>An e-commerce company wishes to assign product categories, such as sporting goods or books, to new products that have no category assigned to them. The company has a large corpus of existing product data with manually assigned categories in place. <strong>They wish to use their existing data to predict categories on new products</strong>, based on other attributes of the products such as its keywords and seller ID, using Amazon Machine Learning. </p>
+<p>Which type of machine learning model would they use? </p>
+<ul>
+<li>Binary classification model </li>
+<li><strong>Multi-class classification model  (Correct)</strong></li>
+<li>Regression model </li>
+<li>Unary classification model </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>Since you are trying to <strong>predict categorical data and there are more than two categories, this is a multi-class classification model</strong>. Unary classification isn't really a thing. Under the hood, Amazon ML would use a logistic regression to implement a classification model. </p>
+</blockquote>
+<h3 id="question-6"><strong>Question 6:</strong></h3>
+<p>You are looking to reduce the latency down from your Big Data processing job that <strong>operate in Singapore but source data from Virginia</strong>. The Big Data job must always operate against the latest version of the data. What do you recommend? </p>
+<ul>
+<li><strong>Enable S3 Cross Region Replication (Correct)</strong></li>
+<li>Install a CloudFront distribution on top of your S3 bucket</li>
+<li>Use S3 Transfer Acceleration </li>
+<li>Create a Data Pipeline job to transfer the data regularly between two S3 buckets located in different regions </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>Here to reduce the latency you must move the data to another S3 bucket. The DataPipeline job may work but won't be able to replicate the latest data continuously, and CloudFront will cache some data and may provide outdated data to the Big Data Job. S3 Transfer acceleration will not help. Here, you must enable S3 Cross Region Replication </p>
+</blockquote>
+<h3 id="question-7"><strong>Question 7:</strong></h3>
+<p>You are deploying your web servers being a Load Balancer. The Load Balancer is in a public subnet and the web servers sit in a private subnet. For security reasons, the private subnet does not have access to internet and you would like to ensure the web servers within this subnet have access to DynamoDB. What do you recommend? </p>
+<ul>
+<li>Enable Direct Connect between your VPC and DynamoDB </li>
+<li>Create an Internet Gateway in the public subnet </li>
+<li>Create a DynamoDB table within your VPC and attach a security group to it LI authorizing traffic from your EC2 instances. </li>
+<li><strong>Provision a VPC Endpoint Gateway (Correct)</strong></li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p><strong>An internet gateway will work but will break the security in place</strong>. Direct Connect only helps connecting on premise data centers to AWS VPC. DynamoDB tables cannot be provisioned within a VPC. So you need to create a VPC Endpoint of type Gateway (please note they're not Interfaces, they're gateway). </p>
+</blockquote>
+<h3 id="question-8"><strong>Question 8:</strong></h3>
+<p>A financial services company has a large, secure data lake stored in Amazon S3. They wish to analyze this data using a variety of tools, including Apache Hive, Amazon Athena, Amazon Redshift, and Amazon QuickSight. </p>
+<p>How should they connect their data and analysis tools in a way that minimizes costs and development work? </p>
+<ul>
+<li>Use the AWS Database Migration Service to load the S3 data into an Amazon Aurora database, and use replication to keep the data in sync. Connect Hive, Athena, Redshift, and QuickSight to the Aurora database. </li>
+<li>Write an Apache Spark script on EMR to transform and load the S3 data nightly into Amazon Redshift. Connect Hive, Athena, and Quicksight to the Redshift cluster. </li>
+<li>Write an Apache Spark script on EMR to transform the S3 data into a Hive database on a nightly basis, connect Redshift to the Hive repository, and connect Athena and QuickSight to Redshift. </li>
+<li><strong>Run an AWS Glue Crawler on the data lake to populate a AWS Glue Data Catalog. Share the glue data catalog as a metadata repository between Athena, Redshift, Hive, and QuickSight.  (Correct)</strong></li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>AWS Glue crops up a lot on the exam. <strong>Knowing that Glue can be used to connect to Athena, Redshift, and Quicksight - as well as being used as a Hive metastore -is key to understanding this question</strong>. The other options are unnecessarily complex and require development work that could be avoided with Glue. </p>
+</blockquote>
+<h3 id="question-9"><strong>Question 9:</strong></h3>
+<p>You are working for a data warehouse company that uses Amazon RedShift cluster. For security reasons, it is required that VPC flow logs should be analyzed by Athena to monitor all COPY and UNLOAD traffic of the cluster that moves in and out of the VPC. Which of the following helps you in this regard ? </p>
+<ul>
+<li>Use Redshift WLM </li>
+<li>Use Redshift Spectrum </li>
+<li>By enabling audit logging in Redshift cluster </li>
+<li><strong>Use Enhanced VPC Routing  (Correct)</strong></li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>Enhanced VPC Routing forces Redshift to use the VPC for all COPY and UNLOAD commands, which in turn will help us make sure that all that traffic appears on the VPC Flow logs. </p>
+</blockquote>
+<h3 id="question-10"><strong>Question 10</strong></h3>
+<p>Users of your Redshift cluster include analysts running complex, long-running queries as well as automated systems running short, <strong>transactional read-only queries. During peak usage times, your transactional queries are timing out while the analysts are running their jobs</strong>. What would be the simplest solution to this problem? </p>
+<ul>
+<li>Use Automatic WLM with concurrency scaling</li>
+<li>Resize the cluster with Elastic Resize </li>
+<li><strong>Use Short Query Acceleration (SQA)   (Correct)</strong></li>
+<li>Use Manual WLM with concurrency scaling </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>SQA can be used in place of WLM as a simple way to ensure short queries are <strong>not scheduled behind longer ones</strong>. </p>
+</blockquote>
+<h3 id="question-11"><strong>Question 11</strong></h3>
+<p>You are running a Glue ETL job on a schedule to transform new log data from your webservers stored in S3. <strong>What is the simplest approach for ensuring data is not re-processed in subsequent job runs</strong>? </p>
+<ul>
+<li>Delete data from S3 once it is processed </li>
+<li><strong>Use job bookmarks    (Correct)</strong></li>
+<li>Enable the "data tracking" feature in Glue </li>
+<li>Use a DynamoDB table to track where each job left off </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>Job bookmarks are made for this use case. The "data tracking" feature doesn't exist, and the other options are more complex. </p>
+</blockquote>
+<h3 id="question-12"><strong>Question 12</strong></h3>
+<p>You are tasked with using <strong>Hive on Elastic MapReduce to analyze data that is currently stored in a large relational database</strong>. </p>
+<p>Which approach could meet this requirement? </p>
+<ul>
+<li>Extract the database into csv files in Amazon S3, and point your EMR file systpm to that S3 bucket </li>
+<li>Use AWS Glue to create a Hive metastore used by your EMR cluster </li>
+<li><strong>Use Apache Sqoop on the EMR cluster to copy the data into HDFS (Correct)</strong></li>
+<li>Use Apache Flume to stream data from the database into HDFS </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>Sqoop is an open-source system for transferring data between Hadoop and relational databases. </p>
+<p>Flume is intended for real-time streaming applications, Glue is intended for use with S3, and you can't direct EMRFS to arbitrary S3 buckets. </p>
+</blockquote>
+<h3 id="question-13"><strong>Question 13</strong></h3>
+<p>Your management wants a dashboard to <strong>monitor current revenue against their annual revenue goal</strong>. Whick Quicksight visualization would be most appropriate? </p>
+<ul>
+<li><strong>KPI</strong></li>
+<li>Donut Chart </li>
+<li>Line Chart</li>
+<li>Pie Chart </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>KPI, or Key Performance Indicator, is a newer visualization in Quicksight that lets you visualize a comparison between a key value and its target value. </p>
+</blockquote>
+<h3 id="question-14"><strong>Question 14</strong></h3>
+<p>A company wishes to copy 500GB of data from their <strong>Amazon Redshift cluster into an Amazon RDS PostgreSQL database</strong>, in order to have both columnar and row-based data stores available. <strong>The Redshift cluster will continue to receive large amounts of new data every day that must be kept in sync with the RDS database</strong>. </p>
+<p>What strategy would be most efficient? </p>
+<ul>
+<li>Use the Amazon Database Migration Service to sync the two databases using replication </li>
+<li>Use a materialized view to cache data between the databases, refreshing it periodically using Amazon Lambda </li>
+<li><strong>Copy data using the dblink function into PostgreSQL tables (Correct)</strong> </li>
+<li>Use AWS Glue to allow both databases to share a common metadata store </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p><strong>Dblink allows you to offload queries in Redshift to another database entirely. A materialized view could work for this, but it will always copy from the beginning of the table</strong>, and not just handle what has changed since the last incremental update. Read through https://amzn.to/2fraaHv if this question confused you. </p>
+</blockquote>
+<h3 id="question-15"><strong>Question 15</strong></h3>
+<p>Your company collects data from various sources into Kinesis and the stream is delivered using Kinesis Data Firehose into S3. Once in S3, your data scientist team uses Athena to query the most recent data, and usage has shown that after a month, the team queries the data less and less, an<strong>d finally after two months does not use it. For regulatory reasons, it is required to keep all the data for 5 years and no one should be able to delete it</strong>. What do you recommend? (select two) 
+after 60 days. </p>
+<ul>
+<li>Create a lifecycle rule to migrate the data to S3 IA after 30 days and Glacier </li>
+<li><strong>Implement a Glacier Vault Lock Policy (Correct)</strong></li>
+<li>Implement a Glacier Vault Access Policy </li>
+<li>Create a lifecycle rule to migrate the data to S3 Athena one day 1 and S3 Athena IA after 30 days. </li>
+<li><strong>Create a lifecycle rule to migrate all the data to S3 IA after 30 IA days and delete the data after 60 days. Create a rule to have a replica of all source data into Glacier from the first day.  (Correct)</strong></li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>S3 Athena is not a storage class. Data should be moved to S3 IA after 30 days. If the data is moved to Glacier after 60 days, then there are no guarantees for it not to be deleted by anyone for the first 60 days. Hence a replica of the data should be delivered to Glacier right away. <strong>Finally, to prevent deletion in Glacier, you must use a Glacier Vault Lock Policy</strong>. </p>
+</blockquote>
+<h3 id="question-16"><strong>Question 16:</strong></h3>
+<p>A user or application has been changing configuration on your production S3 bucket and you would like to understand who did this. What do you recommend? </p>
+<ul>
+<li>Analyze the S3 access logs with Athena </li>
+<li>Use CloudTrail </li>
+<li>Use the IAM action logs </li>
+<li>Write a custom S3 bucket policy </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>Very simply, we're looking at searching through API calls done on your account, which CloudTrail was made for. </p>
+</blockquote>
+<h3 id="question-17"><strong>Question 17:</strong></h3>
+<p>A hospital monitoring sensor data from heart monitors wishes to <strong>raise immediate alarms</strong> if an anomaly in any individual's heart rate is detected. Which architecture meets these requirements in a <strong>scalable manner</strong>? </p>
+<ul>
+<li>Publish sensor data into S3, and use Kinesis Firehose to publish the data into a Spark Streaming application that detects anomalies and raises alarms. </li>
+<li>Publish sensor data into a Kinesis data stream, and route the data into a custom application on an EC2 instance that analyzes the data for anomalies and sends out alarms as needed. </li>
+<li><strong>Publish sensor data into a Kinesis data stream, and create a Kinesis Data Analytics application using <code>RANDOM_CUT_FOREST</code> to detect anomalies. When an anomaly is detected, use a Lambda function to route an alarm to Amazon SNS. (Correct)</strong></li>
+<li>Publish sensor data into S3, and use AWS Glue to query the data using Amazon Redshift Spectrum. Run a periodic script to query the data for anomalies using SQL and raise alarms when needed</li>
+</ul>
+<blockquote>
+<p>Explanation </p>
+<p><strong><code>RANDOM_CUT_FOREST</code> is a function in Kinesis Data Analytics intended for anomaly detection.</strong> <strong>By using serverless services such as Kinesis, Lambda, and SNS we ensure the scalability of this system, and the choice of Kinesis Streams instead of Firehose ensures real-time delivery of the data</strong>. </p>
+</blockquote>
+<h3 id="question-18"><strong>Question 18:</strong></h3>
+<p>You are launching an EMR cluster and plan on running custom python scripts that will end up invoking <strong>custom Lambda functions deployed within your VPC</strong>. How can you ensure the EMR cluster has the right to invoke the functions? 
+—taws/credentials file </p>
+<ul>
+<li>Create an IAM user and put the credentials into the <code>~/.aws/credentials</code> file</li>
+<li><strong>Create an IAM role and attach it to the EMR instances (Correct) </strong></li>
+<li>Attach a VPC Endpoint to Lambda and map a route to EMR </li>
+<li>Create an AWS Lambda policy and authorize the EMR cluster security groups</li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>As EMR is made of EC2 instances, the best and most secure way for them to be <strong>allowed to invoke a Lambda function is to attach IAM roles</strong>. There's no Lambda policy or VPC Endpoint that can help for that matter. </p>
+</blockquote>
+<h3 id="question-19"><strong>Question 19:</strong></h3>
+<p>You would like to process data coming from IoT devices, and processing that date takes approximately 2 minutes per data point. You would also like to be able to scale in terms of number of processes that will consume that data, based on the load your are receiving, and no ordering constraints are required. What do you recommend? </p>
+<ul>
+<li>Define an IoT rules actions to send data to Kinesis Data Firehose and consume with AWS Lambda </li>
+<li>Define an ioT rules actions to send data to Kinesis Data Streams and consume the data with AWS Lambda </li>
+<li><strong>Define an IoT rules actions to send data to SQS and consume the LI data with EC2 instances in an Auto Scaling group   (Correct)</strong> </li>
+<li>Define an loT rules actions to send data to Kinesis Data Streams and consume -1 the data with KCL </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p><strong>Kinesis Data Streams doesn't work because it doesn't scale as the load increases.</strong></p>
+<p>Kinesis Data Firehose doesn't work as Lambda cannot be a consumer of KDF. Lambda can only be used for transformations of data going through KDF before being delivered to S3, Redshift, ElasticSearch or Splunk. </p>
+<p>Here the lack of ordering and the fact the processing may be long, and needs to scale based on the number of messages make SQS a great fit, that will also be more cost efficient </p>
+</blockquote>
+<h3 id="question-20"><strong>Question 20:</strong></h3>
+<p>A produce export company has <strong>multi-dimensional data for all of its shipments, such as the date, price, category, and destination of every shipment.</strong> A data analyst wishes to explore this data, with the primary purpose of looking for trends and outliers in the information. </p>
+<p>Which QuickSight visualization would be best suited for this? </p>
+<ul>
+<li>Stacked horizontal bar chart </li>
+<li><strong>Heat map</strong> </li>
+<li>Pivot table </li>
+<li>Scatter plot </li>
+</ul>
+<blockquote>
+<p>Explanation </p>
+<p>You can think of heat maps as pivot tables that highlight outliers and trends using color. </p>
+</blockquote>
+<h3 id="question-21"><strong>Question 21:</strong></h3>
+<p>Your data lake in S3 for user transaction data is stored in CSV format. To save costs, data older than one year is archived to Glacier. You have received a request from your legal team to retrieve any records for a specific user ID going back seven years, and they need it today. What is the most cost-effective way to fulfill their request? </p>
+<ul>
+<li>Import the Glacier data into Redshift and query it there </li>
+<li><strong>Use Glacier Select to run a query against the Glacier data for this user ID, and merge it with the same query run with S3 Select.   (Correct)</strong></li>
+<li>Use S3 Select to automatically query both S3 and Glacier together </li>
+<li>Restore 7 years' of data from Glacier to S3, query the S3 data with Athena then delete the restored data. </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>Glacier Select allows you to perform filtering directly against Glacier objects using standard SQL statements. It is the simplest, quickest, and most cost-effective option for querying cold data stored in Glacier. </p>
+</blockquote>
+<h3 id="question-22"><strong>Question 22:</strong></h3>
+<p>An Amazon Elasticsearch domain has been installed within a VPC. </p>
+<p>What are TWO methods which could be employed to securely allow access to Kibana from outside the VPC? </p>
+<ul>
+<li><strong>Set up a reverse proxy server between your browser and Amazon Elasticsearch servcer (Correct)</strong></li>
+<li>Configurean IAM policy to your browser to access Kibana. </li>
+<li>Create a security group to allow your IP access to the subnet attached to the VPC on port 443</li>
+<li>Use KMS between your browser and Kibana. </li>
+<li><strong>Set up an SSH tunnel with port forwarding to allow access on on port 5601. (Correct)</strong></li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p><strong>Kibana runs on port 5601 by default, so opening up port 443 won't help</strong>. IAM doesn't know about your browser, and KMS does not integrate with Kibana. </p>
+</blockquote>
+<h3 id="question-23"><strong>Question 23:</strong></h3>
+<p>You need to add more nodes to your <strong>Redshift cluster and change the node type in the process. Which process allows you to do this while minimizing downtime</strong>? </p>
+<ul>
+<li>Short Query Acceleration </li>
+<li>Elastic resize </li>
+<li><strong>Classic resize with snapshot / restore / resize （Correct)</strong></li>
+<li>WLM </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>While it is possible to change node types with elastic resize, the snapshot / restore / resize approach with classic resize minimizes the downtime involved. Elastic resize only holds connections open if you only change the number of nodes, not the node type. </p>
+</blockquote>
+<p><strong>Question 24:</strong> </p>
+<p>What are THREE ways in which <strong>EMR optionally integrates HBase with S3</strong>? </p>
+<ul>
+<li><strong>Storage of HBase StoreFiles and metadata on S3  （Correct)</strong></li>
+<li><strong>HBase read-replicas on S3 （Correct)</strong></li>
+<li>Automatic backup from HDFS-based StoreFiles to </li>
+<li>AWS Glue integration to infer schemas of S3 data </li>
+<li><strong>Snapshots of HBase data to S3 （Correct)</strong></li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>EMR allows you use S3 instead of HDFS for HBase's data via EMRFS. </p>
+<p>Although you can export snapshots to S3, </p>
+<p>HBase itself does not automate this for you. </p>
+</blockquote>
+<h3 id="question-25"><strong>Question 25:</strong></h3>
+<p><strong>New data arrives in S3 on an irregular schedule that you wish to import into an Amazon Elasticsearch cluster as it is received.</strong> The raw data in S3 requires some custom parsing before it is loaded into Elasticsearch. </p>
+<p>Which solution minimizes ongoing maintenance and maximizes scalability? </p>
+<ul>
+<li>Use AWS Glue to connect Elasticsearch directly to your S3 bucket </li>
+<li>Use Spark Streaming on an EMR cluster with reserved instances to monitor the S3 bucket and redirect the data to Elasticsearch </li>
+<li>Use Kinesis Firehose to pump data from S3 directly into Elasticsearch </li>
+<li><strong>Use a Lambda function to respond to event triggers from S3, and stream data from S3 into Elasticsearch as it is received  （Correct)</strong></li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p><strong>Glue does not integrate with Elasticsearch</strong>, ruling out "Use AWS Glue to connect Elasticsearch directly to your S3 bucket". </p>
+<p><strong>EMR clusters require manual scaling as your needs evolve</strong>, which involves ongoing maintenance we could avoid - so "Use Spark Streaming on an EMR cluster with reserved instances to monitor the S3 bucket and redirect the data to Elasticsearch" is also a poor choice. </p>
+<p>While Firehose can sit between S3 and Elasticsearch, the requirement to perform custom parsing means a Lambda function would be useful - leading us to "Use a Lambda function to <strong>respond to event triggers from S3, and stream data from S3 into Elasticsearch as it is received" </strong></p>
+</blockquote>
+<h3 id="question-26"><strong>Question 26:</strong></h3>
+<p>A real estate company wishes to display interactive charts on their website summarizing their prior month's sales activity. </p>
+<p>Which TWO solutions would provide this capability in a scalable and inexpensive manner? </p>
+<ul>
+<li>Use Tableau to visualize the data on the web, backed by an Amazon Aurora RDS database. </li>
+<li><strong>Publish data in csv format to Amazon Cloudtront via S3, and use Highcharts to visualize the data on the web. （Correct)</strong></li>
+<li><strong>Publish data in csv format to Amazon Cloudfront via S3, and use d3.js to visualize the data on the web. （Correct)</strong></li>
+<li>Embed Amazon Quicksight into the website, querying an underlying Redshift data warehouse. </li>
+<li>Embed a Jupyter Notebook hosted on EMR into the website. </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>Both d3 and Highcharts are Javascript libraries intended for interactive charts and graphs on websites. Quicksight and Tableau are data analysis tools not intended for public deployment. </p>
+</blockquote>
+<h3 id="question-27"><strong>Question 27</strong></h3>
+<p>Your company has data from a variety of sources, including Microsoft Excel spreadsheets stored in S3, log data stored in a S3 data lake, and structured data stored in Redshift. </p>
+<p>Which is the simplest solution for providing interactive dashboards that span this data? </p>
+<ul>
+<li>Create an Excel macro to dump the Excel data to csv files stored in S3, then -1 use Amazon Quicksight to visualize it and the other data sources together. </li>
+<li>Create Excel macros to import the log and Redshift data into Excel, and -1 visualize it all within Excel. </li>
+<li><strong>Use Amazon Quicksight directly on top of the Excel, S3, and Redshift data. 
+(Correct)</strong> 
+Write Python code in a Jupyter Notebook on an EMR cluster that processes LI the data and generates graphs. </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>The key to this question is remembering that <strong>Quicksight can actually consume Excel spreadsheets directly. Knowing that, "Use Amazon Quicksight directly on top of the Excel, S3, and Redshift data." is clearly the simplest approach</strong>. </p>
+</blockquote>
+<h3 id="question-28"><strong>Question 28:</strong></h3>
+<p>You are dealing with PII datasets and <strong>would like to leverage Kinesis Data Streams for your pub-sub solution</strong>. <strong>Regulators imposed the constraint that the data must be encrypted end-to-end using an internal key management system</strong>. What do you recommend? </p>
+<ul>
+<li><strong>Implement a custom encryption code in the Kinesis Producer LI Library (KPL) (Correct)</strong></li>
+<li>Use the Kinesis Client Library (KCL) to encrypt the data </li>
+<li>Encrypt the data with the MD5 algorithm before pushing it to Kinesis </li>
+<li>Enable KMS encryption at rest for Kinesis and transfer the data over HTTPS to get in-flight encryption </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>We cannot use KMS as we cannot leverage an internal key management system. MD5 is not an encryption algorithm and encryption must happen at the producer level (KPL), while decryption will happen at the consumption level (KCL). </p>
+</blockquote>
+<h3 id="question-29"><strong>Question 29</strong></h3>
+<p>You are an online retailer and your website is a storefront for millions of products. You have recently run a big sale on one specific electronic and y<strong>ou have encountered Provisioned Throughput Exceptions. You would like to ensure you can properly survive an upcoming sale that will be three times as big</strong>. What do you recommend? </p>
+<ul>
+<li><strong>Enable DynamoDB DAX</strong> </li>
+<li>Triple the provisioned RCU </li>
+<li>Triple the provisioned WCU </li>
+<li>Enable DynamoDB Streams </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>Here we are in a hot partition situation where one item is constantly being requested. Adding RCU will be costly and won't be effective as even though we have tripled the table capacity, the one partition will still experience throughput exceptions. Enabling DynamoDB Streams will not help, <strong>but a DAX cluster will provide caching for hot items and will definitely help in this situation</strong>. </p>
+</blockquote>
+<h3 id="question-30"><strong>Question 30:</strong></h3>
+<p>You are collecting data from various IoT thermostat and would like to have the data in S3 to ensure you can perform analytics on it using Hive running on EMR. The data scientists will use Hive to query the data based on a date range and will 
+need to delete the data in S3 regularly if it becomes out of date to save cost. 
+What do you recommend for the storage strategy in S3? </p>
+<ul>
+<li><code>&lt;device-id&gt;/&lt;YYYY&gt;/&lt;MM&gt;/&lt;DD&gt;</code></li>
+<li>All the data at the root of your S3 bucket </li>
+<li><strong><code>&lt;YYYY&gt;/&lt;MM&gt;/&lt;DD&gt;/&lt;device-id&gt;/</code>  (Correct)</strong></li>
+<li><code>&lt;DD&gt;/&lt;MM&gt;/&lt;YYYY&gt;/&lt;device-id&gt;/</code></li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>As all the data will often get queried and deleted based on a date range, <strong>it's much better to use a date as the root key for your S3 objects</strong>. </p>
+<p>Starting with the year is better as it will allow you to query based on years efficiently. </p>
+</blockquote>
+<h3 id="question-31"><strong>Question 31</strong></h3>
+<p>You are processing data using a long running EMR cluster and you like to ensure that you can recover data in case an entire availability zone goes down, <strong>as well as process the data locally for the various Hive jobs you plan on running</strong>. What do you recommend to do this at a minimal cost? </p>
+<ul>
+<li>Store the data in S3 and directlyvperform Hive jobs against it </li>
+<li><strong>Store the data in S3 and keep a warm copy in HDFS (Correct)</strong> </li>
+<li>Store the data in HDFS and mirror it to another EMR cluster in another region </li>
+<li>Enable regular EBS backups </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>EBS backups will be expensive and very painful to deal with as the dataset will be distributed over many different snapshots due to HDFS block replication mechanisms. </p>
+<p>Storing all the data in S3 and none in HDFS will incur some extra costs as the data is constantly read and written back to S3. </p>
+<p><strong>It's better to keep a local copy on HDFS. Finally, maintaining an entirely new EMR cluster for disaster recovery is too expensive</strong>. </p>
+</blockquote>
+<h3 id="question-32"><strong>Question 32</strong></h3>
+<p>You are creating an EMR cluster that will process the data in several MapReduce steps. Currently you are working against the data in S3 using EMRFS, but the network costs are extremely high as the processes write back temporary data to S3 before reading it. You are tasked with optimizing the process and bringing the 
+cost down, what should you do? </p>
+<ul>
+<li><strong>Add a preliminary step that will use a S3DistCp command</strong></li>
+<li>Use I3 type of instances </li>
+<li>Enable EMRFS local caching feature </li>
+<li>Enable LUKS encryption </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> Here, using an <strong>S3DistCp command is the right thing to do to copy data from S3 into HDFS and then make sure the data is processed locally by the EMR cluster MapReduce job</strong>. Upon completion, you will use S3DistCp again to push back the final result data to S3. LUKS encryption will not help, EMRFS does not have a local caching feature, and changing the EC2 instance types won't help </p>
+</blockquote>
+<h3 id="question-33"><strong>Question 33:</strong></h3>
+<p>What security mechanisms are supported by tMFC' (Select three) </p>
+<ul>
+<li><strong>KMS encryption (Correct)</strong> </li>
+<li><strong>LUKS encryption (Correct)</strong> </li>
+<li><strong>SSE-KMS (Correct)</strong> </li>
+<li>External HSM encryption </li>
+<li>Transparent Data Encryption (TDE) </li>
+<li>SSE-C </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> https://aws.amazon.com/blogs/big-data/best-practices-for-securing-amazon-emr/ </p>
+</blockquote>
+<h3 id="question-34"><strong>Question 34:</strong></h3>
+<p>An application processes sensor data in real-time by publishing it to Kinesis Data Streams, which in turn sends data to an AWS Lambda function that processes it and feeds it to DynamoDB. During peak usage periods, it's been observed that some data is lost. <strong>You've determined that you have sufficient capacity allocated for Kinesis shards and DynamoDB reads and writes</strong>. </p>
+<p>What might be TWO possible solutions to the problem? </p>
+<ul>
+<li>Allocate more Lambda nodes </li>
+<li>Enable replication in Lambda </li>
+<li>Provision more Kinesis shards </li>
+<li><strong>Process data in smaller batches to avoid hitting Lambda's timeout (Correct)</strong> </li>
+<li><strong>Increase your Lambda function's timeout value (Correct)</strong> </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>Lambda is serverless, and you don't need to concern yourself with how many nodes it might be using under the hood, or how it automatically handles replication and redundancy. However, lambda functions do have a timeout associated with them, and if the processing you're doing takes longer than this, events will be rejected. </p>
+</blockquote>
+<h3 id="question-35"><strong>Question 35:</strong></h3>
+<p>A financial services company wishes to back up its encrypted data warehouse in Amazon Redshift daily to a different region. </p>
+<p>What is the simplest solution that preserves encryption in transit and at rest? </p>
+<ul>
+<li>Configure a second Redshift cluster in another region, and use a daily COPY  command triggered by Lambda to transfer the encrypted data to the other cluster. </li>
+<li>Move the data into S3 and use Amazon Redshift from multiple regions to query it. </li>
+<li><strong>Configure Redshift to automatically copy snapshots to another region, using an AWS KMS customer master key in the destination region.  (Correct)</strong></li>
+<li>Configure Redshift to replicate its data to a standby cluster in another region. </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>Note that we said "daily," which means we don't need real-time replication. Snapshots will do just fine. </p>
+<p>"Move the data into S3 and use Amazon Redshift from multiple regions to query it." is a little bit misleading, as it doesn't matter where you run Redshift itself from if the data is stored elsewhere - but moving the data isn't exactly a simple solution. </p>
+</blockquote>
+<p><strong>Question 36</strong></p>
+<p>You would like to design an application that will be able to sustain storing 100s of TB of data in a database that will <strong>get low latency on reads and won't require you to manage scaling</strong>. What do you recommend? </p>
+<ul>
+<li>Redshift </li>
+<li>Aurora </li>
+<li><strong>DynamoDB   (Correct)</strong></li>
+<li>ElastiCache </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p><strong>Redshift cannot be used for low latency reads, Aurora will not scale past 64 TB and ElastiCache most likely won't scale and require you to manage scaling anyway</strong>. </p>
+<p>DynamoDB complies with the requirements and has built-in support for auto scaling. </p>
+</blockquote>
+<h3 id="question-37"><strong>Question 37:</strong></h3>
+<p>A MapReduce job on an EMR cluster needs to process data that is currently stored in very large, compressed files in HDFS, which limits the cluster's ability to distribute its processing.</p>
+<p>Which TWO solutions would best help the MapRedue job to operate more efficiently? </p>
+<ul>
+<li><strong>Uncompress the data and split it into 64MB chunks (CorrecT)</strong> </li>
+<li>Compress the file with Snappy </li>
+<li><strong>Convert the file to AVRO format (Correct)</strong> </li>
+<li>Compress the file with GZIP </li>
+<li>Uncompress the data and split it into 64K chunks </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p><strong>AVRO is a format that can easily be split and distributed by MapReduce as needed</strong>. Alternately, the data could be split manually into different files - but ideally you'd want these files to be close to the default HDFS chunk size of 64MB in order to make the best use of HDFS. </p>
+</blockquote>
+<h3 id="question-38"><strong>Question 38:</strong></h3>
+<p>You have an S3 bucket that your entire organization can read. For security reasons you would like the data sits encrypted there and you would like to define a strategy in which users can only read the data which they are allowed to decrypt, which may be a different partial set of objects within the bucket for each 
+user. How can  “nn achieve that? </p>
+<ul>
+<li><strong>Use SSE-KMS to encrypt the files (Correct)</strong></li>
+<li>Change the bucket policy </li>
+<li>Use SSE-S3 to encrypt the files </li>
+<li>Use identity federation </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>Here, the key is that users should be able to decrypt different files based on their rights. </p>
+<p><strong>Bucket policies do not scale for that matter if you have a lot of users and diverse data directories</strong>. </p>
+<p>SSE-S3 uses only one encryption key and does not enable granular permissions. Identity federation would not help either to solve that problem, as it does not define an authorization model. </p>
+<p>SSE-KMS will allow you to use different KMS keys to encrypt the objects, and then you can grant users access to specific sets of KMS keys to give them access to the objects in S3 they should be able to decrypt. </p>
+</blockquote>
+<h3 id="question-39"><strong>Question 39</strong></h3>
+<p>You are working for an e-commerce website and that website uses an on-premise PostgreSQL database as its main OLTP engine. You would like to perform analytical queries on it, but the Solutions Architect recommended not doing it off of the main database. What do you recommend? </p>
+<ul>
+<li>Use DMS to replicate the database to RDS </li>
+<li>Create an on-premise PostgreSQL Read Replica </li>
+<li>Create an RDS Read Replica </li>
+<li>Create an Aurora Read Replica </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> Read Replicas cannot be instantiated from an on-premise database. Here using a solution like DMS (Database Migration Service) is the right way to replicate the database state. </p>
+</blockquote>
+<h3 id="question-40"><strong>Question 40</strong></h3>
+<p>A manager wishes to make a case for hiring more people in her department, by showing that the number oming tasks for her department have grown at a faster rate than other departments over the past year. </p>
+<p>Which type of graph in Amazon Quicksight would be best suited to illustrate this </p>
+<ul>
+<li>Heat map </li>
+<li>A sequence of slides in a QuickSight Story </li>
+<li><strong>Area line chart （Correct)</strong> </li>
+<li>Stacked vertical bar chart </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>When you're <strong>looking for trends over time, line charts</strong> are usually the right choice. </p>
+</blockquote>
+<h3 id="question-41"><strong>Question 41:</strong></h3>
+<p>You wish to analyze an S3 data lake using standard SQL. Which solution results in the least amount of ongoing administration from you, as your data grows? </p>
+<ul>
+<li>Apache Spark on EMR </li>
+<li><strong>Amazon Athena （Correct)</strong> </li>
+<li>Amazon Redshift Spectrum </li>
+<li>Amazon RDS </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>Of the above choices, only Amazon Athena is a "serverless" solution that does not require you to provision capacity as your data and usage grows. </p>
+</blockquote>
+<h3 id="question-42"><strong>Question 42: </strong></h3>
+<p>As part of your application development, you would like your users to be able to get Row Level Security. The application is to be deployed on web servers and the users of the application should be able to use their <code>amazon.com</code> accounts. What do you recommend for the database and security? </p>
+<ul>
+<li>Enable Web Identity federation. Use RDS and reference <code>${www.amazon.com:user_id}</code> in the attached IAM policy </li>
+<li>Enable Web Identity federation. Use DynamoDB and reference <code>${aws:username}</code> in the attached IAM policy </li>
+<li>Enable Web Identity federation. Use DynamoDB and reference <code>${www.amazon.com:user_id}</code> in the attached IAM policy </li>
+<li>Enable Web Identity federation. Use RDS and reference <code>${aws:username}</code> in the attached IAM policy </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p><strong>RDS does not allow authorization through IAM policies</strong>, so we have to rule out RDS as a database technology for our purpose. </p>
+<p>DynamoDB is the technology of choice. <strong>As we're using Web Identity Federation with amazon.com, our IAM policy should use the <code>${www.amazon.com:user_id}</code> policy variable</strong> </p>
+</blockquote>
+<h3 id="question-43"><strong>Question 43</strong></h3>
+<p>Your financial organization has hundreds of Terabytes of data stored within its on premise data centers, and data is being produced at the rate of Gigabytes per second, and could be consumed within 3 days. As part of their AWS cloud migration, what solution do you recommend for them? </p>
+<ul>
+<li>
+<p><strong>Transfer your historical data using Snowball and use Kinesis Data Streams for ongoing data collection.  (Correct) </strong></p>
+</li>
+<li>
+<p>Install Direct Connect between your data center and AWS and transfer all the data over a 10Gbps line. Use Kinesis Data Firehose for ongoing data collection. </p>
+</li>
+<li>Transfer your historical data using Snowball and use Kinesis Data Firehose for ongoing data collection. </li>
+<li>Install Direct Connect between your data center and AWS and transfer all the Li data over a 10Gbps line. Use Kinesis Data Streams for ongoing data collection. </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> As your organization has <strong>hundreds of Terabytes of data, it is going to be much quicker and much more efficient to use Snowball to transport that data to AWS</strong>. </p>
+<p>As the data streams must be stored for at least 3 days, you must use Kinesis Data Streams which has a configurable data retention of between 1 and 7 days. </p>
+</blockquote>
+<h3 id="question-44"><strong>Question 44:</strong></h3>
+<p>You have programmed a Lambda function that will be automating the creation of an EMR cluster, which in turn should perform some transformations in S3 through EMRFS. Your Lambda function will be triggered by Cloud Watch Events. How can you ensure your Lambda function can properly perform its actions? </p>
+<ul>
+<li>Deploy in a VPC</li>
+<li>Use a Lambda policy  </li>
+<li><strong>Attach an IAM role   (Correct)</strong></li>
+<li>Attach an IAM user </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> As the Lambda function will be performing API calls on our infrastructure, it needs to have an IAM role attached. Deploying it in a VPC won't help, and we can't create users for Lambda functions. </p>
+</blockquote>
+<p>as possible and without impacting the current read an </p>
+<h3 id="question-45"><strong>Question 45:</strong></h3>
+<p>As part of an effort to limit cost and maintain under control the size of your DynamoDB table, your AWS account manager would like to ensure old data is deleted in DynamoDB after 1 month. How can you do so with as little maintenance d write operations? </p>
+<ul>
+<li><strong>Enable DynamoDB TTL and add a TTL column (Correct)</strong></li>
+<li>Create a Lambda function that gets triggered on a daily basis </li>
+<li>Create a lifecycle rule to delete your items after 30 days </li>
+<li>Scan your table from EMR and issue a delete statement afterwards </li>
+</ul>
+<blockquote>
+<p>Explanation Lifecycle rules do not exist on DynamoDB, and a Lambda function would require maintenance and add load on the WCU as you delete items. So will an EMR scan. The TTL will automatically expire old items and will not affect your usage of WCU and RCU upon item deletion. </p>
+</blockquote>
+<h3 id="question-46"><strong>Question 46:</strong></h3>
+<p>Which are the two technologies that support VPC Endpoint Gateway? (select two) </p>
+<ul>
+<li><strong>DynamoDB (Correct)</strong> </li>
+<li><strong>SQS (Correct)</strong> </li>
+<li>SNS </li>
+<li>CloudFormation </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> DynamoDB &amp; S3 are the only technologies that have VPC Endpoint Gateways, the rest are VPC Endpoint Interfaces. </p>
+</blockquote>
+<h3 id="question-47"><strong>Question 47:</strong></h3>
+<p>A data scientist wishes to develop a machine learning model to predict stock prices using Python in a Jupyter Notebook, and use a cluster on AWS to train and tune this model, and to vend predictions from it at large scale. </p>
+<p>Which system allows you to do this?</p>
+<ul>
+<li><strong>Amazon SageMaker (Correct)</strong> </li>
+<li>Apache Zeppelin </li>
+<li>Amazon Machine Learning </li>
+<li>Amazon Comprehend </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>SageMaker enables developers and data scientists to build, train, and deploy machine learning models at any scale, using hosted Jupyter notebooks. Zeppelin also uses a hosted Jupyter notebook, but does not integrate with AWS to train and tune models. Amazon Machine Learning does not use notebooks, and Amazon Comprehend is a natural language processing tool. </p>
+</blockquote>
+<h3 id="question-48"><strong>Question 48</strong></h3>
+<p>You are looking to query data storage in DynamoDB from your EMR cluster. Which of the following technology will allow you to do so? </p>
+<ul>
+<li><strong>Hive (Correct)</strong> </li>
+<li>Pig </li>
+<li>Spark </li>
+<li>HBase </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>Amongst the four listed above, Hive can have DynamoDB as a source for its queries. </p>
+</blockquote>
+<p><strong>Question 49:</strong> </p>
+<p>A produce export company has multi-dimensional data for all of its shipments, such as the date, price, category, and destination of every shipment. A data analyst wishes to interactively explore this data, applying statistical functions to different rows and columns and sorting them in different ways. </p>
+<p>Which QuickSight visualization would be best suited for this? </p>
+<ul>
+<li>Stacked horizontal bar chart </li>
+<li>Heat map </li>
+<li><strong>Pivot table</strong> </li>
+<li>Scatter plot </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p><strong>Interactive exploration of multi-dimensional data usually calls for a pivot table</strong>, as long as you're not looking to quickly identify outliers at the same time. </p>
+</blockquote>
+<h3 id="question-50"><strong>Question 50</strong></h3>
+<p>You are storing gaming data for your game that is becoming increasingly popular. An average game data will contain 80KB of data and as your games are quick. <strong>You expect about 400 games to be written per second to your database. Additionally, a lot of people would like to retrieve this game data and you expect about 1800 eventually consistent reads per second</strong>. How should you provision your DynamoDB table? </p>
+<ul>
+<li>3200 WCU &amp; 36000 RCU </li>
+<li><strong>32000 WCU &amp; 18000 RCU (Correct)</strong> </li>
+<li>32000 WCU &amp; 144000 RCU </li>
+<li>32000 WCU &amp; 36000 RCU </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p><code>1 WCU = 1 KB/s</code> so we need </p>
+<p><code>80KB * 400/s = 32000 WCU</code>. <code>1 RCU = 2</code> eventually consistent reads per second of 4 KB so we need <code>1800 * 80 / 8 = 18000 RCU</code>. </p>
+</blockquote>
+<h3 id="question-51"><strong>Question 51</strong></h3>
+<p>Which tool on Amazon Elastic MapReduce allows you to monitor your cluster's performance as a whole, and at individual nodes? </p>
+<ul>
+<li>Presto </li>
+<li><strong>Ganglia (Correct）</strong> </li>
+<li>Hue</li>
+<li>Ambbari</li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p><strong>Ganglia is the operational dashboard provided with EMR. Hue and Ambari are graphical front-ends for interacting with a cluster, but only Hue is provided with EMR.</strong> </p>
+<p>Presto is used for querying multiple data stores at once. </p>
+</blockquote>
+<h3 id="question-52"><strong>Question 52</strong></h3>
+<p>As an e-cornmerce retailer, you would like to onboard <strong>clickstream</strong> data onto <strong>Kinesis from your web servers Java applications</strong>. <strong>You want to ensure that a retry mechanism is in place, as well as good batching capability and asynchronous mode.</strong> You also want to collect server logs with the same constraints. What do you recommend? </p>
+<ul>
+<li>Use the Klnems Agent to se. the ell, stream and collect the server logs</li>
+<li>Use the AWS Kinesis SDK for Java in your web servers and use Kness 0 Producer Lama, to collect server logs </li>
+<li><strong>Use the Knems Producer Library to send the Clickstream and the Kineis agent to collect the Server Logs (Correct）</strong> </li>
+<li>Use Kinesis Producer Library to send the ell, stream and collect the server </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>The KPL has the mechanisms in place for retry and batching, as well as asynchronous mode. The Kinesis agent is meant to retrieve server logs with lust configuration files. </p>
+</blockquote>
+<h3 id="question-53"><strong>Question 53</strong></h3>
+<p>You are working for a bank and your company is regularly uploading 100 MB files to Amazon S3 and analyzed by Athena. <strong>It has come to light that recently some of the uploads have been corrupted and made a critical big data job tails</strong>. Your company would like a stronger guarantee that uploads are done successfully and that the files have the some content on premise and on S3. It looks to do so at minimal cost. What do you recommend? </p>
+<ul>
+<li>Upload a hash header as part of the S3 metadata which will trigger an S3 failure upon server side check for corruption </li>
+<li><strong>Use the S3 Etag and compare to the local MD5 hash  (Correct)</strong> </li>
+<li>Transfer the data over HTTP with gzip compression enabled </li>
+<li>Download the data from S3 after uploading it a. compare the SHA-1 signature </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>Here the S3 tag will compute the MD5 hash of the file on the server and this can be used to compare it to the local MD5 hash of the file that has been uploaded. </p>
+<p>Downloading data back from S3 might work, but will be way too costly. There's no feature to upload a hash header to S3 and transferring the data on HTTP will not help, and will decrease security. </p>
+</blockquote>
+<h3 id="question-54"><strong>Question 54</strong></h3>
+<p>Your esports application hosted on AWS need to process game results <strong>immediately in real time and later perform analytics on the same game results in the order they came at the end of business hours</strong>. Which of the AWS service will be the best fit for your needs? </p>
+<ul>
+<li>SQS FIFO Queues </li>
+<li>DynamoDB</li>
+<li><strong>Kinesis Data Streams (Correct)</strong> </li>
+<li>SQS Standard Queues </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>Here <strong>Kinesis is the best fit as the data can be replayed in the same order.</strong> </p>
+<p><strong>SQS does not allow data replays, and DynamoOB would allow to replay some data, but it'd be different to get some ordering constraints working as well as well as enable real time use cases</strong>. </p>
+</blockquote>
+<h3 id="question-55"><strong>Question 55</strong></h3>
+<p>You are required to maintain a real-time replica of your <strong>Amazon Redshift data warehouse across multiple availability zones</strong>. </p>
+<p>What is one approach toward accomplishing this? </p>
+<ul>
+<li>Snapshot your Redshift to Amazon S3, and copy it to a different availability zone periodically from a Lambda function </li>
+<li>Enable the trulti-AZ option when creating your Redsrytt cluster </li>
+<li><strong>Spin up separate redshibt clusters in multiple availability zones, using Amazon Kinesis to simultaneously write data into each cluster. Use Route 53 to direct your analytics tools to the nearest cluster when querying your data.    (Correct)</strong></li>
+<li>Snapshot your Redshift data to Amazon S3, where it may be restored from any availability zone, </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>Redshift does not come with multi-AZ redundancy, so this is something you must build yourself as described in <strong>"Spin up separate redshift clusters in multiple availability zones, using Amazon Kinesis to simultaneously write data into each cluster</strong>. </p>
+<p><strong>Use Route 53 to direct your analytics tools to the nearest cluster when querying your date</strong>. </p>
+<p><strong>As S3 is mutli-AZ, snapshotting your data to S3, which Redshift does do automatically, does provide you with some protection - but it does not satisfy the real-bore replication requirement stated in the question</strong>. </p>
+</blockquote>
+<h3 id="question-56"><strong>Question 56</strong></h3>
+<p>Your daily Spark jobs runs against files created by a Kinesis Firehose pipeline in S3. <strong>Due to a low throughput, you observe that each of the many files created by Kinesis Firehose is about 100KB</strong>. You would like to optimise your Spark job as best as possible to query the data efficiently. What do you recommend? </p>
+<ul>
+<li>Use multl-part download with Spark. </li>
+<li>Compress the files using GZIP </li>
+<li><strong>Consolidate files on a daily basis usng DataPipeline  (Correct)</strong></li>
+<li>Increase the batch flush time in Mnesis Data Firehose to 1 hour </li>
+</ul>
+<blockquote>
+<p>Explanation </p>
+<p>Multi part download is not a Spark feature, which does not deal well with many small files. </p>
+<p>GZIP will not solve the problems, the files will still be small and you will have many of them. Kinesis Data Firehose does not haves flush time greater than 5 minutes, which will still create many small files. Bottom line, you should use a DataPipeline job to consolidate the files on a daily basis into a larger file. </p>
+</blockquote>
+<h3 id="question-57"><strong>Question 57</strong></h3>
+<p>You have an ETL process that collects data from different sources and 3rd party providers and <strong>would be to ensure that data is loaded into Redshift once all the parts from all the providers related to one specific jobs have been gathered,</strong> which is the process that can happen over the course of one hour to one day. What the least costly way of doing that? </p>
+<ul>
+<li>Use the multi part upload feature of S3 to collect data from different sources </li>
+<li><strong>Create an AWS Lambda that responds to S3 upload events and will check if all the parts are there before uploading to Redshift  (Correct)</strong></li>
+<li>Create a Kinesis Data Firehose pipeline and program a Python condition that will trigger a buffer flush upon receiving all the necessary parts </li>
+<li>Load data in Redshif regularly using a Lambda cron job into a temporary table and use Redshift database triggers to assemble the final clata when all the parts are ready. </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>Loading the data in Redshift will be costly and inefficient and Redshift does not support database triggers. </p>
+<p>Multi Part is not helpful for data coming from various sources. Kinesis Firehose does not have a Python condition for buffer flush (only time and size). </p>
+<p><strong>Here a Lambda function that reacts to events happening in $3 is the right answer</strong>. </p>
+</blockquote>
+<h3 id="question-58"><strong>Question 58</strong></h3>
+<p>You work for a gaming company and each game's data is stored in DynamoDB tables. <strong>In order to provide a game search functionality to your users, you need to move that data over to ElasticSearch</strong>. How can you achieve it efficiently and as close to real time as possible? </p>
+<ul>
+<li>Enable DynamoDB Streams and connect it with Kinesis Data Firehose</li>
+<li>Create a DataPipeline job scheduled on ab hourly basis</li>
+<li><strong>Enable DynamoDB Streams and write a Lambda function (Correct)</strong></li>
+<li>Use DynamoDB Global Rephcation and select ElastmSearch Service as your target</li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p><strong>DynamoDB Streams do not have direct integration with Firehose</strong>,</p>
+<p>DataPipeline will not have the data fast enough into ElasticSearch, and DynamoDB Global Tables do not integrate with ElasticSearch. </p>
+<p><strong>Here we need to write a Lambda function that is triggered from a DynamoDB Stream</strong> </p>
+</blockquote>
+<h3 id="question-59"><strong>Question 59</strong></h3>
+<p>You have created a system that recommends items similar to other items on an e-commerce website, by training a recommender system <strong>using Mahout on an EMR cluster</strong>. </p>
+<p>Which would be a performant means to vend the resulting table of similar items for any given item to the website at high transaction rates?</p>
+<ul>
+<li><strong>Publish the data into HBase (Correct)</strong> </li>
+<li>Load the data Into a Redshdt cluster and query It from the website</li>
+<li>Expose the data via Hive and JDBC </li>
+<li>Load data mto Amazon Aurora / HOS and query It from website</li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>This is an OLTP use case for which a "NoSQL" database is a good fit HBase is the only option presented designed tor OLTP and not (KAP, plus it has the advantage of already being present in EMR. </p>
+<p>DynamoDB would also be an appropriate technology to use. </p>
+</blockquote>
+<h3 id="question-60"><strong>Question 60</strong></h3>
+<p>You wish to use Amazon Redshitt Spectrum to analyze data in an Amazon S3 bucket that is in a different account than Redshift Spectrum. </p>
+<p>How would you authorize access between Spectrum and S3 across accounts? </p>
+<ul>
+<li><strong>Add a ploicy to the S3 bucket allowing S3 GET and LIST operations for an IAM role for Spectrum on the Redshift account (Correct)</strong></li>
+<li>Add a policy to the S3 bucket allowing S3 GET and LIST operations for the user agent "AWS Redshift/Spectrum"</li>
+<li>Create an IAM role allowing access for COPY operations on S3 </li>
+<li>Create a VPC endpoint to S3 accessible by your Redshift Spectrum</li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>Only "Add a policy to the S3 bucket allowing S3 GET and LIST operations for an IAM role for Spectrum on the Redshift account" specifically addresses the problem of cross-account access to the S3 bucket. </p>
+</blockquote>
+<h3 id="question-61"><strong>Question 61</strong></h3>
+<p>Your enterprise would like to leverage AWS Redshift to query data. Currently that data is produced at the rate of 5 PB of historical data and another 3 TB per month that you would like to get with less than two days delay, and you are tasked with finding the most efficient data transfer solution into S3. What do you recommend? (select two) </p>
+<ul>
+<li>Use Snowball to transfer the newly created monthly data </li>
+<li>Establish Direct Connect transfer the historical data over a 10Gpbs connection </li>
+<li><strong>Use Snowball to transfer the historical data (Correct)</strong> </li>
+<li><strong>Establish Direct Connect and do a daily upload created monthly data directly into S3  (Correct)</strong></li>
+<li>Establish Site-to-Site VPN and transfer the historical data over a public 10Gbps connection</li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>Snowball is the only way to transfer your historical data as it would take a very long time to transfer over the network, even with Direct Conned or Site-to-Site VPN. </p>
+<p>For ongoing data, it's the equivalent of 300 GB a day, which will take less than an hour to upload each day versus Snowball which will definitely take longer than 2 days to reach AWS. </p>
+</blockquote>
+<h3 id="question-62"><strong>Question 62</strong></h3>
+<p>You need to load several hundred GB of data every day from Amazon 53 into Amazon Redshift, which is stored in a single file. You've found that loading this data is prohibitively slow. </p>
+<p>Which approach would optimize this loading best? </p>
+<ul>
+<li>Avoid loading the data in the same order as your sort key. </li>
+<li>Split the data into fres between 1GB and 125GB rafter compressiond and specify GZIP compression from multiple COPY commands run concurrently </li>
+<li><strong>Split the data into fres between 1MB and 125MB (after comprssion) and specify GZIP conhoression from a single COPY command (Correcrt)</strong> </li>
+<li>Split the data into files between 1MB and 125MB (after compressiond and specify GZIP compression from multiple COPY commands run concurrently </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>Multiple concurrent COPY commands might sound like a good idea, but in reality it forces Redshift to perform a slow, serialized load followed by a VACUUM Process, If you want to load data in parallel, it's best to split your data into separate files no more than 1GB apieåce. </p>
+<p>Compressing the data also helps. Loading data in the same order as your sort key can also speed up the import process, which is the opposite of "Avoid loading the data in the same order as your sort key".</p>
+</blockquote>
+<h3 id="question-63"><strong>Question 63</strong></h3>
+<p>Your team has developed a Spark Streaming applications that performs real time transformations on an on-premise Apache KM ka cluster and finally delivers the data in real time to S3. As part of a migration to the cloud and switch to Kinesis as an underlying streaming store, what do you recommend? </p>
+<ul>
+<li>Produce data using Spark Streaming to Kinesis Data Streams, and read the o data with Spark Streaming frorn Kinesis Data Frehose to write it to S3 </li>
+<li>Produce data using Spark Streaming to Kinesis Data Firehose and deliver the data to S3 using Kinesis Data Firehose. </li>
+<li>Produce data using Spark Streaming to Kinesis Data Firehose and deliver the data S3 using Spark Streaming reading from Kinesis Data Streams. </li>
+<li><strong>Produce data using Spark Streaming to Kinesis Data Streams, and read the data min Spark Streaming from Kinesis Data Streams to write it to S3. 
+(Correct)</strong> </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>Here, the key requirement is the real-time constraint Kinesis Data Firehose is near real time" (60 seconds minimum batch size) and thus cannot be used tor delivery to S3 in real time. Finally, Spark Streaming can read and write to Kinesis Data Streams only. </p>
+</blockquote>
+<h3 id="question-64"><strong>Question 64</strong></h3>
+<p><strong>An application on AWS generates frequent logs on S3</strong>. The operational support team needs to analyze the logs to understand various patterns of the application failures and try to come up with a plan to fix those issues. Which option is cost-effective and requires the LEAST engineering effort? </p>
+<ul>
+<li><strong>Create AWS Glue Data Catalogue metadata and analyze logs via Amazon Athena.  (Correct)</strong></li>
+<li>Download Me log files Korn SS and manually check the failure reasons. </li>
+<li>Migrate the logs to the Elasticsearch platform and analyze further using Kihana. </li>
+<li>Create AWS Glue Data Catalogue metadata and spin up an ENID cluster with a Hive metastore pointing to AWS Glue Data Catalogue. Use Spark and Hive to analyze the logs further. </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p><strong>Amazon Athena is meant for analysis of files on S3 after creation of metadata on AWS Glue</strong>. </p>
+</blockquote>
+<h3 id="question-65"><strong>Question 65</strong></h3>
+<p>You need to ETL streaming data from web server logs as it is streamed in, for analysis in Athena. Upon talking to the stakeholders, you've determined that the ETL does not strictly need to happen in real-time, but transforming the data within a minute is desirable. </p>
+<p>What is a viable solution to this requirement? </p>
+<ul>
+<li><strong>Perform any initial ETL you can using Amazon Kinesis, store the 0 data in S3, and trigger a Glue ETL job to complete the transformations needed. (Correct)</strong></li>
+<li>Perform any initial ETL you can with Kinesis Analytics, and send Me output of 0 Kinesis Analytios directly. a Spark Streaming application to Olathe remaining transformations. </li>
+<li>Create an AWS Glue ETL job, and schedule it to it every minute </li>
+<li>Publish your data into DynamoDB, and use DynamoDB strearns together with AWS Glue to perform the ETL </li>
+</ul>
+<blockquote>
+<p><strong>Explanation</strong> </p>
+<p>Glue jobs can be scheduled at a minimum of 5 minutes, ruling out "Create an AWS Glue ETL job, and schedule it to run every minute". </p>
+<p>Glue does not integrate directly with DynamoDB, ruling out "Publish your data into DynamoDB, and use DynamoDB streams together with AWS Glue to perform the ETL"</p>
+<p>Kinesis Analytics cannot connect directly to Spark Streaming, ruling out "Perform any initial ETL you can with Kinesis Analytics, and send the output of Kinesis Analytics directly to a Spark Streaming application to handle the remaining transformations"</p>
+<p>"Perform any initial ETL you can using Amazon Kinesis, store the data in S3, and trigger a Glue ETL job to complete the transformations needed." is the recommended approach from AWS. An alternative approach would be to use Kinesis Firehose and a Lambda function to transform the data before storing it in S3. </p>
+</blockquote>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.fac441b0.min.js"></script>
+      
+    
+  </body>
+</html>

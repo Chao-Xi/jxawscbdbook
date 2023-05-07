@@ -1,0 +1,3558 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's AWS Certified Big Data Specialty">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+        <link rel="canonical" href="https://chao-xi.github.io/jxawscbdbook/chap5/27Ana_Redshift/">
+      
+      
+        <link rel="prev" href="../26Glue_Athena_Exer/">
+      
+      
+        <link rel="next" href="../28Redshift_Spectrum_exer/">
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
+    
+    
+      
+        <title>L7 AWS Redshift - Jacob AWS Certified Big Data Specialty Tutorial</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a6bdf11c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="amber" data-md-color-accent="amber">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#l7-aws-redshift" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AWS Certified Big Data Specialty Tutorial" class="md-header__button md-logo" aria-label="Jacob AWS Certified Big Data Specialty Tutorial" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AWS Certified Big Data Specialty Tutorial
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              L7 AWS Redshift
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxawscbdbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscbdbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AWS Certified Big Data Specialty Tutorial" class="md-nav__button md-logo" aria-label="Jacob AWS Certified Big Data Specialty Tutorial" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AWS Certified Big Data Specialty Tutorial
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxawscbdbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscbdbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Section1:Intro
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Section1:Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/1intro/" class="md-nav__link">
+        AWS Certified Big Data Specialty 2020 - In Depth & Hands On!
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Section2:Collection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Section2:Collection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/2Kinesis_data_collection/" class="md-nav__link">
+        L1 Collections - Kinesis DataStream Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/3Coll_Kinesis_Firehose_Exer/" class="md-nav__link">
+        L2 [Exercise] Kinesis Firehose (PurchaseLogs/OrderLogs)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/4Coll_Kinesis_DS_Exer/" class="md-nav__link">
+        L3 [Exercise] Kinesis Data Streams
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/5Coll_SQS_Kinesis/" class="md-nav__link">
+        L4 SQS vs. Kinesis Data Stream
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/6Coll_IOT/" class="md-nav__link">
+        L5 IoT Overview and DeepDive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/7Coll_Others/" class="md-nav__link">
+        L6 Data Collection Others
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/7Coll_MSK/" class="md-nav__link">
+        L7 MSK Managed Streaming for Apache Kafka (Amazon MSK)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Section3:Storage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Section3:Storage
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8Storage_S3/" class="md-nav__link">
+        L1 Storage S3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/9Storage_dynamoDB/" class="md-nav__link">
+        L2 DynamoDB Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8Hands_onS3/" class="md-nav__link">
+        L3 Hands on S3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/10Storage_cache/" class="md-nav__link">
+        L4 ElastiCache Overview
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Section4:Processing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Section4:Processing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/11Process_Lambda/" class="md-nav__link">
+        L1 AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/12Process_Lambda_Exer/" class="md-nav__link">
+        L2 [Exercise] AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/13Process_ETL_intro/" class="md-nav__link">
+        L3 AWS Glue and Lake Formation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/15process_EMR/" class="md-nav__link">
+        L4 EMR Elastic MapReduce
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/17Process_EMR_Exer/" class="md-nav__link">
+        L5 Elastic MapReduce Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/15process_DataPipeline/" class="md-nav__link">
+        L6 AWS Data Pipeline
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/20Process_DL/" class="md-nav__link">
+        L7 Deep Learning
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Section5:Analysis
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Section5:Analysis
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../21Ana_KA/" class="md-nav__link">
+        L1 Amazon Kinesis Data Analytics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../22Ana_Kinesis_ana_Exer/" class="md-nav__link">
+        L2 Kinesis Analytics Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../23Ana_ES/" class="md-nav__link">
+        L3 Amazon Elasticsearch Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../24Ana_ES_Exer/" class="md-nav__link">
+        L4 Amazon Elasticsearch Service Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25Ana_Athena/" class="md-nav__link">
+        L5 Amazon Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../26Glue_Athena_Exer/" class="md-nav__link">
+        L6 [Exercise] AWS Glue and Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          L7 AWS Redshift
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        L7 AWS Redshift
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1redshift-intro-and-architecture" class="md-nav__link">
+    1、Redshift Intro and Architecture
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1what-is-redshift" class="md-nav__link">
+    1、What is Redshift?
+  </a>
+  
+    <nav class="md-nav" aria-label="1、What is Redshift?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-redshift-use-cases" class="md-nav__link">
+    1-1 Redshift Use-Cases
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-redshift-architecture" class="md-nav__link">
+    1-2 Redshift architecture
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-leader-node" class="md-nav__link">
+    1-3 Leader node
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-4-compute-nodes" class="md-nav__link">
+    1-4 compute nodes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-5-compute-node-types" class="md-nav__link">
+    1-5 Compute node types
+  </a>
+  
+    <nav class="md-nav" aria-label="1-5 Compute node types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dense-storageds-node" class="md-nav__link">
+    Dense storage(D.S. node)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dense-compute-dc-node" class="md-nav__link">
+    Dense compute (D.C. node)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-6-compute-node-slice" class="md-nav__link">
+    1-6 Compute Node Slice
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2redshift-spectrum-and-performance-tuning" class="md-nav__link">
+    2、Redshift Spectrum and Performance Tuning
+  </a>
+  
+    <nav class="md-nav" aria-label="2、Redshift Spectrum and Performance Tuning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-redshift-spectrum" class="md-nav__link">
+    2-1 Redshift Spectrum
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-redshift-performance" class="md-nav__link">
+    2-2 Redshift Performance
+  </a>
+  
+    <nav class="md-nav" aria-label="2-2 Redshift Performance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mpp" class="md-nav__link">
+    MPP
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#columnar-data-storage" class="md-nav__link">
+    Columnar Data Storage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#column-compression" class="md-nav__link">
+    Column Compression
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#copy-command-analyze-compression-command" class="md-nav__link">
+    Copy command / Analyze compression command
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3redshift-durability-and-scaling" class="md-nav__link">
+    3、Redshift Durability and Scaling
+  </a>
+  
+    <nav class="md-nav" aria-label="3、Redshift Durability and Scaling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-1-redshift-durabillty" class="md-nav__link">
+    3-1 Redshift Durabillty
+  </a>
+  
+    <nav class="md-nav" aria-label="3-1 Redshift Durabillty">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#three-copies-of-the-data-are-maintained" class="md-nav__link">
+    Three copies of the data are maintained
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#drive-failure" class="md-nav__link">
+    Drive failure
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#single-node-cluster" class="md-nav__link">
+    Single node cluster
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#individual-node-failure" class="md-nav__link">
+    Individual node failure
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limited-to-a-single-avallabdity-zoneaz" class="md-nav__link">
+    limited to a single avallabdity zone(AZ)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2-scaling-redshift" class="md-nav__link">
+    3-2 Scaling Redshift
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4redshift-distribution-styles" class="md-nav__link">
+    4、Redshift Distribution Styles
+  </a>
+  
+    <nav class="md-nav" aria-label="4、Redshift Distribution Styles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-redshift-distribution-styles" class="md-nav__link">
+    4-1 Redshift Distribution Styles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2-auto-distribution-dont-specify" class="md-nav__link">
+    4-2 Auto distribution (don't specify)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-3-even-distribution" class="md-nav__link">
+    4-3 Even distribution
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-4-key-distribution" class="md-nav__link">
+    4-4 key distribution
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-5-all-distribution" class="md-nav__link">
+    4-5 All distribution
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5redshift-sort-keys" class="md-nav__link">
+    5、Redshift Sort Keys
+  </a>
+  
+    <nav class="md-nav" aria-label="5、Redshift Sort Keys">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-1-redshift-sort-keys" class="md-nav__link">
+    5-1 Redshift Sort Keys
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-2-sort-keys-single-column" class="md-nav__link">
+    5-2 Sort Keys： Single Column
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-3-sort-keyscompound" class="md-nav__link">
+    5-3 Sort Keys：Compound
+  </a>
+  
+    <nav class="md-nav" aria-label="5-3 Sort Keys：Compound">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sort-keys-interleaved" class="md-nav__link">
+    Sort Keys： Interleaved
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6redshift-data-flows-and-the-copy-command" class="md-nav__link">
+    6、Redshift Data Flows and the COPY command
+  </a>
+  
+    <nav class="md-nav" aria-label="6、Redshift Data Flows and the COPY command">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-1-importing-exporting-data" class="md-nav__link">
+    6-1 Importing / Exporting data
+  </a>
+  
+    <nav class="md-nav" aria-label="6-1 Importing / Exporting data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-copy-command-to-load-from-amazon-s3" class="md-nav__link">
+    Example: copy command to load from Amazon S3
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhanced-vpc-routing" class="md-nav__link">
+    Enhanced VPC routing
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-2-copy-command-more-depth" class="md-nav__link">
+    6-2 COPY command: More depth
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-3-redshift-copy-grants-for-cross-region-snapshot-copies" class="md-nav__link">
+    6-3 Redshift copy grants for cross-region snapshot copies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-4-dblink" class="md-nav__link">
+    6-4 DBLINK
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7redshift-integration-wlm-vacuum-anti-patterns" class="md-nav__link">
+    7、Redshift Integration / WLM / Vacuum / Anti-Patterns
+  </a>
+  
+    <nav class="md-nav" aria-label="7、Redshift Integration / WLM / Vacuum / Anti-Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#7-1-integration-with-other-services" class="md-nav__link">
+    7-1 Integration with other services
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-2-redshift-workload-management-wlm" class="md-nav__link">
+    7-2 Redshift Workload Management (WLM)
+  </a>
+  
+    <nav class="md-nav" aria-label="7-2 Redshift Workload Management (WLM)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-wlmprioritize" class="md-nav__link">
+    What is WLM(Prioritize)?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-or-manage-wlmquery-queues" class="md-nav__link">
+    How or manage WLM(Query queues)?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-or-set-this-upexam" class="md-nav__link">
+    How or set this up(Exam)?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-3-concurrency-scaling" class="md-nav__link">
+    7-3 Concurrency Scaling
+  </a>
+  
+    <nav class="md-nav" aria-label="7-3 Concurrency Scaling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#workload-management-queuewlm-queues" class="md-nav__link">
+    workload management queue(WLM queues)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-3-automatic-workload-management" class="md-nav__link">
+    7-3 Automatic Workload Management
+  </a>
+  
+    <nav class="md-nav" aria-label="7-3 Automatic Workload Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3user-group" class="md-nav__link">
+    3.User group
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4query-group-set-by-label" class="md-nav__link">
+    4.Query group - set by Label
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5query-monitoring-rules" class="md-nav__link">
+    5.Query monitoring rules
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-4-manual-workload-management" class="md-nav__link">
+    7-4 Manual Workload Management
+  </a>
+  
+    <nav class="md-nav" aria-label="7-4 Manual Workload Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#query-queue-hopping" class="md-nav__link">
+    Query queue hopping
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-5-short-query-acceleration-sqa" class="md-nav__link">
+    7-5 Short Query Acceleration (SQA)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-6-vacuum-command" class="md-nav__link">
+    7-6 VACUUM command
+  </a>
+  
+    <nav class="md-nav" aria-label="7-6 VACUUM command">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vacuum-fulldefault" class="md-nav__link">
+    vacuum full(default)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vacuum-delete-only" class="md-nav__link">
+    VACUUM DELETE ONLY
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vacuum-sort-only" class="md-nav__link">
+    VACUUM SORT ONLY
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vacuum-reindex" class="md-nav__link">
+    VACUUM REINDEX
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redshift-anti-patterns" class="md-nav__link">
+    Redshift anti-patterns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8redshift-resizing-elastic-vs-classic-and-new-redshift-features-in-2020" class="md-nav__link">
+    8、Redshift Resizing (elastic vs. classic) and new Redshift features in 2020
+  </a>
+  
+    <nav class="md-nav" aria-label="8、Redshift Resizing (elastic vs. classic) and new Redshift features in 2020">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8-1-resizing-redshift-clusters" class="md-nav__link">
+    8-1 Resizing Redshift Clusters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-2-new-redshift-features-for-2020" class="md-nav__link">
+    8-2 New Redshift features for 2020
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9amazon-relational-database-servicerds-and-aurora" class="md-nav__link">
+    9、Amazon Relational Database Service(RDS) and Aurora
+  </a>
+  
+    <nav class="md-nav" aria-label="9、Amazon Relational Database Service(RDS) and Aurora">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#9-1-what-is-rds" class="md-nav__link">
+    9-1 What is RDS?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#acid" class="md-nav__link">
+    ACID
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-2-amazon-aurora" class="md-nav__link">
+    9-2 Amazon Aurora
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-3-aurora-security" class="md-nav__link">
+    9-3 Aurora Security
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10redshift-security-concerns" class="md-nav__link">
+    10、Redshift security concerns
+  </a>
+  
+    <nav class="md-nav" aria-label="10、Redshift security concerns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#10-1-using-a-hardware-security-module-hsm" class="md-nav__link">
+    10-1 Using a Hardware Security Module (HSM)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-2-defining-access-privileges-for-user-or-group" class="md-nav__link">
+    10-2 Defining access privileges for user or group
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../28Redshift_Spectrum_exer/" class="md-nav__link">
+        L8 [Exercise] Redshift Spectrum
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          Section6:Visualization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Section6:Visualization
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6/30Vis_Qs/" class="md-nav__link">
+        L1 Visualization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6/31Vis_Exer/" class="md-nav__link">
+        L2 Amazon Quicksight Exercise
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          Section7:Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Section7:Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/32Secu_Encryption/" class="md-nav__link">
+        L1 Security - Encryption
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/33Secu_bg_svc/" class="md-nav__link">
+        L2 AWS Services Security Deep Dive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/34Secu_account_fedration/" class="md-nav__link">
+        L3 Account and Identity Federation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/35Secu_others/" class="md-nav__link">
+        L4 Polices, CloudTrail & VPCe
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          Section8:WrapUp
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          Section8:WrapUp
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8/36bg_integration/" class="md-nav__link">
+        L1 AWS Bigdata Integration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8/37bg_instances/" class="md-nav__link">
+        L2 AWS Big Data Instances
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+          Section9:Machine Learning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          Section9:Machine Learning
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9/18Process_ML/" class="md-nav__link">
+        AWS Machine Learning （Amazon ML Service/Amazon SageMaker)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+          Section10:Quizs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Section10:Quizs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz1_coll/" class="md-nav__link">
+        Quiz1 Collection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz2_storage/" class="md-nav__link">
+        Quiz2 Storage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz3_lambda/" class="md-nav__link">
+        Quiz3 AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz4_glue/" class="md-nav__link">
+        Quiz4 AWS Glue
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz5_emr/" class="md-nav__link">
+        Quiz5 EMR and the Hadoop Ecosystem
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz6_ka/" class="md-nav__link">
+        Quiz6 Kinesis Analytics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz7_ES/" class="md-nav__link">
+        Quiz7 Amazon ES
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz8_athena/" class="md-nav__link">
+        Quiz8 Amazon Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz9_redshift/" class="md-nav__link">
+        Quiz9 Amazon Redshift
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz10_quicksight/" class="md-nav__link">
+        Quiz10 Amazon Quicksight
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz11_security/" class="md-nav__link">
+        Quiz11 Security
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz12_ML/" class="md-nav__link">
+        Quiz12 Amazon Machine Learning and Sagemaker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz_final/" class="md-nav__link">
+        AWS Certified Data Analytics Specialty Practice Exam
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+          Section11: Learning Big Data
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_12">
+          <span class="md-nav__icon md-icon"></span>
+          Section11: Learning Big Data
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_1bigdata_intro/" class="md-nav__link">
+        第一节 大数据体系中明确路径
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_2bigdata_structure/" class="md-nav__link">
+        第二节 大数据架构 & Hadoop介绍
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_3bigdata_coll/" class="md-nav__link">
+        第三节 大数据中的数据来源
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_4bigdata_hdfs/" class="md-nav__link">
+        第四节 HDFS解决大数据存储问题 & Hadoop on K8S
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_5bigdata_hive_hbase/" class="md-nav__link">
+        第五节 HBase 和 Hive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_6bigdtat_kafka_flume/" class="md-nav__link">
+        第六节 消息系统 Kafka 与 Flume
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_7bigdata_mapreduce/" class="md-nav__link">
+        第七节 MapReduce 处理大数据
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_8bigdata_spark/" class="md-nav__link">
+        第八节 Spark 与 Flink 的爱恨情仇 (Spark)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_9bigdata_flink/" class="md-nav__link">
+        第九节 Spark 与 Flink 的爱恨情仇 (Flink)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_10data_mining/" class="md-nav__link">
+        第十节 数据挖掘
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+          Section12: AWS Big Data Concept(CN)
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_13">
+          <span class="md-nav__icon md-icon"></span>
+          Section12: AWS Big Data Concept(CN)
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap12/1aws_data_storage/" class="md-nav__link">
+        数据库、数据湖、数据仓库、湖仓一体、智能湖仓
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap12/2aws_emr_20230421/" class="md-nav__link">
+        20230421-云原生大数据EMR研讨会
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1redshift-intro-and-architecture" class="md-nav__link">
+    1、Redshift Intro and Architecture
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1what-is-redshift" class="md-nav__link">
+    1、What is Redshift?
+  </a>
+  
+    <nav class="md-nav" aria-label="1、What is Redshift?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-redshift-use-cases" class="md-nav__link">
+    1-1 Redshift Use-Cases
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-redshift-architecture" class="md-nav__link">
+    1-2 Redshift architecture
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-leader-node" class="md-nav__link">
+    1-3 Leader node
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-4-compute-nodes" class="md-nav__link">
+    1-4 compute nodes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-5-compute-node-types" class="md-nav__link">
+    1-5 Compute node types
+  </a>
+  
+    <nav class="md-nav" aria-label="1-5 Compute node types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dense-storageds-node" class="md-nav__link">
+    Dense storage(D.S. node)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dense-compute-dc-node" class="md-nav__link">
+    Dense compute (D.C. node)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-6-compute-node-slice" class="md-nav__link">
+    1-6 Compute Node Slice
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2redshift-spectrum-and-performance-tuning" class="md-nav__link">
+    2、Redshift Spectrum and Performance Tuning
+  </a>
+  
+    <nav class="md-nav" aria-label="2、Redshift Spectrum and Performance Tuning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-redshift-spectrum" class="md-nav__link">
+    2-1 Redshift Spectrum
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-redshift-performance" class="md-nav__link">
+    2-2 Redshift Performance
+  </a>
+  
+    <nav class="md-nav" aria-label="2-2 Redshift Performance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mpp" class="md-nav__link">
+    MPP
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#columnar-data-storage" class="md-nav__link">
+    Columnar Data Storage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#column-compression" class="md-nav__link">
+    Column Compression
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#copy-command-analyze-compression-command" class="md-nav__link">
+    Copy command / Analyze compression command
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3redshift-durability-and-scaling" class="md-nav__link">
+    3、Redshift Durability and Scaling
+  </a>
+  
+    <nav class="md-nav" aria-label="3、Redshift Durability and Scaling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-1-redshift-durabillty" class="md-nav__link">
+    3-1 Redshift Durabillty
+  </a>
+  
+    <nav class="md-nav" aria-label="3-1 Redshift Durabillty">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#three-copies-of-the-data-are-maintained" class="md-nav__link">
+    Three copies of the data are maintained
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#drive-failure" class="md-nav__link">
+    Drive failure
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#single-node-cluster" class="md-nav__link">
+    Single node cluster
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#individual-node-failure" class="md-nav__link">
+    Individual node failure
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limited-to-a-single-avallabdity-zoneaz" class="md-nav__link">
+    limited to a single avallabdity zone(AZ)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2-scaling-redshift" class="md-nav__link">
+    3-2 Scaling Redshift
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4redshift-distribution-styles" class="md-nav__link">
+    4、Redshift Distribution Styles
+  </a>
+  
+    <nav class="md-nav" aria-label="4、Redshift Distribution Styles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-redshift-distribution-styles" class="md-nav__link">
+    4-1 Redshift Distribution Styles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2-auto-distribution-dont-specify" class="md-nav__link">
+    4-2 Auto distribution (don't specify)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-3-even-distribution" class="md-nav__link">
+    4-3 Even distribution
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-4-key-distribution" class="md-nav__link">
+    4-4 key distribution
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-5-all-distribution" class="md-nav__link">
+    4-5 All distribution
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5redshift-sort-keys" class="md-nav__link">
+    5、Redshift Sort Keys
+  </a>
+  
+    <nav class="md-nav" aria-label="5、Redshift Sort Keys">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-1-redshift-sort-keys" class="md-nav__link">
+    5-1 Redshift Sort Keys
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-2-sort-keys-single-column" class="md-nav__link">
+    5-2 Sort Keys： Single Column
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-3-sort-keyscompound" class="md-nav__link">
+    5-3 Sort Keys：Compound
+  </a>
+  
+    <nav class="md-nav" aria-label="5-3 Sort Keys：Compound">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sort-keys-interleaved" class="md-nav__link">
+    Sort Keys： Interleaved
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6redshift-data-flows-and-the-copy-command" class="md-nav__link">
+    6、Redshift Data Flows and the COPY command
+  </a>
+  
+    <nav class="md-nav" aria-label="6、Redshift Data Flows and the COPY command">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-1-importing-exporting-data" class="md-nav__link">
+    6-1 Importing / Exporting data
+  </a>
+  
+    <nav class="md-nav" aria-label="6-1 Importing / Exporting data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-copy-command-to-load-from-amazon-s3" class="md-nav__link">
+    Example: copy command to load from Amazon S3
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhanced-vpc-routing" class="md-nav__link">
+    Enhanced VPC routing
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-2-copy-command-more-depth" class="md-nav__link">
+    6-2 COPY command: More depth
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-3-redshift-copy-grants-for-cross-region-snapshot-copies" class="md-nav__link">
+    6-3 Redshift copy grants for cross-region snapshot copies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-4-dblink" class="md-nav__link">
+    6-4 DBLINK
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7redshift-integration-wlm-vacuum-anti-patterns" class="md-nav__link">
+    7、Redshift Integration / WLM / Vacuum / Anti-Patterns
+  </a>
+  
+    <nav class="md-nav" aria-label="7、Redshift Integration / WLM / Vacuum / Anti-Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#7-1-integration-with-other-services" class="md-nav__link">
+    7-1 Integration with other services
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-2-redshift-workload-management-wlm" class="md-nav__link">
+    7-2 Redshift Workload Management (WLM)
+  </a>
+  
+    <nav class="md-nav" aria-label="7-2 Redshift Workload Management (WLM)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-wlmprioritize" class="md-nav__link">
+    What is WLM(Prioritize)?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-or-manage-wlmquery-queues" class="md-nav__link">
+    How or manage WLM(Query queues)?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-or-set-this-upexam" class="md-nav__link">
+    How or set this up(Exam)?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-3-concurrency-scaling" class="md-nav__link">
+    7-3 Concurrency Scaling
+  </a>
+  
+    <nav class="md-nav" aria-label="7-3 Concurrency Scaling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#workload-management-queuewlm-queues" class="md-nav__link">
+    workload management queue(WLM queues)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-3-automatic-workload-management" class="md-nav__link">
+    7-3 Automatic Workload Management
+  </a>
+  
+    <nav class="md-nav" aria-label="7-3 Automatic Workload Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3user-group" class="md-nav__link">
+    3.User group
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4query-group-set-by-label" class="md-nav__link">
+    4.Query group - set by Label
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5query-monitoring-rules" class="md-nav__link">
+    5.Query monitoring rules
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-4-manual-workload-management" class="md-nav__link">
+    7-4 Manual Workload Management
+  </a>
+  
+    <nav class="md-nav" aria-label="7-4 Manual Workload Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#query-queue-hopping" class="md-nav__link">
+    Query queue hopping
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-5-short-query-acceleration-sqa" class="md-nav__link">
+    7-5 Short Query Acceleration (SQA)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-6-vacuum-command" class="md-nav__link">
+    7-6 VACUUM command
+  </a>
+  
+    <nav class="md-nav" aria-label="7-6 VACUUM command">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vacuum-fulldefault" class="md-nav__link">
+    vacuum full(default)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vacuum-delete-only" class="md-nav__link">
+    VACUUM DELETE ONLY
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vacuum-sort-only" class="md-nav__link">
+    VACUUM SORT ONLY
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vacuum-reindex" class="md-nav__link">
+    VACUUM REINDEX
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redshift-anti-patterns" class="md-nav__link">
+    Redshift anti-patterns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8redshift-resizing-elastic-vs-classic-and-new-redshift-features-in-2020" class="md-nav__link">
+    8、Redshift Resizing (elastic vs. classic) and new Redshift features in 2020
+  </a>
+  
+    <nav class="md-nav" aria-label="8、Redshift Resizing (elastic vs. classic) and new Redshift features in 2020">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8-1-resizing-redshift-clusters" class="md-nav__link">
+    8-1 Resizing Redshift Clusters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-2-new-redshift-features-for-2020" class="md-nav__link">
+    8-2 New Redshift features for 2020
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9amazon-relational-database-servicerds-and-aurora" class="md-nav__link">
+    9、Amazon Relational Database Service(RDS) and Aurora
+  </a>
+  
+    <nav class="md-nav" aria-label="9、Amazon Relational Database Service(RDS) and Aurora">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#9-1-what-is-rds" class="md-nav__link">
+    9-1 What is RDS?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#acid" class="md-nav__link">
+    ACID
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-2-amazon-aurora" class="md-nav__link">
+    9-2 Amazon Aurora
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-3-aurora-security" class="md-nav__link">
+    9-3 Aurora Security
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10redshift-security-concerns" class="md-nav__link">
+    10、Redshift security concerns
+  </a>
+  
+    <nav class="md-nav" aria-label="10、Redshift security concerns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#10-1-using-a-hardware-security-module-hsm" class="md-nav__link">
+    10-1 Using a Hardware Security Module (HSM)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-2-defining-access-privileges-for-user-or-group" class="md-nav__link">
+    10-2 Defining access privileges for user or group
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="l7-aws-redshift"><strong>L7 AWS Redshift</strong></h1>
+<h2 id="1redshift-intro-and-architecture"><strong>1、Redshift Intro and Architecture</strong></h2>
+<blockquote>
+<p>Redshift AWS's distributed to data warehouse solution</p>
+</blockquote>
+<p><strong>Full-managed, petabytes-scale data warehouse spread across an entire cluster</strong></p>
+<p><img alt="Alt Image Text" src="../../images/27_1.png" title="body image" /></p>
+<h2 id="1what-is-redshift"><strong>1、What is Redshift?</strong></h2>
+<ul>
+<li><strong>Fully-managed, petabyte scale data warehouse service</strong></li>
+<li>10X better performance than other data warehouses <ul>
+<li><strong>Via speed using machine learning, massively parallel query(MPP) execution, columnar storage</strong> </li>
+</ul>
+</li>
+<li>Designed for OLAP(Online analytic processing), not OLTP </li>
+<li><strong>Cost effective</strong> </li>
+<li>SQL ODBC, JDBC interfaces (SQL based clients and BI tools just using standard ODBC and JDBC connections.)</li>
+<li>Scale up or down on demand by (<code>AWS management console/Single API call</code>)</li>
+<li><strong>Built-in replication &amp; backups</strong> </li>
+<li>Monitoring via CloudWatch / CloudTrail <ul>
+<li>Metrics </li>
+<li>Compute utilization</li>
+<li>Storage utilization</li>
+<li>Read and write traffic to the cluster.</li>
+<li>Custom metrics</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-1-redshift-use-cases"><strong>1-1 Redshift Use-Cases</strong></h3>
+<ul>
+<li><strong>Accelerate analytics workloads</strong></li>
+<li>Machine learning(MPP) and columnar storage on high performance disks and result caching to make it superfast. </li>
+<li><strong>Unified data warehouse &amp; data lake </strong></li>
+<li>Redshift spectrum importing your unstructured data in S3 as just another table in your data warehouse.</li>
+<li><strong>Data warehouse modernization</strong> <ul>
+<li>Make it move faster and more scalable and easier </li>
+</ul>
+</li>
+<li>Analyze global sales data</li>
+<li>Store historical stock trade data </li>
+<li>Analyze ad impressions &amp; clicks </li>
+<li>Aggregate gaming data </li>
+<li>Analyze social trends </li>
+</ul>
+<h3 id="1-2-redshift-architecture"><strong>1-2 Redshift architecture</strong></h3>
+<p>A cluster is the core infrastructure component of an Amazon Redshift data warehouse </p>
+<p><strong>A cluster is composed of:</strong> </p>
+<ul>
+<li>One <strong>leader node</strong></li>
+<li>One or more <strong>compute nodes</strong> contain between 1 and 128 compute nodes depending on the node type.<ul>
+<li>User data is going to be stored on the compute nodes</li>
+</ul>
+</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/27_2.png" title="body image" /></p>
+<h3 id="1-3-leader-node"><strong>1-3 Leader node </strong></h3>
+<ul>
+<li><strong>Managing communication with the client programs and all communication with the compute nodes</strong></li>
+<li>It's sort of the <strong>interface between your external clients to redshift</strong> and the compute nodes under the hood</li>
+<li>It <strong>receives all the queries from client applications passes the queries</strong></li>
+<li><strong>Develops execution plans</strong> which are <strong>an ordered set of steps to process those queries</strong>.</li>
+<li><strong>It coordinates the parallel execution</strong> of those plans with the compute nodes and also <strong>aggregates the intermediate results from those nodes</strong>.</li>
+<li>Finally the leader node will <strong>return those results back to the client applications</strong>.</li>
+</ul>
+<h3 id="1-4-compute-nodes"><strong>1-4 compute nodes</strong></h3>
+<ul>
+<li><strong>Responsible for executing the steps</strong> specified in the execution plans from the leader node</li>
+<li><strong>Transmitting data among compute nodes to serve those queries</strong></li>
+<li>Sendsintermediate results back to the leader node for aggregation</li>
+</ul>
+<h3 id="1-5-compute-node-types"><strong>1-5 Compute node types</strong></h3>
+<p><strong>Compute node</strong> has its own <strong>dedicated CPU, memory, and attached disk storage</strong> which are determined by the node type.</p>
+<ul>
+<li><code>Dense storage =&gt; HDS</code></li>
+<li><code>Dense compute =&gt; SSD</code></li>
+</ul>
+<h4 id="dense-storageds-node"><strong>Dense storage(D.S. node)</strong></h4>
+<p>Very large data warehouse using hard disk drives(HDD) for a very low price point.</p>
+<ul>
+<li><strong>xlarge</strong> (3HDD total 2TBs of magnetic storage on that node)</li>
+<li><strong>8xlarge</strong> (24HDD total 16TBs of magnetic storage on that node)</li>
+<li><strong>D.S. 2.8xlarge</strong> has 36 Intel Xeone 526 76 Haswell virtual cores and 244 GB of RAM whereas an extra large has for Intel Xeone 526 76 Haswell virtual cores and 31GB of RAM.</li>
+</ul>
+<h4 id="dense-compute-dc-node"><strong>Dense compute (D.C. node)</strong></h4>
+<p>Create very high performance data warehouses using fast CPUs large amounts of ram and SSD.</p>
+<p><strong>SSD size</strong></p>
+<ul>
+<li><strong>xlarge</strong>: 160gb of SSD storage 2vCPU and 15gbs of RAM</li>
+<li><strong>8xlarge</strong>: 2.56tb of SSD, 32 vCPU and 244 gbs of RAM </li>
+</ul>
+<h3 id="1-6-compute-node-slice"><strong>1-6 Compute Node Slice</strong></h3>
+<p><strong>Compute node have node slices.</strong> So every compute node is divided into slices and a portion of the nodes memory and disk space is going to be allocated to each slice where it processes a portion of the workload assigned to that node</p>
+<h2 id="2redshift-spectrum-and-performance-tuning"><strong>2、Redshift Spectrum and Performance Tuning</strong></h2>
+<p>Athena could use the AWS Glue catalog to make tables on top of your S3 data <strong>redshift spectrum can do the same thing</strong>. </p>
+<p><img alt="Alt Image Text" src="../../images/27_3.png" title="body image" /></p>
+<h3 id="2-1-redshift-spectrum"><strong>2-1 Redshift Spectrum</strong></h3>
+<ul>
+<li><strong>Query exabytes of unstructured data in S3 without loading</strong> <ul>
+<li>Like tables embody in redshift redshift cluster.</li>
+</ul>
+</li>
+<li><strong>Limitless concurrency</strong><ul>
+<li>multiple queries to access the same data simultaneously in S3 it can scale out to thousands of instances if needed. </li>
+</ul>
+</li>
+<li>Horizontal scaling </li>
+<li><strong>Separate storage &amp; compute resources</strong> <ul>
+<li>All of your storage is being done in S3. </li>
+<li>Spectrum is just doing the compute part of analyzing that data. </li>
+</ul>
+</li>
+<li><strong>Wide variety of data formats</strong> <ul>
+<li>Avro, CSV, Grok, Ion, JSON, ORC, Parquet, RC file, Regx, Cirta, sequence files, text files, and TSVs </li>
+</ul>
+</li>
+<li>Support of Gzip and Snappy compression <ul>
+<li><strong>Compress your S3 data to save space and save bandwidth</strong> </li>
+</ul>
+</li>
+</ul>
+<h3 id="2-2-redshift-performance"><strong>2-2 Redshift Performance</strong></h3>
+<ul>
+<li>Massively Parallel Processing (MPP)</li>
+<li>Columnar Data Storage </li>
+<li>Column Compression </li>
+<li>Copy command / Analyze compression command</li>
+</ul>
+<h4 id="mpp"><strong>MPP</strong></h4>
+<p>Do that data and query loads are automatically distributed across all nodes and adding nodes to the data warehouse is made easy and also enables fast query performance as the data warehouse grows so it will do all of its queries in parallel.</p>
+<p><strong>More speed or more capacity just add more nodes</strong></p>
+<h4 id="columnar-data-storage"><strong>Columnar Data Storage</strong></h4>
+<ul>
+<li><strong>Uses columnar data storage so your data is organized by column as column</strong></li>
+<li>Ideal for data warehousing and analytics for large data set querying because typically you're just looking at specific columns of a large number of columns so you can save a lot of bandwidth</li>
+</ul>
+<h4 id="column-compression"><strong>Column Compression</strong></h4>
+<p><strong>Data format multiple compression</strong>: </p>
+<ul>
+<li>Select the most appropriate c<strong>ompression schema</strong></li>
+<li>Data is loaded into an empty table </li>
+<li><strong>Compression is a column level operation</strong> that reduces the size of the data</li>
+<li><strong>Compression can conserve storage space</strong> and and reduces the size of data that is read from the storage.</li>
+<li>It <strong>reduces the amount of disk IO and improves your query performance</strong>.</li>
+</ul>
+<h4 id="copy-command-analyze-compression-command"><strong>Copy command / Analyze compression command</strong></h4>
+<ul>
+<li><strong>Loading data into a redshift cluster by copy command</strong></li>
+<li>Copy command it will automatically analyze and apply compression automatically.</li>
+<li>It's not possible to change the compression encoding for a column after the table is created.</li>
+<li><strong>Analyze compression command</strong> which will <strong>perform compression analysis</strong> and <strong>produce a report with the suggested compression encoding</strong> for the tables analyzed.</li>
+</ul>
+<h2 id="3redshift-durability-and-scaling"><strong>3、Redshift Durability and Scaling</strong></h2>
+<h3 id="3-1-redshift-durabillty"><strong>3-1 Redshift Durabillty</strong></h3>
+<ul>
+<li><strong>Replication within cluster</strong></li>
+<li>Backup to S3 </li>
+<li>Asynchronously replicated to snapshots to S3 in another region </li>
+<li>Automated snapshots (1 day retention period by default, top to 35 days)</li>
+<li>Failed drives/nodes automatically replaced</li>
+<li>AWS recommends at least two nodes in your cluster </li>
+<li>However一 limited to a single avallabdity zone(AZ) </li>
+</ul>
+<h4 id="three-copies-of-the-data-are-maintained"><strong>Three copies of the data are maintained</strong></h4>
+<ul>
+<li>On the original compute nodes</li>
+<li>On a replica on compute nodes </li>
+<li>In a backup in S3.</li>
+</ul>
+<h4 id="drive-failure"><strong>Drive failure</strong></h4>
+<ul>
+<li>The Redshift cluster will remain available with a slight decline in performance of certain queries </li>
+<li>Redshift rebuilds that drive from a replica of the data on that drive which is stored on another drive within that node</li>
+</ul>
+<h4 id="single-node-cluster"><strong>Single node cluster</strong></h4>
+<ul>
+<li>Do not support data replication </li>
+<li>Only restore your cluster from a snapshot in S3 instead</li>
+</ul>
+<h4 id="individual-node-failure"><strong>Individual node failure</strong></h4>
+<ul>
+<li>Automatically detect that node failure</li>
+<li>Replace a failed node in data warehouse cluster. </li>
+</ul>
+<h4 id="limited-to-a-single-avallabdity-zoneaz"><strong>limited to a single avallabdity zone(AZ)</strong></h4>
+<p>However you can <strong>restore the cluster from any existing snapshot to a new availability zone within the <code>same region</code></strong>.</p>
+<h3 id="3-2-scaling-redshift"><strong>3-2 Scaling Redshift</strong></h3>
+<ul>
+<li><strong>Vertical and horizontal scaling on demand</strong><ul>
+<li>Increasing the node instance type</li>
+<li>Increasing the number of nodes</li>
+</ul>
+</li>
+<li><strong>During scaling</strong>: <ul>
+<li>A new cluster is created while your old one remains available for reads </li>
+<li>CNAME is flipped to new cluster (a few minutes of downtime) </li>
+<li>Data moved in parallel to new compute nodes </li>
+</ul>
+</li>
+</ul>
+<h2 id="4redshift-distribution-styles"><strong>4、Redshift Distribution Styles</strong></h2>
+<p>How the data in your table is <strong>distributed across many compute nodes and many slices within those nodes</strong>.</p>
+<p>Two primary goals of data distribution:</p>
+<ul>
+<li><strong>Distribute the workload uniformly among the nodes</strong> in the cluster</li>
+<li><strong>Minimize data movement during query execution</strong>. </li>
+</ul>
+<h3 id="4-1-redshift-distribution-styles"><strong>4-1 Redshift Distribution Styles</strong></h3>
+<ul>
+<li><strong>AUTO</strong> <ul>
+<li>Redshift figures it out based on size of data </li>
+</ul>
+</li>
+<li><strong>EVEN</strong> <ul>
+<li>Rows distributed across slices in round-robin </li>
+</ul>
+</li>
+<li><strong>KEY</strong> <ul>
+<li>Rows distributed based on one column </li>
+</ul>
+</li>
+<li><strong>ALL</strong> <ul>
+<li>Entire table is copied to every node </li>
+</ul>
+</li>
+</ul>
+<h3 id="4-2-auto-distribution-dont-specify"><strong>4-2 Auto distribution (don't specify)</strong></h3>
+<p>Redshift will assign an optimal distribution style</p>
+<h3 id="4-3-even-distribution"><strong>4-3 Even distribution</strong></h3>
+<p>Even distribution regardless of the values in any particular column the leader node distributes the rows across the slices in a round robin fashion and spread things out as evenly as possible.</p>
+<p><img alt="Alt Image Text" src="../../images/27_4.png" title="body image" /></p>
+<p>Step through each individual slice and <strong>keep assigning new data to each slice in a circular manner.</strong></p>
+<h3 id="4-4-key-distribution"><strong>4-4 key distribution</strong></h3>
+<p>Make sure that all the data associated with a <strong>specific key value will be physically located on the same slice</strong> and that can speed up your queries.</p>
+<p><img alt="Alt Image Text" src="../../images/27_5.png" title="body image" /></p>
+<ul>
+<li>New rows are coming in from your incoming data those keys will be hashed and set to a specific slice based on how that key is hashed.</li>
+</ul>
+<h3 id="4-5-all-distribution"><strong>4-5 All distribution</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/27_6.png" title="body image" /></p>
+<ul>
+<li>A copy of the entire table is distributed to every node </li>
+<li>Ensures that every row is co-located for every join that the table participates in the all distribution multiplies the storage required by the number of nodes in the cluster.</li>
+<li>Much longer to load update or insert data into multiple tables all distribution</li>
+<li>Small dimension tables do not benefit significantly from all distribution.</li>
+</ul>
+<h2 id="5redshift-sort-keys"><strong>5、Redshift Sort Keys</strong></h2>
+<ul>
+<li>Creating a table you can define one or more of its columns as sort keys.</li>
+<li>When data is initially loaded into an empty table the rows are stored on disk in <strong>sorted order</strong>.</li>
+<li>The sorting enables efficient handling of range restricted </li>
+<li>Predicates redshift will automatically <strong>store the minimum and maximum values for each block as part of its metadata</strong>.</li>
+<li>If a query uses a range restricted predicate the query processor can use the min and max values to rapidly skip over large numbers of blocks during table scans.</li>
+</ul>
+<h3 id="5-1-redshift-sort-keys"><strong>5-1 Redshift Sort Keys</strong></h3>
+<ul>
+<li>Rows are stored on disk in sorted order based on the column you designate as a sort key </li>
+<li>Like an index </li>
+<li>Makes for fast range queries </li>
+<li>Choosing a sort key <ul>
+<li>Recency? Filtering? Joins? </li>
+</ul>
+</li>
+<li>Single vs. Compound vs Interleaved sort keys </li>
+</ul>
+<blockquote>
+<p>Recency(Recent Data) =&gt; timestamp column</p>
+<p>Frequent range filtering or equality filtering on one column</p>
+<p>Frequently join =&gt;  join column for source key and the distribution key.</p>
+</blockquote>
+<h3 id="5-2-sort-keys-single-column"><strong>5-2 Sort Keys： Single Column</strong></h3>
+<p>A single column a single value to sort the data.</p>
+<p><img alt="Alt Image Text" src="../../images/27_7.png" title="body image" /></p>
+<p>Is useful if you're consistently querying for data <strong>within a single filter column like sort key by date</strong></p>
+<h3 id="5-3-sort-keyscompound"><strong>5-3 Sort Keys：Compound</strong></h3>
+<p>A compound key is made up of all the columns listed in the sort key definition in the order they are listed in.</p>
+<p><img alt="Alt Image Text" src="../../images/27_7.png" title="body image" /></p>
+<p><strong>Most useful when a query's filter applies conditions such as filters and joins</strong> that use a prefix of the sort keys</p>
+<blockquote>
+<p>Performance decrease when queries depend only on secondary sort columns without referencing the primary column. =&gt; Make sure that your primary column is one that you will most often be including in your queries.</p>
+</blockquote>
+<ul>
+<li><strong>Compound is the default sort type</strong> </li>
+<li><strong>Improve compression so their default for a reason</strong></li>
+</ul>
+<h4 id="sort-keys-interleaved"><strong>Sort Keys： Interleaved</strong></h4>
+<p><strong>Gives equal weight to each column or subset of columns in the sort key.</strong></p>
+<p>Useful if multiple queries use different columns for filters it uses an internal compression</p>
+<p><img alt="Alt Image Text" src="../../images/27_8.png" title="body image" /></p>
+<p>Schema for a zone map values that enables them to better discriminate among column values that have a long common prefix.</p>
+<h2 id="6redshift-data-flows-and-the-copy-command"><strong>6、Redshift Data Flows and the COPY command</strong></h2>
+<h3 id="6-1-importing-exporting-data"><strong>6-1 Importing / Exporting data</strong></h3>
+<ul>
+<li>COPY command <ul>
+<li>Parallelized; efficient </li>
+<li>From S3, EMR, DynamoDB, remote hosts(SSH)</li>
+<li>role based or key based access control to provide authentication FOR load or unload</li>
+<li>S3 requires a manifest file and IAM role </li>
+</ul>
+</li>
+<li>UNLOAD command <ul>
+<li>Unload from a table into files in S3 </li>
+</ul>
+</li>
+<li>Enhanced VPC routing </li>
+</ul>
+<h4 id="example-copy-command-to-load-from-amazon-s3"><strong>Example: copy command to load from Amazon S3</strong></h4>
+<p>There are couple ways:</p>
+<ul>
+<li><strong>Using an Amazon S3 object prefix</strong> which it would load all the data underneath a specific prefix or a path in S3.<ul>
+<li>COPY <code>s3://bucket_name/object_prefix</code>+<code>authorization</code></li>
+</ul>
+</li>
+<li>Use a <strong>manifest file which is a JSON format of files in S3</strong> that lists the data files that you want to load.<ul>
+<li>COPY <code>s3://booking_name/manifest_file</code>+ <code>authorization</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="enhanced-vpc-routing"><strong>Enhanced VPC routing</strong></h4>
+<ul>
+<li>Force all of your copy and unload traffic between your cluster and the repositories through your Amazon VPC. (Set up VPCe or Nat gateways or Internet gateways within your VPC)</li>
+<li>Otherwise all of that copy and unload traffic will be routed <strong>through the Internet</strong>.</li>
+</ul>
+<h3 id="6-2-copy-command-more-depth"><strong>6-2 COPY command: More depth</strong></h3>
+<ul>
+<li>Use <strong>COPY</strong> to load large amounts of data from <strong>outside(EXTERNAL)</strong> of Redshift </li>
+<li>If your data is already in Redshift <strong>in another table</strong>(<strong>INTERNAL</strong>), <ul>
+<li>Use <code>INSERT INTO ...SELECT</code> </li>
+<li>Or <code>CREATE TABLE AS</code> </li>
+</ul>
+</li>
+<li><strong>COPY</strong> can <strong>decrypt</strong> data as it is loaded from S3 <ul>
+<li><code>Hardware-accelerated SSL</code> used to keep it fast </li>
+</ul>
+</li>
+<li>Gzip, Izop, and bzip2 compression supported to speed it up further </li>
+<li><strong>Automatic compression</strong> option <ul>
+<li><strong>Analyzes data</strong> being loaded and figures out optimal compression scheme for storing it </li>
+</ul>
+</li>
+<li>Special case: <strong>narrow tables (lots of rows, few columns)</strong> <ul>
+<li>Load with a <strong>single COPY transaction</strong> if possible </li>
+<li>Otherwise <strong>hidden metadata columns</strong> consume too much space </li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Exam:</p>
+<p>How to efficiently load data into redshift from <strong>outside</strong>: <code>copy command</code></p>
+<p>How to optimize the usage of your actual storage on your cluster: <code>Automatic compression and analyzes data</code></p>
+</blockquote>
+<h3 id="6-3-redshift-copy-grants-for-cross-region-snapshot-copies"><strong>6-3 Redshift copy grants for cross-region snapshot copies</strong></h3>
+<ul>
+<li>Let's say you have a <code>KMS-encrypted</code> Redshift cluster and a snapshot of it </li>
+<li>You want to copy that snapshot to another region for backup</li>
+<li>In the destination AWS region: <ul>
+<li>Create a KMS key if you don't have one already </li>
+<li>Specify a unique name for your snapshot copy grant </li>
+<li>Specify the KMS key ID for which you're creating the copy grant </li>
+</ul>
+</li>
+<li>In the source AWS region: <ul>
+<li>Enable copying of snapshots to the copy grant you just created </li>
+</ul>
+</li>
+</ul>
+<h3 id="6-4-dblink"><strong>6-4 DBLINK</strong></h3>
+<ul>
+<li>Connect Redshift to PostgreSQL (possibly in RDS) </li>
+<li><strong>Good way to copy and sync data between PostgreSQL and Redshift</strong> </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/27_9.png" title="body image" /></p>
+<ul>
+<li>launch Redshift cluster and PostgreSQL RDS in same AZ </li>
+<li>Configure VPC security group for Redshift cluster to allow incoming connection from PostgreSQL  </li>
+</ul>
+<pre><code>CREATE EXTENSION postgres_fdw; 
+CREATE EXTENSION dblink; 
+CREATE SERVER foreign_server 
+    FOREIGN DATA WRAPPER postgres_fdw 
+    OPTIONS (host '&lt;omazon_redshift eip,, port '&lt;port&gt;, dbnome '&lt;datobose_nome&gt;, sslmode 'require'); 
+    CREATE USER MAPPING FOR &lt;rds_postgresql_username&gt; 
+    SERVER foreign_server 
+    OPTIONS (user '&lt;amazon_redshift_username&gt;, password '&lt;password&gt;'); 
+</code></pre>
+<h2 id="7redshift-integration-wlm-vacuum-anti-patterns"><strong>7、Redshift Integration / WLM / Vacuum / Anti-Patterns</strong></h2>
+<h3 id="7-1-integration-with-other-services"><strong>7-1 Integration with other services</strong></h3>
+<ul>
+<li>S3</li>
+<li>DynamoDB </li>
+<li>EMR / EC2 </li>
+<li>Data Pipeline </li>
+<li>Database Migration Service </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/27_10.png" title="body image" /></p>
+<ul>
+<li>S3: Parallel processing to <strong>export or import</strong> multiple data files from S3</li>
+<li>DynamoDB: Using Copy command to <strong>load a redshift table with data from a single Amazon dynamoDB table</strong>.</li>
+<li>EMR / EC2: Using Copy command to import from EMR and import data using SSH.</li>
+<li>Data Pipeline: <strong>Automate the data movement and transformation in and out</strong> of redshift tables using data pipeline.</li>
+<li>Database Migration Service: <strong>Migrate data from some existing data warehouse into Amazon Redshift</strong></li>
+</ul>
+<h3 id="7-2-redshift-workload-management-wlm"><strong>7-2 Redshift Workload Management (WLM)</strong></h3>
+<ul>
+<li>Prioritize short, fast queries vs. long, slow queries </li>
+<li>Query queues </li>
+<li>Via console, CLI, or API </li>
+</ul>
+<h4 id="what-is-wlmprioritize"><strong>What is WLM(Prioritize)?</strong></h4>
+<p>WLM is a way to help users <strong>prioritize workloads</strong> so that short <strong>fast running queries are not stuck behind long running slow queries</strong>.The way it works is by creating query queues at runtime according to <strong>service classes</strong> and <strong>configuration parameters</strong> for <strong>various types of queues</strong> are defined by those service classes.</p>
+<h4 id="how-or-manage-wlmquery-queues"><strong>How or manage WLM(Query queues)?</strong></h4>
+<p>Modify the WLM configuration to <strong>create separate queues</strong> for long running queries and for short running queries thereby <strong>improving system performance and user experience.</strong></p>
+<h4 id="how-or-set-this-upexam"><strong>How or set this up(<code>Exam</code>)?</strong></h4>
+<ul>
+<li>Amazon Redshift management console </li>
+<li>Amazon Redshift command line interface</li>
+<li>Amazon Redshift API </li>
+</ul>
+<h3 id="7-3-concurrency-scaling"><strong>7-3 Concurrency Scaling</strong></h3>
+<ul>
+<li><strong>Automatically adds cluster capacity</strong> to handle increase in <strong>concurrent read queries</strong> </li>
+<li>Support <strong>virtually unlimited concurrent users &amp; queries</strong></li>
+<li><strong>WLM queues</strong> manage which queries are sent to the concurrency scaling cluster</li>
+<li><strong>WLM queues is not free</strong></li>
+</ul>
+<h4 id="workload-management-queuewlm-queues"><strong>workload management queue(WLM queues)</strong></h4>
+<p>It can help to manage queries are sent to the concurrency scaling cluster so you can manage:  </p>
+<ul>
+<li><strong>What queue you assign your queries to</strong> </li>
+<li><strong>Which ones can actually take advantage of concurrency scaling</strong> and which ones do not.</li>
+<li>Pick and choose which queries take advantage of concurrency scaling.<ul>
+<li><strong>Segregate those read queries</strong> might be bursting or vary in time in their frequency and <strong>use that to automatically scale out the capacity for that specific query.</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="7-3-automatic-workload-management"><strong>7-3 Automatic Workload Management</strong></h3>
+<ul>
+<li>Creates up to 8 queues </li>
+<li>Default 5 queues with even memory allocation </li>
+<li><strong>Large queries</strong> (ie big hash joins -&gt; concurrency lowered) <ul>
+<li>Larger queries need more capacity so lower concurrency. </li>
+</ul>
+</li>
+<li><strong>Small queries</strong> (ie inserts, scans, aggregations) -&gt; concurrency raised </li>
+<li>Configuring query queues <ul>
+<li><strong>Priority</strong>:  Relative importance of queries within a workload.</li>
+<li><strong>Concurrency scaling mode</strong>: Set particular queue to have access to concurrency scaling cluster </li>
+<li>User groups </li>
+<li>Query groups </li>
+<li>Query monitoring rules </li>
+</ul>
+</li>
+</ul>
+<h4 id="3user-group"><strong>3.User group</strong></h4>
+<p>Set of user groups to a queue by specifying a <strong>user group name</strong> or by <strong>using wildcards</strong>.</p>
+<p>When <strong>a member of a listed user group</strong> runs a query that query <strong>will automatically run within the corresponding queue</strong> so you can <strong>assign queues to query queues based on users</strong>.</p>
+<h4 id="4query-group-set-by-label"><strong>4.Query group - set by Label</strong></h4>
+<p><strong>Assign a query group label to a series of queries</strong> and that will define which queue that query goes into</p>
+<h4 id="5query-monitoring-rules"><strong>5.Query monitoring rules</strong></h4>
+<p><strong>Define metric</strong> space performance boundaries for workflow management queue</p>
+<p>Specify what action to take when a query goes beyond those boundaries.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>Queue for dedicated to short running queries and you might have a query monitoring role that aborts those queries if run for more than 60s</li>
+<li>Short query queue is handling short queries if something goes wrong with one of those queries it's not going to hold up all the other queries in that queue.</li>
+</ul>
+<h3 id="7-4-manual-workload-management"><strong>7-4 Manual Workload Management</strong></h3>
+<ul>
+<li>One default queue with concurrency level of 5 (5 queries at once) </li>
+<li>Superuser queue with concurrency level 1<ul>
+<li><strong>Intended for administrative queries</strong></li>
+</ul>
+</li>
+<li>Define up to 8 queues, up to concurrency level 50 <ul>
+<li>Each can have defined concurrency scaling mode, concurrency level, user groups, query groups, memory, timeout, query monitoring rules </li>
+<li>Can also enable query queue hopping </li>
+<li>Timed out queries "hop" to next queue to try again </li>
+</ul>
+</li>
+</ul>
+<p><strong>Concurrency levels define how many queries can I run at once within this queue</strong>.</p>
+<h4 id="query-queue-hopping"><strong>Query queue hopping</strong></h4>
+<p>So if you have a query that times out within a given queue you can configure things to have it hop to the next queue</p>
+<h3 id="7-5-short-query-acceleration-sqa"><strong>7-5 Short Query Acceleration (SQA)</strong></h3>
+<ul>
+<li>Prioritize short-running queries over longer-running ones </li>
+<li>Short queries run in a dedicated space, won't wait in queue behind long queries </li>
+<li>Can be used in place of WLM queues for short queries </li>
+<li>Works with: <ul>
+<li><code>CREATE TABLE AS</code> (CTAS) </li>
+<li><code>Read-only queries</code> (SELECT statements) </li>
+</ul>
+</li>
+<li>Uses machine learning to predict a query's execution time </li>
+<li><strong>Can configure how many seconds is "short"</strong></li>
+</ul>
+<h3 id="7-6-vacuum-command"><strong>7-6 VACUUM command</strong></h3>
+<p><strong>Vacuum is the command used to <code>recover space from deleted rows</code> and to <code>restore the sort order</code>.</strong></p>
+<ul>
+<li>Recovers space from deleted rows </li>
+<li>VACUUM FULL </li>
+<li>VACUUM DELETE ONLY </li>
+<li>VACUUM SORT ONLY </li>
+<li>VACUUM REINDEX </li>
+</ul>
+<h4 id="vacuum-fulldefault"><strong>vacuum full(default)</strong></h4>
+<p>Re-sort all of the rows and reclaim space from deleted rows.</p>
+<h4 id="vacuum-delete-only"><strong>VACUUM DELETE ONLY</strong></h4>
+<p><strong>Just reclaiming deleted row space</strong> and not actually trying to record it and skips the sorting part.</p>
+<h4 id="vacuum-sort-only"><strong>VACUUM SORT ONLY</strong></h4>
+<p>Re-sort the table but not reclaim this space.</p>
+<h4 id="vacuum-reindex"><strong>VACUUM REINDEX</strong></h4>
+<p>Re-index will reanalyze the distribution of the values in the table sort.</p>
+<h3 id="redshift-anti-patterns"><strong>Redshift anti-patterns</strong></h3>
+<ul>
+<li>Small data sets<ul>
+<li>Use RDS instead </li>
+</ul>
+</li>
+<li>OLTP <ul>
+<li>Use RDS or DynamoDB instead </li>
+</ul>
+</li>
+<li>Unstructured data <ul>
+<li>ETL first with EMR etc.</li>
+<li>Redshift spectrum let you query unstructured data in S3 </li>
+</ul>
+</li>
+<li>BLOB data <ul>
+<li>Store references to large binary files in S3, not the files themselves. </li>
+</ul>
+</li>
+</ul>
+<h2 id="8redshift-resizing-elastic-vs-classic-and-new-redshift-features-in-2020"><strong>8、Redshift Resizing (elastic vs. classic) and new Redshift features in 2020</strong></h2>
+<h3 id="8-1-resizing-redshift-clusters"><strong>8-1 Resizing Redshift Clusters</strong></h3>
+<ul>
+<li>Elastic resize <ul>
+<li>Quickly add or remove nodes of same type </li>
+<li>Cluster is down for a few minutes </li>
+<li>Tries to keep connections open across the downtime</li>
+<li><strong>Limited to doubling or halving for some dc2 and ra3 node types</strong>. </li>
+</ul>
+</li>
+<li>Classic resize <ul>
+<li>Change node type and/or number of nodes </li>
+<li>Cluster is read-only for hours to days </li>
+</ul>
+</li>
+<li>Snapshot, restore, resize <ul>
+<li>Used to keep cluster available during a classic resize </li>
+<li>Copy cluster, resize new cluster </li>
+</ul>
+</li>
+</ul>
+<h3 id="8-2-new-redshift-features-for-2020"><strong>8-2 New Redshift features for 2020</strong></h3>
+<ul>
+<li>RA3 nodes with managed storage <ul>
+<li>Enable independent scaling of compute and storage</li>
+</ul>
+</li>
+<li><strong>Redshift data lake export</strong> <ul>
+<li>Unload Redshift query to S3 in <strong>Apache Parquet format</strong> </li>
+<li>Parquet is 2x faster to unload and consumes up to 6X less storage </li>
+<li>Compatible with Redshift Spectrum, Athena, EMR, SageMaker </li>
+<li><strong>Automatically partitioned</strong> </li>
+</ul>
+</li>
+</ul>
+<h2 id="9amazon-relational-database-servicerds-and-aurora"><strong>9、Amazon Relational Database Service(RDS) and Aurora</strong></h2>
+<blockquote>
+<p>Relational Database</p>
+</blockquote>
+<p><img alt="Alt Image Text" src="../../images/27_11.png" title="body image" /></p>
+<h3 id="9-1-what-is-rds"><strong>9-1 What is RDS?</strong></h3>
+<ul>
+<li>Hosted relational database <ul>
+<li>Amazon Aurora</li>
+<li>MySQL </li>
+<li>PostgreSQL </li>
+<li>MariaDB </li>
+<li>Oracle </li>
+<li>SQL Server </li>
+</ul>
+</li>
+<li>Not for "big data" <ul>
+<li>Might appear on exam as an example of what not to use </li>
+<li>Or in the context of migrating from RDS to Redshift etc. </li>
+</ul>
+</li>
+</ul>
+<h3 id="acid"><strong>ACID</strong></h3>
+<ul>
+<li>
+<p>RDS databases offer full ACID compliance </p>
+<ul>
+<li>Atomicity </li>
+<li>Consistency </li>
+<li>Isolation </li>
+<li>Durability </li>
+</ul>
+</li>
+<li>
+<p><strong>Atomicity</strong> ensures that either the transaction as a whole is successfully executed or if part of a transaction fails then the entire transaction is invalidated.</p>
+</li>
+<li><strong>Consistency</strong> ensures that the data written into the database as part of the transaction <strong>must adhere to all defined rules and restriction</strong>s including constraints cascades and trigger</li>
+<li><strong>isolation</strong> ensures that each transaction is <strong>independent</strong> to itself. Critical in achieving <strong>concurrency control</strong>.</li>
+<li><strong>durability</strong> ensures that all of the changes made to the database be <strong>permanent</strong>.</li>
+</ul>
+<h3 id="9-2-amazon-aurora"><strong>9-2 Amazon Aurora</strong></h3>
+<ul>
+<li>MySQL and PostgreSQL — compatible </li>
+<li>Up to 5X faster than MySQL, 3X faster than PostgreSQL </li>
+<li>1/10 the cost of commercial databases </li>
+<li>Up to 64TB per database instance</li>
+<li>Up to 15 read replicas </li>
+<li>Continuous backup to S3</li>
+<li>Replication across availability zones </li>
+<li>Automatic scaling with Aurora Serverless </li>
+</ul>
+<h3 id="9-3-aurora-security"><strong>9-3 Aurora Security</strong></h3>
+<ul>
+<li>VPC network isolation </li>
+<li>At-rest with KMS <ul>
+<li>Data, backup, snapshots, and replicas can be encrypted </li>
+</ul>
+</li>
+<li>In-transit with SSL </li>
+</ul>
+<h2 id="10redshift-security-concerns"><strong>10、Redshift security concerns</strong></h2>
+<h3 id="10-1-using-a-hardware-security-module-hsm"><strong>10-1 Using a Hardware Security Module (HSM)</strong></h3>
+<ul>
+<li>Must use a client and server certificate to configure a trusted connection between Redshift and the HSM </li>
+<li>If migrating an unencrypted cluster to an HSM-encrypted cluster, you must create the new encrypted cluster and then move data to it.</li>
+</ul>
+<h3 id="10-2-defining-access-privileges-for-user-or-group"><strong>10-2 Defining access privileges for user or group</strong></h3>
+<ul>
+<li><strong>Use the GRANT or REVOKE commands in SQL</strong> </li>
+<li>Example: grant select on table foo to bob; </li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.fac441b0.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2261 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's AWS Certified Big Data Specialty">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+        <link rel="canonical" href="https://chao-xi.github.io/jxawscbdbook/chap7/32Secu_Encryption/">
+      
+      
+        <link rel="prev" href="../../chap6/31Vis_Exer/">
+      
+      
+        <link rel="next" href="../33Secu_bg_svc/">
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
+    
+    
+      
+        <title>L1 Security - Encryption - Jacob AWS Certified Big Data Specialty Tutorial</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a6bdf11c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="amber" data-md-color-accent="amber">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#l1-security-encryption" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AWS Certified Big Data Specialty Tutorial" class="md-header__button md-logo" aria-label="Jacob AWS Certified Big Data Specialty Tutorial" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AWS Certified Big Data Specialty Tutorial
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              L1 Security - Encryption
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxawscbdbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscbdbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AWS Certified Big Data Specialty Tutorial" class="md-nav__button md-logo" aria-label="Jacob AWS Certified Big Data Specialty Tutorial" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AWS Certified Big Data Specialty Tutorial
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxawscbdbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscbdbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Section1:Intro
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Section1:Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/1intro/" class="md-nav__link">
+        AWS Certified Big Data Specialty 2020 - In Depth & Hands On!
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Section2:Collection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Section2:Collection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/2Kinesis_data_collection/" class="md-nav__link">
+        L1 Collections - Kinesis DataStream Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/3Coll_Kinesis_Firehose_Exer/" class="md-nav__link">
+        L2 [Exercise] Kinesis Firehose (PurchaseLogs/OrderLogs)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/4Coll_Kinesis_DS_Exer/" class="md-nav__link">
+        L3 [Exercise] Kinesis Data Streams
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/5Coll_SQS_Kinesis/" class="md-nav__link">
+        L4 SQS vs. Kinesis Data Stream
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/6Coll_IOT/" class="md-nav__link">
+        L5 IoT Overview and DeepDive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/7Coll_Others/" class="md-nav__link">
+        L6 Data Collection Others
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/7Coll_MSK/" class="md-nav__link">
+        L7 MSK Managed Streaming for Apache Kafka (Amazon MSK)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Section3:Storage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Section3:Storage
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8Storage_S3/" class="md-nav__link">
+        L1 Storage S3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/9Storage_dynamoDB/" class="md-nav__link">
+        L2 DynamoDB Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8Hands_onS3/" class="md-nav__link">
+        L3 Hands on S3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/10Storage_cache/" class="md-nav__link">
+        L4 ElastiCache Overview
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Section4:Processing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Section4:Processing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/11Process_Lambda/" class="md-nav__link">
+        L1 AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/12Process_Lambda_Exer/" class="md-nav__link">
+        L2 [Exercise] AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/13Process_ETL_intro/" class="md-nav__link">
+        L3 AWS Glue and Lake Formation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/15process_EMR/" class="md-nav__link">
+        L4 EMR Elastic MapReduce
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/17Process_EMR_Exer/" class="md-nav__link">
+        L5 Elastic MapReduce Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/15process_DataPipeline/" class="md-nav__link">
+        L6 AWS Data Pipeline
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/20Process_DL/" class="md-nav__link">
+        L7 Deep Learning
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Section5:Analysis
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Section5:Analysis
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/21Ana_KA/" class="md-nav__link">
+        L1 Amazon Kinesis Data Analytics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/22Ana_Kinesis_ana_Exer/" class="md-nav__link">
+        L2 Kinesis Analytics Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/23Ana_ES/" class="md-nav__link">
+        L3 Amazon Elasticsearch Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/24Ana_ES_Exer/" class="md-nav__link">
+        L4 Amazon Elasticsearch Service Exercise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/25Ana_Athena/" class="md-nav__link">
+        L5 Amazon Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/26Glue_Athena_Exer/" class="md-nav__link">
+        L6 [Exercise] AWS Glue and Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/27Ana_Redshift/" class="md-nav__link">
+        L7 AWS Redshift
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/28Redshift_Spectrum_exer/" class="md-nav__link">
+        L8 [Exercise] Redshift Spectrum
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          Section6:Visualization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Section6:Visualization
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6/30Vis_Qs/" class="md-nav__link">
+        L1 Visualization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6/31Vis_Exer/" class="md-nav__link">
+        L2 Amazon Quicksight Exercise
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          Section7:Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Section7:Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          L1 Security - Encryption
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        L1 Security - Encryption
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1aws-security-encryption" class="md-nav__link">
+    1、AWS Security &amp; Encryption
+  </a>
+  
+    <nav class="md-nav" aria-label="1、AWS Security &amp; Encryption">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-why-encryption-encryption-in-flight-ssl" class="md-nav__link">
+    1-1 Why encryption? Encryption in flight (SSL)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-why-encryption-server-side-encryption-at-rest" class="md-nav__link">
+    1-2 Why encryption? Server side encryption at rest
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-why-encryption-client-side-encryption" class="md-nav__link">
+    1-3 Why encryption? Client side encryption
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2s3-encryption-reminder" class="md-nav__link">
+    2、S3 Encryption (Reminder)
+  </a>
+  
+    <nav class="md-nav" aria-label="2、S3 Encryption (Reminder)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-s3-encryption-for-objects" class="md-nav__link">
+    2-1 S3 Encryption for Objects
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-sse-s3" class="md-nav__link">
+    2-2 SSE-S3
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-3-sse-kms" class="md-nav__link">
+    2-3 SSE-KMS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-4-sse-c" class="md-nav__link">
+    2-4 SSE-C
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-5-client-side-encryption" class="md-nav__link">
+    2-5 Client Side Encryption
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-6-encryption-in-transit-ssl" class="md-nav__link">
+    2-6 Encryption in transit (SSL)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-7-s3-encryption-example" class="md-nav__link">
+    2-7 S3 encryption Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3kms-overview" class="md-nav__link">
+    3、KMS Overview
+  </a>
+  
+    <nav class="md-nav" aria-label="3、KMS Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-1-aws-kms-key-management-service" class="md-nav__link">
+    3-1 AWS KMS (Key Management Service)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2-aws-kms-101" class="md-nav__link">
+    3-2 AWS KMS 101
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-3-aws-kms-key-management-service" class="md-nav__link">
+    3-3 AWS KMS (Key Management Service)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-4-how-does-kms-work-api-encrypt-and-decrypt" class="md-nav__link">
+    3-4 How does KMS work? API - Encrypt and Decrypt
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-5-encryption-in-aws-services" class="md-nav__link">
+    3-5 Encryption in AWS Services
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-6-cloud-hsm-hardware-security-module" class="md-nav__link">
+    3-6 Cloud HSM (Hardware Security Module)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-7-cloudhsm-diagram" class="md-nav__link">
+    3-7 CloudHSM Diagram
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-8-cloudhsm-vs-kms" class="md-nav__link">
+    3-8 CloudHSM VS KMS
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4kms-key-rotation" class="md-nav__link">
+    4、KMS Key Rotation
+  </a>
+  
+    <nav class="md-nav" aria-label="4、KMS Key Rotation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-kms-automatic-key-rotation" class="md-nav__link">
+    4-1 KMS Automatic Key Rotation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2-kms-manual-key-rotation" class="md-nav__link">
+    4-2 KMS Manual Key Rotation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-3-kms-alias-updating" class="md-nav__link">
+    4-3 KMS Alias Updating
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../33Secu_bg_svc/" class="md-nav__link">
+        L2 AWS Services Security Deep Dive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../34Secu_account_fedration/" class="md-nav__link">
+        L3 Account and Identity Federation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../35Secu_others/" class="md-nav__link">
+        L4 Polices, CloudTrail & VPCe
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          Section8:WrapUp
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          Section8:WrapUp
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8/36bg_integration/" class="md-nav__link">
+        L1 AWS Bigdata Integration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8/37bg_instances/" class="md-nav__link">
+        L2 AWS Big Data Instances
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+          Section9:Machine Learning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          Section9:Machine Learning
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9/18Process_ML/" class="md-nav__link">
+        AWS Machine Learning （Amazon ML Service/Amazon SageMaker)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+          Section10:Quizs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Section10:Quizs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz1_coll/" class="md-nav__link">
+        Quiz1 Collection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz2_storage/" class="md-nav__link">
+        Quiz2 Storage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz3_lambda/" class="md-nav__link">
+        Quiz3 AWS Lambda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz4_glue/" class="md-nav__link">
+        Quiz4 AWS Glue
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz5_emr/" class="md-nav__link">
+        Quiz5 EMR and the Hadoop Ecosystem
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz6_ka/" class="md-nav__link">
+        Quiz6 Kinesis Analytics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz7_ES/" class="md-nav__link">
+        Quiz7 Amazon ES
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz8_athena/" class="md-nav__link">
+        Quiz8 Amazon Athena
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz9_redshift/" class="md-nav__link">
+        Quiz9 Amazon Redshift
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz10_quicksight/" class="md-nav__link">
+        Quiz10 Amazon Quicksight
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz11_security/" class="md-nav__link">
+        Quiz11 Security
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz12_ML/" class="md-nav__link">
+        Quiz12 Amazon Machine Learning and Sagemaker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/qz_final/" class="md-nav__link">
+        AWS Certified Data Analytics Specialty Practice Exam
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+          Section11: Learning Big Data
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_12">
+          <span class="md-nav__icon md-icon"></span>
+          Section11: Learning Big Data
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_1bigdata_intro/" class="md-nav__link">
+        第一节 大数据体系中明确路径
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_2bigdata_structure/" class="md-nav__link">
+        第二节 大数据架构 & Hadoop介绍
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_3bigdata_coll/" class="md-nav__link">
+        第三节 大数据中的数据来源
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_4bigdata_hdfs/" class="md-nav__link">
+        第四节 HDFS解决大数据存储问题 & Hadoop on K8S
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_5bigdata_hive_hbase/" class="md-nav__link">
+        第五节 HBase 和 Hive
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_6bigdtat_kafka_flume/" class="md-nav__link">
+        第六节 消息系统 Kafka 与 Flume
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_7bigdata_mapreduce/" class="md-nav__link">
+        第七节 MapReduce 处理大数据
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_8bigdata_spark/" class="md-nav__link">
+        第八节 Spark 与 Flink 的爱恨情仇 (Spark)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_9bigdata_flink/" class="md-nav__link">
+        第九节 Spark 与 Flink 的爱恨情仇 (Flink)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/chap11_10data_mining/" class="md-nav__link">
+        第十节 数据挖掘
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+          Section12: AWS Big Data Concept(CN)
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_13">
+          <span class="md-nav__icon md-icon"></span>
+          Section12: AWS Big Data Concept(CN)
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap12/1aws_data_storage/" class="md-nav__link">
+        数据库、数据湖、数据仓库、湖仓一体、智能湖仓
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap12/2aws_emr_20230421/" class="md-nav__link">
+        20230421-云原生大数据EMR研讨会
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1aws-security-encryption" class="md-nav__link">
+    1、AWS Security &amp; Encryption
+  </a>
+  
+    <nav class="md-nav" aria-label="1、AWS Security &amp; Encryption">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-why-encryption-encryption-in-flight-ssl" class="md-nav__link">
+    1-1 Why encryption? Encryption in flight (SSL)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-why-encryption-server-side-encryption-at-rest" class="md-nav__link">
+    1-2 Why encryption? Server side encryption at rest
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-why-encryption-client-side-encryption" class="md-nav__link">
+    1-3 Why encryption? Client side encryption
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2s3-encryption-reminder" class="md-nav__link">
+    2、S3 Encryption (Reminder)
+  </a>
+  
+    <nav class="md-nav" aria-label="2、S3 Encryption (Reminder)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-s3-encryption-for-objects" class="md-nav__link">
+    2-1 S3 Encryption for Objects
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-sse-s3" class="md-nav__link">
+    2-2 SSE-S3
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-3-sse-kms" class="md-nav__link">
+    2-3 SSE-KMS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-4-sse-c" class="md-nav__link">
+    2-4 SSE-C
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-5-client-side-encryption" class="md-nav__link">
+    2-5 Client Side Encryption
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-6-encryption-in-transit-ssl" class="md-nav__link">
+    2-6 Encryption in transit (SSL)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-7-s3-encryption-example" class="md-nav__link">
+    2-7 S3 encryption Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3kms-overview" class="md-nav__link">
+    3、KMS Overview
+  </a>
+  
+    <nav class="md-nav" aria-label="3、KMS Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-1-aws-kms-key-management-service" class="md-nav__link">
+    3-1 AWS KMS (Key Management Service)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2-aws-kms-101" class="md-nav__link">
+    3-2 AWS KMS 101
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-3-aws-kms-key-management-service" class="md-nav__link">
+    3-3 AWS KMS (Key Management Service)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-4-how-does-kms-work-api-encrypt-and-decrypt" class="md-nav__link">
+    3-4 How does KMS work? API - Encrypt and Decrypt
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-5-encryption-in-aws-services" class="md-nav__link">
+    3-5 Encryption in AWS Services
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-6-cloud-hsm-hardware-security-module" class="md-nav__link">
+    3-6 Cloud HSM (Hardware Security Module)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-7-cloudhsm-diagram" class="md-nav__link">
+    3-7 CloudHSM Diagram
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-8-cloudhsm-vs-kms" class="md-nav__link">
+    3-8 CloudHSM VS KMS
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4kms-key-rotation" class="md-nav__link">
+    4、KMS Key Rotation
+  </a>
+  
+    <nav class="md-nav" aria-label="4、KMS Key Rotation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-kms-automatic-key-rotation" class="md-nav__link">
+    4-1 KMS Automatic Key Rotation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2-kms-manual-key-rotation" class="md-nav__link">
+    4-2 KMS Manual Key Rotation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-3-kms-alias-updating" class="md-nav__link">
+    4-3 KMS Alias Updating
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="l1-security-encryption"><strong>L1 Security - Encryption</strong></h1>
+<h2 id="1aws-security-encryption"><strong>1、AWS Security &amp; Encryption</strong></h2>
+<blockquote>
+<p>KMS, Encryption SDK, SSM Parameter Stogy </p>
+</blockquote>
+<h3 id="1-1-why-encryption-encryption-in-flight-ssl"><strong>1-1 Why encryption? Encryption in flight (SSL)</strong></h3>
+<ul>
+<li>Data is encrypted before sending and decrypted after receiving </li>
+<li><strong>SSL certificates help with encryption (HTTPS)</strong> </li>
+<li>Encryption in flight ensures no <strong>MITM</strong> (man in the middle attack) can happen </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/32_1.png" title="body image" /></p>
+<h3 id="1-2-why-encryption-server-side-encryption-at-rest"><strong>1-2 Why encryption? Server side encryption at rest</strong></h3>
+<ul>
+<li>Server side manages encryption and the decryption</li>
+<li><strong>Data is encrypted after being received by the server</strong> </li>
+<li><strong>Data is decrypted before being sent</strong> </li>
+<li>It is stored in an encrypted form thanks to a key (usually a <strong>data key</strong>)</li>
+<li>The encryption / decryption keys and object must be managed somewhere and the server must have access to it </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/32_2.png" title="body image" /></p>
+<ul>
+<li><strong>The encryption and the encryption keys must be managed somewhere usually called a KMS(Key Management Service)</strong></li>
+<li>The server must have the right to talk to that KMS.</li>
+</ul>
+<h3 id="1-3-why-encryption-client-side-encryption"><strong>1-3 Why encryption? Client side encryption</strong></h3>
+<ul>
+<li><strong>Data is encrypted by the client and never decrypted by the server</strong></li>
+<li><strong>Data will be decrypted by a receiving client</strong> </li>
+<li>The server should not be able to decrypt the data </li>
+<li>Could <strong>leverage Envelope Encryption</strong> </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/32_3.png" title="body image" /></p>
+<p><strong>Not using any KMS</strong></p>
+<h2 id="2s3-encryption-reminder"><strong>2、S3 Encryption (Reminder)</strong></h2>
+<h3 id="2-1-s3-encryption-for-objects"><strong>2-1 S3 Encryption for Objects</strong></h3>
+<ul>
+<li>There are 4 methods of encrypting objects in S3 </li>
+<li><strong><code>SSE-S3</code></strong>: Encrypts S3 objects using <strong>keys handled &amp; managed by AWS</strong> </li>
+<li><strong><code>SSE-KMS</code></strong>: <strong>Leverage AWS Key Management Service to manage encryption keys</strong> </li>
+<li><strong><code>SSE-C</code></strong>: When you want to manage your own encryption keys </li>
+<li><strong>Client Side Encryption</strong> </li>
+</ul>
+<p><strong>It's important to understand which ones are adapted to which situation for the exam</strong></p>
+<h3 id="2-2-sse-s3"><strong>2-2 SSE-S3</strong></h3>
+<ul>
+<li><strong>SSE-S3: encryption using keys handled &amp; managed by AWS S3</strong></li>
+<li>Object is encrypted server side </li>
+<li><strong>AES-256 encryption type</strong> </li>
+<li>Must set header: <strong><code>"x-amz-server-side-encryption": "AES256"</code></strong> when you send your data to Amazon</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/32_4.png" title="body image" /></p>
+<h3 id="2-3-sse-kms"><strong>2-3 SSE-KMS</strong></h3>
+<ul>
+<li>SSE-KMS: encryption using keys handled &amp; managed by KMS </li>
+<li>KMS Advantages: <strong>user control + audit trail</strong> </li>
+<li>Object is encrypted server side</li>
+<li>Must set header: <strong><code>"x-amz-servereside-encryption":"aws:kms"</code></strong></li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/32_5.png" title="body image" /></p>
+<p>The difference between <strong>SSE-S3</strong> and <strong>SSE-KMS</strong> is that the key that is used is a <strong>KMS customer master key(CMK) that you can manage over time</strong> while <strong>SSE-S3</strong> using keys handled &amp; managed by AWS S3</p>
+<h3 id="2-4-sse-c"><strong>2-4 SSE-C</strong></h3>
+<ul>
+<li>SSE-C: <strong>server-side encryption using data keys fully managed by the customer outside of AWS</strong> </li>
+<li>Amazon <strong>S3 does not store the encryption key you provide</strong> </li>
+<li><strong>HTTPS must be used</strong> </li>
+<li><strong>Encryption key must provided in HTTP headers, for every HTTP request made </strong></li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/32_6.png" title="body image" /></p>
+<h3 id="2-5-client-side-encryption"><strong>2-5 Client Side Encryption</strong></h3>
+<ul>
+<li>Client library such as the <strong>Amazon S3 Encryption Client</strong> </li>
+<li><strong>Clients must encrypt data themselves before sending to S3</strong> </li>
+<li><strong>Clients must decrypt data themselves when retrieving from S3</strong> </li>
+<li><strong>Customer fully manages the keys and encryption cycle</strong> </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/32_7.png" title="body image" /></p>
+<h3 id="2-6-encryption-in-transit-ssl"><strong>2-6 Encryption in transit (SSL)</strong></h3>
+<ul>
+<li>
+<p>AWS S3 exposes: </p>
+<ul>
+<li>HTTP endpoint: non encrypted </li>
+<li><strong>HTTPS endpoint: encryption in flight</strong></li>
+</ul>
+</li>
+<li>
+<p>You're free to use the endpoint you want, but HTTPS is recommended </p>
+</li>
+<li><strong>HTTPS is mandatory for SSE-C</strong></li>
+<li><strong>Encryption in flight is also called SSL /TLS</strong> </li>
+</ul>
+<h3 id="2-7-s3-encryption-example"><strong>2-7 S3 encryption Example</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/32_8.png" title="body image" /></p>
+<p><img alt="Alt Image Text" src="../../images/32_9.png" title="body image" /></p>
+<h2 id="3kms-overview"><strong>3、KMS Overview</strong></h2>
+<h3 id="3-1-aws-kms-key-management-service"><strong>3-1 AWS KMS (Key Management Service)</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/32_10.png" title="body image" /></p>
+<ul>
+<li>Anytime you hear   "encryption" for an AWS service, it's most likely <strong>KMS</strong> </li>
+<li><strong>Easy way to control access to your data, AWS manages keys for us</strong> </li>
+<li>Fully integrated with IAM for authorization <ul>
+<li>Seamlessly integrated into: <ul>
+<li>Amazon EBS: encrypt volumes </li>
+<li>Amazon S3: Server side encryption of objects </li>
+<li>Amazon Redshift: encryption of data </li>
+<li>Amazon RDS: encryption of data </li>
+<li>Amazon SSM: Parameter store </li>
+<li>Etc... </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>But you can also use the CLI / SDK </li>
+</ul>
+<h3 id="3-2-aws-kms-101"><strong>3-2 AWS KMS 101</strong></h3>
+<ul>
+<li>Anytime you need to share sensitive information... use KMS <ul>
+<li>Database passwords </li>
+<li>Credentials to external service </li>
+<li>Private Key of SSL certificates </li>
+</ul>
+</li>
+<li>The value in KMS is that the <strong>CMK used to encrypt data can never be retrieved by the user</strong>, and <strong>the CMK can be rotated for extra security</strong></li>
+<li><strong>Never ever store your secrets in plaintext, especially in your code!</strong> </li>
+<li>Encrypted secrets can be stored in the code / environment variables </li>
+<li><strong>KMS can only help in encrypting up to 4KB of data per call</strong> </li>
+<li>If <code>data &gt; 4 KB</code>, use <strong>envelope encryption</strong></li>
+<li>To give access to KMS to someone: <ul>
+<li><strong>Make sure the Key Policy allows the user</strong> </li>
+<li><strong>Make sure the IAM Policy allows the API calls</strong> </li>
+</ul>
+</li>
+</ul>
+<p><strong>Envelope Encryption:</strong></p>
+<p>Basically will generate a new data key and that that key will be used to encrypt the big data sets.</p>
+<h3 id="3-3-aws-kms-key-management-service"><strong>3-3 AWS KMS (Key Management Service)</strong></h3>
+<ul>
+<li>Able to fully manage the keys &amp; policies: <ul>
+<li>Create </li>
+<li>Rotation policies </li>
+<li>Disable </li>
+<li>Enable </li>
+</ul>
+</li>
+<li><strong>Able to audit key usage (using CloudTrail)</strong> </li>
+<li>Three types of Customer Master Keys (CMK):<ul>
+<li>AWS Managed Service <strong>Default CMK: free</strong> </li>
+<li><strong>User Keys created in KMS: <code>$1 / month</code></strong> </li>
+<li><strong>User Keys imported</strong> (must be 256-bit symmetric key): <strong><code>$1 / month</code></strong> </li>
+</ul>
+</li>
+<li><code>+</code> pay for API call to KMS (<code>$0.03 / 10000 calls</code>) </li>
+</ul>
+<h3 id="3-4-how-does-kms-work-api-encrypt-and-decrypt"><strong>3-4 How does KMS work? API - <code>Encrypt</code> and <code>Decrypt</code></strong></h3>
+<p><img alt="Alt Image Text" src="../../images/32_11.png" title="body image" /></p>
+<ol>
+<li>Encrypted API that within the KMS service check the CMK </li>
+<li><strong>IAM permission check</strong>: User allowed to do this CMK encrypt call within IAM.</li>
+<li>Encryption happens by CMK and then KMS will send back the encrypted secrets. (<strong>never seen the CMK</strong>)</li>
+<li>use the CLI or the SDK again issue a decrypt API call and using the <strong>same CMK</strong> it again</li>
+<li>KMS will check the information for <strong>decrypt access</strong> and <strong>key policy</strong>.</li>
+<li>Decryption happen and send back the decrypted secrets in plaintext.</li>
+</ol>
+<h3 id="3-5-encryption-in-aws-services"><strong>3-5 Encryption in AWS Services</strong></h3>
+<ul>
+<li>
+<p>Requires migration (through Snapshot / Backup): </p>
+<ul>
+<li>EBS Volumes </li>
+<li>RDS databases </li>
+<li>ElastiCache </li>
+<li>EFS network file system </li>
+</ul>
+</li>
+<li>
+<p><strong>In-place encryption</strong>(Only One): </p>
+<ul>
+<li>S3 </li>
+</ul>
+</li>
+</ul>
+<h3 id="3-6-cloud-hsm-hardware-security-module"><strong>3-6 Cloud HSM (Hardware Security Module)</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/32_12.png" title="body image" /></p>
+<ul>
+<li><strong>KMS =&gt; AWS manages the software for encryption</strong> </li>
+<li>CloudHSM =&gt; <strong>AWS provisions encryption hardware</strong> </li>
+<li>Dedicated Hardware (<strong>HSM = Hardware Security Module</strong>) </li>
+<li>You manage your own encryption keys entirely (not AWS) </li>
+<li>The CloudHSM hardware device is tamper resistant </li>
+<li>FIPS 140-2 Level 3 compliance </li>
+<li>CloudHSM clusters are spread across multi AZ (HA) </li>
+<li>Supports both <strong>symmetric</strong> and <strong>asymmetric</strong> encryption (SSL/TLS keys) </li>
+<li><strong>No free tier available</strong> </li>
+<li>Must use the <strong>CloudHSM Client Software</strong> <ul>
+<li>Not as easy as the KMS API call with the CLI. </li>
+</ul>
+</li>
+</ul>
+<h3 id="3-7-cloudhsm-diagram"><strong>3-7 CloudHSM Diagram</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/32_13.png" title="body image" /></p>
+<blockquote>
+<p>Exam</p>
+</blockquote>
+<ul>
+<li><strong>Dedicated encryption hardware</strong></li>
+<li>Control over the <strong>user keys</strong> but still be in <strong>AWS's cloud</strong></li>
+<li>Have <strong>asymmetric type of encryption</strong></li>
+</ul>
+<h3 id="3-8-cloudhsm-vs-kms"><strong>3-8 CloudHSM VS KMS</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/32_14.png" title="body image" /></p>
+<p><img alt="Alt Image Text" src="../../images/32_15.png" title="body image" /></p>
+<h2 id="4kms-key-rotation"><strong>4、KMS Key Rotation</strong></h2>
+<h3 id="4-1-kms-automatic-key-rotation"><strong>4-1 KMS Automatic Key Rotation</strong></h3>
+<ul>
+<li><strong>For Customer-managed CMK</strong> (not AWS managed CMK) </li>
+<li>If enabled: automatic key rotation happens <strong>every 1 year</strong> </li>
+<li><strong>Previous key is kept active so you can decrypt old data</strong> </li>
+<li>New Key has the same CMK ID(only the backing is changed) </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/32_16.png" title="body image" /></p>
+<h3 id="4-2-kms-manual-key-rotation"><strong>4-2 KMS Manual Key Rotation</strong></h3>
+<ul>
+<li><strong>When you want to rotate key every 90 days, 180 days, etc...</strong> </li>
+<li>New Key has a dilTerent, CMK ID </li>
+<li>Keep the previous key active so you can decrypt old data </li>
+<li>Better to use aliases in this case (to hide the change of key for the application) </li>
+<li>Good solution to rotate CMK that are not eligible for automatic rotation (like asymmetric CMK) </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/32_17.png" title="body image" /></p>
+<h3 id="4-3-kms-alias-updating"><strong>4-3 KMS Alias Updating</strong></h3>
+<p>Better to use aliases in this case (to hide the change of key for application) </p>
+<p><img alt="Alt Image Text" src="../../images/32_18.png" title="body image" /></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.fac441b0.min.js"></script>
+      
+    
+  </body>
+</html>
