@@ -82,6 +82,7 @@ nav:
     - '第十节 数据挖掘': 'chap11/chap11_10data_mining.md'
   - 'Section12: AWS Big Data Concept(CN)':
     - '数据库、数据湖、数据仓库、湖仓一体、智能湖仓': 'chap12/1aws_data_storage.md'
+    - '20230421-云原生大数据EMR研讨会': 'chap12/2aws_emr_20230421.md'
     
     
 repo_url: https://github.com/Chao-Xi/jxawscbdbook.git
